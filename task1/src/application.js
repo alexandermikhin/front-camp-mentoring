@@ -44,16 +44,16 @@ export default class Application {
     newsBlock.innerHTML = '';
     if (data.articles && data.articles.length > 0) {
       const newsCount = this._getNewsCount();
-      const articles = data.articles.slice(0, newsCount);
+      const articles = data.articles.filter(a => a.content).slice(0, newsCount);
       const newsHtml = articles.map(a => this._buildNewsHtml(a)).join('');
       newsBlock.innerHTML = newsHtml;
     }
   }
 
   _buildNewsHtml(article) {
-    return `<div>
-          <p>${article.title}</p>
-          <img src="${article.urlToImage}" />
+    return `<div class="news-item">
+          <h2>${article.title}</h2>
+          <img class="news-item__image" src="${article.urlToImage}" />
           <p>${article.content}</p>
       </div>`;
   }

@@ -1,4 +1,5 @@
 import Application from './application';
+import './styles/styles.scss';
 
 main();
 
