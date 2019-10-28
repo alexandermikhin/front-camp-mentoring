@@ -9,44 +9,48 @@ export default class Application {
     this._initHandlers();
   }
 
+  /** @returns {HTMLSelectElement} */
+  get _categoryElement() {
+    return document.querySelector('#category');
+  }
+
+    /** @returns {HTMLSelectElement} */
+  get _newsCountElement() {
+    return document.querySelector('#news-count');
+  }
+
+  /** @returns {HTMLDivElement} */
+  get _newsBlockElement() {
+    return document.querySelector('#news-block');
+  }
+
   async _fetchData() {
     const category = this._getCategory();
     return await this._service.getNews(category);
   }
 
   _getCategory() {
-    /** @type {HTMLSelectElement} */
-    const element = document.querySelector('#category');
-    return element.value;
+    return this._categoryElement.value;
   }
 
   _getNewsCount() {
-    /** @type {HTMLSelectElement} */
-    const element = document.querySelector('#news-count');
-    return element.value;
+    return this._newsCountElement.value;
   }
 
   _initHandlers() {
-    /** @type {HTMLSelectElement} */
-    const categoryElement = document.querySelector('#category');
-    categoryElement.onchange = () => this._updateLayout();
-
-    /** @type {HTMLSelectElement} */
-    const countElement = document.querySelector('#news-count');
-    countElement.onchange = () => this._updateLayout();
+    this._categoryElement.onchange = () => this._updateLayout();
+    this._newsCountElement.onchange = () => this._updateLayout();
   }
 
   async _updateLayout() {
     const data = await this._fetchData();
 
-    /** @type {HTMLDivElement} */
-    const newsBlock = document.querySelector('#news-block');
-    newsBlock.innerHTML = '';
+    this._newsBlockElement.innerHTML = '';
     if (data.articles && data.articles.length > 0) {
       const newsCount = this._getNewsCount();
       const articles = data.articles.filter(a => a.content).slice(0, newsCount);
       const newsHtml = articles.map(a => this._buildNewsHtml(a)).join('');
-      newsBlock.innerHTML = newsHtml;
+      this._newsBlockElement.innerHTML = newsHtml;
     }
   }
 
