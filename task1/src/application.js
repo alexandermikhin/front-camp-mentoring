@@ -56,10 +56,13 @@ export default class Application {
   }
 
   _buildNewsHtml(article) {
+    const publishDate = new Date(article.publishedAt);
     return `<div class="news-item">
-          <h2>${article.title}</h2>
+          <h2 class="news-item__title">${article.title}</h2>
+          <div class="news-item__publish-date">${publishDate.toLocaleString()}</div>
           <img class="news-item__image" src="${article.urlToImage}" />
-          <p>${article.content}</p>
+          <p class="news-item__content">${article.content}</p>
+          <p class="news-item__url"><a href="${article.url}" target="_blank">More...</a></p>
       </div>`;
   }
 }

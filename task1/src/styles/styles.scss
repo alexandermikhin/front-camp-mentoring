@@ -1,9 +1,48 @@
 @import './constants';
 
+* {
+  font-family: sans-serif;
+}
+
 .setting-input {
-    width: $settings-width;
+  width: $settings-width;
+}
+
+.news-item {
+  border-bottom: 1px solid lightgray;
+}
+
+.news-item__title {
+  margin-bottom: 12px;
+}
+
+.news-item__publish-date {
+  padding: 6px 0;
+  font-size: 12px;
+  font-style: italic;
+  color: gray;
 }
 
 .news-item__image {
-    width: $image-width;
+  width: $image-width;
+}
+
+.news-item__content {
+  font-size: $content-font-size;
+}
+
+.news-item__url {
+  font-size: $content-font-size;
+
+  a {
+    color: gray;
+    font-style: italic;
+    text-decoration: none;
+  }
+}
+
+.credits {
+  margin-top: 12px;
+  font-size: 12px;
+  color: gray;
 }
