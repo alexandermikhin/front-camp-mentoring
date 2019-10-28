@@ -7,6 +7,7 @@ export default class Application {
 
   run() {
     this._initHandlers();
+    this._updateLayout();
   }
 
   /** @returns {HTMLSelectElement} */
