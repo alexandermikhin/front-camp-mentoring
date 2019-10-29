@@ -4,16 +4,21 @@
   font-family: sans-serif;
 }
 
+.app-title {
+    font-size: 16px;
+}
+
 .setting-input {
   width: $settings-width;
 }
 
 .news-item {
   border-bottom: 1px solid lightgray;
+  padding-bottom: 6px;
 }
 
 .news-item__title {
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 
 .news-item__publish-date {
@@ -23,12 +28,25 @@
   color: gray;
 }
 
-.news-item__image {
-  width: $image-width;
+.news-item-content {
+  display: flex;
 }
 
-.news-item__content {
+.news-item__image {
+  width: $image-width;
+  height: 100%;
+}
+
+.news-item-text-block {
+}
+
+.news-item-text-block_with-margin {
+  margin-left: 6px;
+}
+
+.news-item__text {
   font-size: $content-font-size;
+  margin-top: 0;
 }
 
 .news-item__url {

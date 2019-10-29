@@ -15,7 +15,7 @@ export default class Application {
     return document.querySelector('#category');
   }
 
-    /** @returns {HTMLSelectElement} */
+  /** @returns {HTMLSelectElement} */
   get _newsCountElement() {
     return document.querySelector('#news-count');
   }
@@ -57,12 +57,26 @@ export default class Application {
 
   _buildNewsHtml(article) {
     const publishDate = new Date(article.publishedAt);
+    const imageHtml = article.urlToImage
+      ? `<img class="news-item__image" src="${article.urlToImage}" />`
+      : '';
+
+    const textBlockMarginClass = article.urlToImage
+      ? 'news-item-text-block_with-margin'
+      : '';
+
     return `<div class="news-item">
           <h2 class="news-item__title">${article.title}</h2>
           <div class="news-item__publish-date">${publishDate.toLocaleString()}</div>
-          <img class="news-item__image" src="${article.urlToImage}" />
-          <p class="news-item__content">${article.content}</p>
-          <p class="news-item__url"><a href="${article.url}" target="_blank">More...</a></p>
+          <div class="news-item-content">
+            ${imageHtml}
+            <div class="news-item-text-block ${textBlockMarginClass}">
+              <p class="news-item__text">${article.content}</p>
+              <p class="news-item__url"><a href="${
+                article.url
+              }" target="_blank">More...</a></p>
+            </div>
+          </div>
       </div>`;
   }
 }
