@@ -5,7 +5,13 @@
 }
 
 .app-title {
-    font-size: 16px;
+  font-size: 24px;
+}
+
+.settings-item {
+  display: inline-block;
+  margin: 3px;
+  font-size: 14px;
 }
 
 .setting-input {
@@ -19,6 +25,7 @@
 
 .news-item__title {
   margin-bottom: 0;
+  font-size: 16px;
 }
 
 .news-item__publish-date {
@@ -30,6 +37,9 @@
 
 .news-item-content {
   display: flex;
+  @media (max-width: $breaking-width) and (orientation: portrait) {
+    flex-direction: column;
+  }
 }
 
 .news-item__image {
@@ -41,7 +51,13 @@
 }
 
 .news-item-text-block_with-margin {
-  margin-left: 6px;
+  @media all and (max-width: $breaking-width) and (orientation: portrait) {
+    margin-top: 6px;
+  }
+
+  @media not all and (max-width: $breaking-width) and (orientation: portrait) {
+    margin-left: 6px;
+  }
 }
 
 .news-item__text {
