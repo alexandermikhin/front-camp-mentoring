@@ -27,7 +27,8 @@ export default class Application {
 
   async _fetchData() {
     const category = this._getCategory();
-    return await this._service.getNews(category);
+    const pageSize = this._getNewsCount();
+    return await this._service.getNews({category, pageSize});
   }
 
   _getCategory() {
@@ -48,8 +49,7 @@ export default class Application {
 
     this._newsBlockElement.innerHTML = '';
     if (data.articles && data.articles.length > 0) {
-      const newsCount = this._getNewsCount();
-      const articles = data.articles.filter(a => a.content).slice(0, newsCount);
+      const articles = data.articles.filter(a => a.content);
       const newsHtml = articles.map(a => this._buildNewsHtml(a)).join('');
       this._newsBlockElement.innerHTML = newsHtml;
     }
