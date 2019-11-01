@@ -28,7 +28,14 @@ export default class Application {
   async _fetchData() {
     const category = this._getCategory();
     const pageSize = this._getNewsCount();
-    return await this._service.getNews({category, pageSize});
+
+    return await this._service
+      .getNews({ category, pageSize })
+      .catch(async error => {
+        const module = await import('./error.service.js');
+        const service = module.default();
+        service.handleError(error.message);
+      });
   }
 
   _getCategory() {
@@ -47,8 +54,8 @@ export default class Application {
   async _updateLayout() {
     const data = await this._fetchData();
 
-    this._newsBlockElement.innerHTML = '';
-    if (data.articles && data.articles.length > 0) {
+    if (data && data.articles && data.articles.length > 0) {
+      this._newsBlockElement.innerHTML = '';
       const articles = data.articles.filter(a => a.content);
       const newsHtml = articles.map(a => this._buildNewsHtml(a)).join('');
       this._newsBlockElement.innerHTML = newsHtml;
