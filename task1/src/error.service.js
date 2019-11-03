@@ -1,17 +1,21 @@
-export default getServiceInstance;
+export const ErrorService = (() => {
+    let instance;
 
-let instance = null;
-
-function getServiceInstance() {
-    if (!instance) {
-        instance = new ErrorService();
+    function init() {
+        return {
+            handleError: (error) => {
+                console.log(`Error:`, error);
+            }
+        }
     }
 
-    return instance;
-}
+    return {
+        getInstance: () => {
+            if (!instance) {
+                instance = init();
+            }
 
-class ErrorService {
-    handleError(error) {
-        console.log(`Error:`, error);
+            return instance;
+        }
     }
-}
+})();

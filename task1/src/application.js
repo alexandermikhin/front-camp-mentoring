@@ -33,8 +33,8 @@ export default class Application {
       .getNews({ category, pageSize })
       .catch(async error => {
         const module = await import('./error.service.js');
-        const service = module.default();
-        service.handleError(error.message);
+        const errorService = module.ErrorService.getInstance();
+        errorService.handleError(error.message);
       });
   }
 
