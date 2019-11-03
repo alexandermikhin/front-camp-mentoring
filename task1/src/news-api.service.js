@@ -1,16 +1,14 @@
 import { API_KEY, API_URL } from './constants';
+import { HttpService } from './services/http.service';
 
 export class NewsApiService {
+  constructor() {
+    this._httpService = new HttpService();
+  }
+
   async getNews(parameters) {
     const url = this._getUrl(parameters);
-    const req = new Request(url);
-    const response = await fetch(req);
-    if (response.ok) {
-      return response.json();
-    } else {
-      const errorData = await response.json();
-      return Promise.reject(errorData);
-    }
+    return this._httpService.execute('get', url);
   }
 
   _getUrl(parameters) {
