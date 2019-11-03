@@ -1,4 +1,4 @@
-import { NewsApiService } from './news-api.service';
+import { NewsApiService } from './services/news-api.service';
 
 export default class Application {
   constructor() {
@@ -58,7 +58,7 @@ export default class Application {
       return;
     }
 
-    const module = await import('./error.service.js');
+    const module = await import('./services/error.service');
     this._errorService = module.ErrorService.getInstance();
     this._errorService.subscribe(error => this._errorPopup.show(error));
   }

@@ -1,5 +1,5 @@
-import { API_KEY, API_URL } from './constants';
-import { HttpService } from './services/http.service';
+import { API_KEY, API_URL } from '../constants';
+import { HttpService } from './http.service';
 
 export class NewsApiService {
   constructor() {
