@@ -2,7 +2,9 @@ import { NewsApiService } from './news-api.service';
 
 export default class Application {
   constructor() {
-    this._service = new NewsApiService();
+    this._newsApiService = new NewsApiService();
+    this._errorService = null;
+    this._errorPopup = null;
   }
 
   run() {
@@ -29,12 +31,12 @@ export default class Application {
     const category = this._getCategory();
     const pageSize = this._getNewsCount();
 
-    return await this._service
+    return await this._newsApiService
       .getNews({ category, pageSize })
       .catch(async error => {
-        const module = await import('./error.service.js');
-        const errorService = module.ErrorService.getInstance();
-        errorService.handleError(error.message);
+        await this._initErrorService();
+        await this._initErrorPopup();
+        this._errorService.handleError(error.message);
       });
   }
 
@@ -49,6 +51,25 @@ export default class Application {
   _initHandlers() {
     this._categoryElement.onchange = () => this._updateLayout();
     this._newsCountElement.onchange = () => this._updateLayout();
+  }
+
+  async _initErrorService() {
+    if (this._errorService) {
+      return;
+    }
+
+    const module = await import('./error.service.js');
+    this._errorService = module.ErrorService.getInstance();
+    this._errorService.subscribe(error => this._errorPopup.show(error));
+  }
+
+  async _initErrorPopup() {
+    if (this._errorPopup) {
+      return;
+    }
+
+    const module = await import('./error-popup/error-popup.js');
+    this._errorPopup = module.ErrorPopup.getInstance();
   }
 
   async _updateLayout() {

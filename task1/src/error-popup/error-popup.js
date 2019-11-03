@@ -2,12 +2,11 @@ import './error-popup.scss';
 
 export const ErrorPopup = (() => {
   let instance;
-  let message = '';
 
   const errorOverflowClass = 'error-popup-overflow';
   const errorPopupClass = 'error-popup';
 
-  function createPopup() {
+  function createPopup(message) {
     const popup = document.createElement('div');
     popup.className = errorPopupClass;
     popup.innerHTML = `<div class="error-popup__header">Error</div>
@@ -22,8 +21,8 @@ export const ErrorPopup = (() => {
     return popup;
   }
 
-  function show() {
-    const popup = createPopup();
+  function show(message) {
+    const popup = createPopup(message);
     const overflowElement = createOverflow();
     overflowElement.appendChild(popup);
     document.body.appendChild(overflowElement);
@@ -45,8 +44,6 @@ export const ErrorPopup = (() => {
     return {
       show,
       remove,
-      getMessage: () => message,
-      setMessage: value => (message = value)
     };
   }
 
