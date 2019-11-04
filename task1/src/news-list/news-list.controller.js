@@ -2,10 +2,7 @@ import { ErrorService } from '../services/error.service';
 
 export class NewsListController {
   constructor(model, view) {
-    /** @type { import('./news-list.model').NewsListModel } */
     this._model = model;
-
-    /** @type {import('./news-list.view').NewsListView} */
     this._view = view;
     this.errorService = ErrorService.getInstance();
     this._category = 'business';
@@ -22,11 +19,7 @@ export class NewsListController {
   onDataChanged(data) {
     if (data && data.articles && data.articles.length > 0) {
       const articles = data.articles.filter(a => a.content);
-      this._view.updateLayout({
-        articles,
-        category: this._category,
-        pageSize: this._pageSize
-      });
+      this._view.updateLayout(articles);
     }
   }
 
