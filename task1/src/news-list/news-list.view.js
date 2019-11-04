@@ -16,10 +16,10 @@ export class NewsListView {
     this._selectionChangedHandler = handler;
   }
 
-  updateLayout(articles) {
-    this._newsBlockElement.innerHTML = '';
-    const newsHtml = articles.map(a => this._buildArticleHtml(a)).join('');
-    this._newsBlockElement.innerHTML = newsHtml;
+  updateLayout(model) {
+    this._updateCategory(model.category);
+    this._updateNewsCount(model.pageSize);
+    this._udpateNewsBlock(model.articles);
   }
 
   selectionChanged() {
@@ -122,5 +122,19 @@ export class NewsListView {
 
     const module = await import('../error-popup/error-popup.js');
     this._errorPopup = module.ErrorPopup.getInstance();
+  }
+
+  _udpateNewsBlock(articles) {
+    this._newsBlockElement.innerHTML = '';
+    const newsHtml = articles.map(a => this._buildArticleHtml(a)).join('');
+    this._newsBlockElement.innerHTML = newsHtml;
+  }
+
+  _updateCategory(category) {
+    this._categoryElement.value = category;
+  }
+
+  _updateNewsCount(newsCount) {
+    this._newsCountElement.value = newsCount;
   }
 }
