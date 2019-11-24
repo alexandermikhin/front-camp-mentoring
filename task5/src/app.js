@@ -1,14 +1,17 @@
 const express = require("express");
-const data = require("./data/news.json");
+const newsService = require('./news.service');
 const app = express();
 
 app.get("/news", (_req, res) => {
-  res.send(data.news);
+  console.log('Request: Get all news.');
+  const news = newsService.getAll();
+  res.send(news);
 });
 
 app.get("/news/:id", (req, res) => {
+  console.log('Request: Get news item by id.');
   const id = parseInt(req.params.id);
-  const newsItem = data.news.find(newsItem => newsItem.id === id);
+  const newsItem = newsService.getById(id);
   if (newsItem) {
     res.send(newsItem);
   } else {
@@ -19,26 +22,31 @@ app.get("/news/:id", (req, res) => {
 app.use(express.json());
 
 app.post("/news", (req, res) => {
+  console.log('Request: Create news item.');
   const body = req.body;
-  const maxIdItem = data.news.reduce((acc, val) => acc.id > val.id ? acc : val);
   const newItem = {
-    id: maxIdItem.id + 1,
+    id: -1,
     date: body.date,
     content: body.content
   };
-  
-  data.news.push(newItem);
-  res.status(201).send();
+
+  const addedItem = newsService.add(newItem);
+  if (addedItem) {
+    res.status(201).send();
+  } else {
+    res.status(500).send('Error adding a new item.');
+  }
 });
 
 app.delete("/news/:id", (req, res) => {
+  console.log('Request: Delete news item.');
   const id = parseInt(req.params.id);
-  const index = data.news.findIndex(newsItem => newsItem.id === id);
-  if (index !== -1) {
-    data.news.splice(index, 1);
+  const deletedItem = newsService.delete(id);
+  if (deletedItem) {
+    res.status(200).send();
+  } else {
+    res.status(500).send('Error deleting the item.');
   }
-
-  res.status(200).send();
 });
 
 app.all("*", (_req, res) => {
