@@ -1,6 +1,13 @@
 const express = require("express");
 const newsService = require('./news.service');
+const logger = require('./logger');
+
 const app = express();
+
+app.use((req, _res, next) => {
+  logger.log('info', `URL: ${req.url}`);
+  next();
+});
 
 app.get("/news", (_req, res) => {
   console.log('Request: Get all news.');
