@@ -1,5 +1,34 @@
 {
-    "id": "news-0-id",
-    "date": "2019-11-22",
-    "contents": "News contents"
+    "news": [
+        {
+            "id": 0,
+            "date": "2019-11-20",
+            "contents": "News 0 contents"
+        },
+        {
+            "id": 1,
+            "date": "2019-11-21",
+            "contents": "News 1 contents"
+        },
+        {
+            "id": 2,
+            "date": "2019-11-21",
+            "contents": "News 2 contents"
+        },
+        {
+            "id": 3,
+            "date": "2019-11-22",
+            "contents": "News 3 contents"
+        },
+        {
+            "id": 4,
+            "date": "2019-11-22",
+            "contents": "News 4 contents"
+        },
+        {
+            "id": 5,
+            "date": "2019-11-23",
+            "contents": "News 5 contents"
+        }
+    ]
 }
