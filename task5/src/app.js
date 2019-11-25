@@ -15,38 +15,34 @@ app.use((req, _res, next) => {
   next();
 });
 
-app.get("/news", (_req, res, next) => {
+app.get("/news", async (_req, res, next) => {
   console.log("Request: Get all news.");
-  newsService
-    .getAll()
-    .then(news => {
-      res.send(news);
-    })
-    .catch(err => {
-      next(err);
-    });
+  try {
+    const news = await newsService.getAll();
+    res.send(news);
+  } catch (e) {
+    next(e);
+  }
 });
 
-app.get("/news/:id", (req, res, next) => {
+app.get("/news/:id", async (req, res, next) => {
   console.log("Request: Get news item by id.");
   const id = parseInt(req.params.id);
-  newsService
-    .getById(id)
-    .then(newsItem => {
-      if (newsItem) {
-        res.send(newsItem);
-      } else {
-        res.status(404).send();
-      }
-    })
-    .catch(err => {
-      next(err);
-    });
+  try {
+    const newsItem = await newsService.getById(id);
+    if (newsItem) {
+      res.send(newsItem);
+    } else {
+      res.status(404).send();
+    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.use(express.json());
 
-app.post("/news", (req, res, next) => {
+app.post("/news", async (req, res, next) => {
   console.log("Request: Create news item.");
   const body = req.body;
   const newItem = {
@@ -55,27 +51,23 @@ app.post("/news", (req, res, next) => {
     content: body.content
   };
 
-  newsService
-    .add(newItem)
-    .then(() => {
-      res.status(200).send();
-    })
-    .catch(err => {
-      next(err);
-    });
+  try {
+    await newsService.add(newItem);
+    res.status(200).send();
+  } catch (err) {
+    next(err);
+  }
 });
 
-app.delete("/news/:id", (req, res, next) => {
+app.delete("/news/:id", async (req, res, next) => {
   console.log("Request: Delete news item.");
   const id = parseInt(req.params.id);
-  newsService
-    .delete(id)
-    .then(() => {
-      res.status(200).send();
-    })
-    .catch(err => {
-      next(err);
-    });
+  try {
+    await newsService.delete(id);
+    res.status(200).send();
+  } catch (e) {
+    next(e);
+  }
 });
 
 app.all("*", (_req, res, next) => {
