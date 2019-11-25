@@ -11,20 +11,17 @@ class NewsFileService {
   }
 
   async getAll() {
-    const content = await readFileAsync(this._filePath, this._encoding);
-    const data = JSON.parse(content);
+    const data = await this._getData();
     return data.news;
   }
 
   async getById(id) {
-    const content = await readFileAsync(this._filePath, this._encoding);
-    const data = JSON.parse(content);
+    const data = await this._getData();
     return data.news.find(newsItem => newsItem.id === id);
   }
 
   async create(item) {
-    const content = await readFileAsync(this._filePath, this._encoding);
-    const data = JSON.parse(content);
+    const data = await this._getData();
     const newItem = {
       id: parseInt(data.availableId),
       date: item.date,
@@ -37,10 +34,25 @@ class NewsFileService {
       availableId: data.availableId + 1
     };
 
-    await writeFileAsync(
-      this._filePath,
-      JSON.stringify(updatedData, null, " ")
-    );
+    this._writeData(updatedData);
+  }
+
+  async delete(id) {
+    const data = await this._getData();
+    const index = data.news.findIndex(newsItem => newsItem.id === id);
+    if (index !== -1) {
+      data.news.splice(index, 1);
+      this._writeData(data);
+    }
+  }
+
+  async _getData() {
+    const content = await readFileAsync(this._filePath, this._encoding);
+    return JSON.parse(content);
+  }
+
+  async _writeData(data) {
+    await writeFileAsync(this._filePath, JSON.stringify(data, null, "  "));
   }
 }
 

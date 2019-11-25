@@ -45,11 +45,9 @@ app.post("/news", (req, res) => {
   newsService
     .add(newItem)
     .then(() => {
-      console.log('success');
-      res.status(201).send();
+      res.status(200).send();
     })
     .catch(err => {
-      console.log('error');
       res.status(500).send(err);
     });
 });
@@ -57,12 +55,14 @@ app.post("/news", (req, res) => {
 app.delete("/news/:id", (req, res) => {
   console.log("Request: Delete news item.");
   const id = parseInt(req.params.id);
-  const deletedItem = newsService.delete(id);
-  if (deletedItem) {
-    res.status(200).send();
-  } else {
-    res.status(500).send("Error deleting the item.");
-  }
+  newsService
+    .delete(id)
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
 });
 
 app.all("*", (_req, res) => {

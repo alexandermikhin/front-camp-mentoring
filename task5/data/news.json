@@ -1,55 +1,60 @@
 {
- "news": [
-  {
-   "id": 0,
-   "date": "2019-11-20",
-   "contents": "News 0 contents"
-  },
-  {
-   "id": 1,
-   "date": "2019-11-21",
-   "contents": "News 1 contents"
-  },
-  {
-   "id": 2,
-   "date": "2019-11-21",
-   "contents": "News 2 contents"
-  },
-  {
-   "id": 3,
-   "date": "2019-11-22",
-   "contents": "News 3 contents"
-  },
-  {
-   "id": 4,
-   "date": "2019-11-22",
-   "contents": "News 4 contents"
-  },
-  {
-   "id": 5,
-   "date": "2019-11-23",
-   "contents": "News 5 contents"
-  },
-  {
-   "id": 6,
-   "date": "2019-11-19",
-   "content": "New news item content"
-  },
-  {
-   "id": 7,
-   "date": "2019-11-19",
-   "content": "New news item content"
-  },
-  {
-   "id": 8,
-   "date": "2019-11-19",
-   "content": "New news item content"
-  },
-  {
-   "id": 9,
-   "date": "2019-11-19",
-   "content": "New news item content"
-  }
- ],
- "availableId": 10
+  "news": [
+    {
+      "id": 0,
+      "date": "2019-11-20",
+      "contents": "News 0 contents"
+    },
+    {
+      "id": 1,
+      "date": "2019-11-21",
+      "contents": "News 1 contents"
+    },
+    {
+      "id": 2,
+      "date": "2019-11-21",
+      "contents": "News 2 contents"
+    },
+    {
+      "id": 3,
+      "date": "2019-11-22",
+      "contents": "News 3 contents"
+    },
+    {
+      "id": 4,
+      "date": "2019-11-22",
+      "contents": "News 4 contents"
+    },
+    {
+      "id": 5,
+      "date": "2019-11-23",
+      "contents": "News 5 contents"
+    },
+    {
+      "id": 6,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    },
+    {
+      "id": 7,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    },
+    {
+      "id": 9,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    },
+    {
+      "id": 10,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    },
+    {
+      "id": 12,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    }
+  ],
+  "availableId": 13
 }
