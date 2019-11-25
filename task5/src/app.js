@@ -42,12 +42,16 @@ app.post("/news", (req, res) => {
     content: body.content
   };
 
-  const addedItem = newsService.add(newItem);
-  if (addedItem) {
-    res.status(201).send();
-  } else {
-    res.status(500).send("Error adding a new item.");
-  }
+  newsService
+    .add(newItem)
+    .then(() => {
+      console.log('success');
+      res.status(201).send();
+    })
+    .catch(err => {
+      console.log('error');
+      res.status(500).send(err);
+    });
 });
 
 app.delete("/news/:id", (req, res) => {

@@ -20,18 +20,8 @@ class NewsService {
     return this._service.getById(id);
   }
 
-  add(item) {
-    const maxIdItem = data.news.reduce((acc, val) =>
-      acc.id > val.id ? acc : val
-    );
-    const newItem = {
-      id: maxIdItem.id + 1,
-      date: item.date,
-      content: item.content
-    };
-
-    data.news.push(newItem);
-    return newItem;
+  async add(item) {
+    this._service.create(item);
   }
 
   delete(id) {
