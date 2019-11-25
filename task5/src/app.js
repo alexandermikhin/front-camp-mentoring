@@ -7,6 +7,9 @@ const app = express();
 const dataService = new NewsFileService();
 const newsService = new NewsService(dataService);
 
+app.set("views", "./src/views");
+app.set("view engine", "pug");
+
 app.use((req, _res, next) => {
   logger.log("info", `URL: ${req.url}`);
   next();
@@ -88,7 +91,8 @@ app.all("*", (_req, res, next) => {
 
 app.use((err, _req, res, _next) => {
   if (err) {
-    res.status(500).send(err.message);
+    res.status(500);
+    res.render("error", { message: err.message });
   }
 });
 
