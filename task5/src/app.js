@@ -10,12 +10,28 @@ const newsService = new NewsService(dataService);
 app.set("views", "./src/views");
 app.set("view engine", "pug");
 
-app.use((req, _res, next) => {
-  logger.log("info", `URL: ${req.url}`);
-  next();
+app.use(commonMiddleware);
+app.get("/news", getNews);
+app.get("/news/:id", getNewsById);
+app.use(express.json());
+app.post("/news", createNewsItem);
+app.delete("/news/:id", deleteNewsItem);
+app.all("*", otherMethodsHandler);
+app.use(errorLogHandler);
+app.use(errorHanlder);
+
+module.exports = app;
+
+app.listen(3000, () => {
+  console.log("Application started on port 3000.");
 });
 
-app.get("/news", async (_req, res, next) => {
+function commonMiddleware(req, _res, next) {
+  logger.log("info", `URL: ${req.url}`);
+  next();
+}
+
+async function getNews(_req, res, next) {
   console.log("Request: Get all news.");
   try {
     const news = await newsService.getAll();
@@ -23,9 +39,9 @@ app.get("/news", async (_req, res, next) => {
   } catch (e) {
     next(e);
   }
-});
+}
 
-app.get("/news/:id", async (req, res, next) => {
+async function getNewsById(req, res, next) {
   console.log("Request: Get news item by id.");
   const id = parseInt(req.params.id);
   try {
@@ -38,11 +54,9 @@ app.get("/news/:id", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
+}
 
-app.use(express.json());
-
-app.post("/news", async (req, res, next) => {
+async function createNewsItem(req, res, next) {
   console.log("Request: Create news item.");
   const body = req.body;
   const newItem = {
@@ -57,9 +71,9 @@ app.post("/news", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
+}
 
-app.delete("/news/:id", async (req, res, next) => {
+async function deleteNewsItem(req, res, next) {
   console.log("Request: Delete news item.");
   const id = parseInt(req.params.id);
   try {
@@ -68,33 +82,27 @@ app.delete("/news/:id", async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-});
+}
 
-app.all("*", (_req, res, next) => {
-  newsService
-    .getAll()
-    .then(news => {
-      res.send(news);
-    })
-    .catch(err => {
-      next(err);
-    });
-});
+async function otherMethodsHandler(_req, res, next) {
+  try {
+    const news = await newsService.getAll();
+    res.send(news);
+  } catch (e) {
+    next(e);
+  }
+}
 
-app.use((err, _req, _res, next) => {
+function errorLogHandler(err, _req, _res, next) {
   if (err) {
     logger.log("error", "Application error: ", err);
     next(err);
   }
-});
+}
 
-app.use((err, _req, res, _next) => {
+function errorHanlder(err, _req, res, _next) {
   if (err) {
     res.status(500);
     res.render("error", { message: err.message });
   }
-});
-
-app.listen(3000, () => {
-  console.log("Application started on port 3000.");
-});
+}
