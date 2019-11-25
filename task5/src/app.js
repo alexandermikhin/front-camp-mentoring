@@ -81,6 +81,13 @@ app.all("*", (_req, res, next) => {
     });
 });
 
+app.use((err, _req, _res, next) => {
+  if (err) {
+    logger.log("error", "Application error: ", err);
+    next(err);
+  }
+});
+
 app.use((err, _req, res, _next) => {
   if (err) {
     res.status(500);
