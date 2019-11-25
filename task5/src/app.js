@@ -22,10 +22,6 @@ app.use(errorHanlder);
 
 module.exports = app;
 
-app.listen(3000, () => {
-  console.log("Application started on port 3000.");
-});
-
 function commonMiddleware(req, _res, next) {
   logger.log("info", `URL: ${req.url}`);
   next();

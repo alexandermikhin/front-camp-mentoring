@@ -54,7 +54,22 @@
       "id": 12,
       "date": "2019-11-19",
       "content": "New news item content"
+    },
+    {
+      "id": 13,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    },
+    {
+      "id": 14,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    },
+    {
+      "id": 15,
+      "date": "2019-11-19",
+      "content": "New news item content"
     }
   ],
-  "availableId": 13
+  "availableId": 16
 }
