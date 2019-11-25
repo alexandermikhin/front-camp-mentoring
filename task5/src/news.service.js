@@ -1,12 +1,23 @@
-const data = require("./data/news.json");
-
 class NewsService {
-  getAll() {
-    return data.news;
+
+  constructor(dataService) {
+    this._dataService = dataService;
   }
 
-  getById(id) {
-    return data.news.find(newsItem => newsItem.id === id);
+  get _service() {
+    if (!this._dataService) {
+      throw new Error('Data service is not initialized.');
+    }
+
+    return this._dataService;
+  }
+
+  async getAll() {
+    return this._service.getAll();
+  }
+
+  async getById(id) {
+    return this._service.getById(id);
   }
 
   add(item) {
@@ -33,6 +44,4 @@ class NewsService {
   }
 }
 
-const newsSevice = new NewsService();
-
-module.exports = newsSevice;
+module.exports = NewsService;
