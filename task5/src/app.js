@@ -12,28 +12,38 @@ app.use((req, _res, next) => {
   next();
 });
 
-app.get("/news", (_req, res) => {
+app.get("/news", (_req, res, next) => {
   console.log("Request: Get all news.");
-  newsService.getAll().then(news => {
-    res.send(news);
-  });
+  newsService
+    .getAll()
+    .then(news => {
+      res.send(news);
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
-app.get("/news/:id", (req, res) => {
+app.get("/news/:id", (req, res, next) => {
   console.log("Request: Get news item by id.");
   const id = parseInt(req.params.id);
-  newsService.getById(id).then(newsItem => {
-    if (newsItem) {
-      res.send(newsItem);
-    } else {
-      res.status(404).send();
-    }
-  });
+  newsService
+    .getById(id)
+    .then(newsItem => {
+      if (newsItem) {
+        res.send(newsItem);
+      } else {
+        res.status(404).send();
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 app.use(express.json());
 
-app.post("/news", (req, res) => {
+app.post("/news", (req, res, next) => {
   console.log("Request: Create news item.");
   const body = req.body;
   const newItem = {
@@ -48,11 +58,11 @@ app.post("/news", (req, res) => {
       res.status(200).send();
     })
     .catch(err => {
-      res.status(500).send(err);
+      next(err);
     });
 });
 
-app.delete("/news/:id", (req, res) => {
+app.delete("/news/:id", (req, res, next) => {
   console.log("Request: Delete news item.");
   const id = parseInt(req.params.id);
   newsService
@@ -61,19 +71,24 @@ app.delete("/news/:id", (req, res) => {
       res.status(200).send();
     })
     .catch(err => {
-      res.status(500).send(err);
+      next(err);
     });
 });
 
-app.all("*", (_req, res) => {
-  newsService.getAll().then(news => {
-    res.send(news);
-  });
+app.all("*", (_req, res, next) => {
+  newsService
+    .getAll()
+    .then(news => {
+      res.send(news);
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 app.use((err, _req, res, _next) => {
   if (err) {
-    res.status(500).send(err);
+    res.status(500).send(err.message);
   }
 });
 
