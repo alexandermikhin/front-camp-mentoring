@@ -1,12 +1,11 @@
 class NewsService {
-
   constructor(dataService) {
     this._dataService = dataService;
   }
 
   get _service() {
     if (!this._dataService) {
-      throw new Error('Data service is not initialized.');
+      throw new Error("Data service is not initialized.");
     }
 
     return this._dataService;
@@ -21,11 +20,19 @@ class NewsService {
   }
 
   async add(item) {
-    this._service.create(item);
+    try {
+      await this._service.create(item);
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 
   async delete(id) {
-    this._service.delete(id);
+    try {
+      await this._service.delete(id);
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 }
 
