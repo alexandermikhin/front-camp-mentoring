@@ -3,32 +3,32 @@
     {
       "id": 0,
       "date": "2019-11-20",
-      "contents": "News 0 contents"
+      "content": "News 0 contents"
     },
     {
       "id": 1,
       "date": "2019-11-21",
-      "contents": "News 1 contents"
+      "content": "News 1 contents"
     },
     {
       "id": 2,
       "date": "2019-11-21",
-      "contents": "News 2 contents"
+      "content": "News 2 contents"
     },
     {
       "id": 3,
       "date": "2019-11-22",
-      "contents": "News 3 contents"
+      "content": "News 3 contents"
     },
     {
       "id": 4,
       "date": "2019-11-22",
-      "contents": "News 4 contents"
+      "content": "News 4 contents"
     },
     {
       "id": 5,
       "date": "2019-11-23",
-      "contents": "News 5 contents"
+      "content": "News 5 contents"
     },
     {
       "id": 6,
@@ -51,11 +51,6 @@
       "content": "New news item content"
     },
     {
-      "id": 12,
-      "date": "2019-11-19",
-      "content": "New news item content"
-    },
-    {
       "id": 13,
       "date": "2019-11-19",
       "content": "New news item content"
@@ -69,7 +64,22 @@
       "id": 15,
       "date": "2019-11-19",
       "content": "New news item content"
+    },
+    {
+      "id": 16,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    },
+    {
+      "id": 17,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    },
+    {
+      "id": 18,
+      "date": "2019-11-19",
+      "content": "New news item content"
     }
   ],
-  "availableId": 16
+  "availableId": 19
 }
