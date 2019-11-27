@@ -27,8 +27,8 @@
     },
     {
       "id": 5,
-      "date": "2019-11-23",
-      "content": "News 5 contents"
+      "date": "2019-8-27",
+      "content": "Updated news content"
     },
     {
       "id": 6,
@@ -79,7 +79,17 @@
       "id": 18,
       "date": "2019-11-19",
       "content": "New news item content"
+    },
+    {
+      "id": 19,
+      "date": "2019-11-19",
+      "content": "New news item content"
+    },
+    {
+      "id": 20,
+      "date": "2019-11-19",
+      "content": "22"
     }
   ],
-  "availableId": 19
+  "availableId": 21
 }

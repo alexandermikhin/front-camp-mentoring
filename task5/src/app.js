@@ -1,5 +1,5 @@
 const express = require("express");
-const path = require('path');
+const path = require("path");
 const NewsService = require("./news.service");
 const NewsFileService = require("./news-file.service");
 const logger = require("./logger");
@@ -64,6 +64,12 @@ async function createNewsItem(req, res, next) {
     content: body.content
   };
 
+  const validationResult = newsService.isValid(newItem);
+  if (!validationResult[0]) {
+    res.status(400).send(validationResult[1]);
+    return;
+  }
+
   try {
     await newsService.add(newItem);
     res.status(200).send("News add successful.");
@@ -92,6 +98,12 @@ async function updateNewsItem(req, res, next) {
     date: body.date,
     content: body.content
   };
+
+  const validationResult = newsService.isValid(updatedItem);
+  if (!validationResult[0]) {
+    res.status(400).send(validationResult[1]);
+    return;
+  }
 
   try {
     await newsService.update(updatedItem);
