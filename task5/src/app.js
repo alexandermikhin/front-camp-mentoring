@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const NewsService = require("./news.service");
 const NewsFileService = require("./news-file.service");
 const logger = require("./logger");
@@ -6,8 +7,9 @@ const logger = require("./logger");
 const app = express();
 const dataService = new NewsFileService();
 const newsService = new NewsService(dataService);
+const viewsPath = path.resolve(__dirname, "./views");
 
-app.set("views", "./src/views");
+app.set("views", viewsPath);
 app.set("view engine", "pug");
 
 app.use(commonMiddleware);

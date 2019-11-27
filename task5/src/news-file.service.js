@@ -1,12 +1,13 @@
 const fs = require("fs");
 const util = require("util");
+const path = require("path");
 
 readFileAsync = util.promisify(fs.readFile);
 writeFileAsync = util.promisify(fs.writeFile);
 
 class NewsFileService {
   constructor() {
-    this._filePath = "./data/news.json";
+    this._filePath = path.resolve(__dirname, "../data/news.json");
     this._encoding = "utf-8";
   }
 
