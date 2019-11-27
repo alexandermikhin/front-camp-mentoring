@@ -65,7 +65,7 @@ async function createNewsItem(req, res, next) {
 
   try {
     await newsService.add(newItem);
-    res.status(200).send();
+    res.status(200).send("News add successful.");
   } catch (err) {
     next(err);
   }
@@ -76,7 +76,7 @@ async function deleteNewsItem(req, res, next) {
   const id = parseInt(req.params.id);
   try {
     await newsService.delete(id);
-    res.status(200).send();
+    res.status(200).send("News delete successful.");
   } catch (e) {
     next(e);
   }
