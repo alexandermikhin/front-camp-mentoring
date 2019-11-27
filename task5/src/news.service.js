@@ -34,6 +34,14 @@ class NewsService {
       return Promise.reject(e);
     }
   }
+
+  async update(item) {
+    try {
+      await this._service.update(item);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
 }
 
 module.exports = NewsService;

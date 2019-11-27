@@ -47,6 +47,17 @@ class NewsFileService {
     }
   }
 
+  async update(item) {
+    const data = await this._getData();
+    const updateItemIndex = data.news.findIndex(newsItem => newsItem.id === item.id);
+    if (updateItemIndex === -1) {
+      throw new Error('No item found for update.');
+    }
+
+    data.news[updateItemIndex] = item;
+    this._writeData(data);
+  }
+
   async _getData() {
     const content = await readFileAsync(this._filePath, this._encoding);
     return JSON.parse(content);

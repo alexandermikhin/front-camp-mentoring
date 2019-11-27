@@ -18,6 +18,7 @@ app.get("/news/:id", getNewsById);
 app.use(express.json());
 app.post("/news", createNewsItem);
 app.delete("/news/:id", deleteNewsItem);
+app.put("/news/:id", updateNewsItem);
 app.all("*", otherMethodsHandler);
 app.use(errorLogHandler);
 app.use(errorHanlder);
@@ -77,6 +78,24 @@ async function deleteNewsItem(req, res, next) {
   try {
     await newsService.delete(id);
     res.status(200).send("News delete successful.");
+  } catch (e) {
+    next(e);
+  }
+}
+
+async function updateNewsItem(req, res, next) {
+  console.log("Request: Update news item.");
+  const id = parseInt(req.params.id);
+  const body = req.body;
+  const updatedItem = {
+    id,
+    date: body.date,
+    content: body.content
+  };
+
+  try {
+    await newsService.update(updatedItem);
+    res.status(200).send();
   } catch (e) {
     next(e);
   }
