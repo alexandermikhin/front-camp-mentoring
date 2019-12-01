@@ -1,11 +1,11 @@
 const express = require("express");
 const path = require("path");
 const NewsService = require("./news.service");
-const NewsFileService = require("./news-file.service");
+const NewsDbService = require("./db/news-db.service");
 const logger = require("./logger");
 
 const app = express();
-const dataService = new NewsFileService();
+const dataService = new NewsDbService();
 const newsService = new NewsService(dataService);
 const viewsPath = path.resolve(__dirname, "./views");
 
