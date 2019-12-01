@@ -39,7 +39,11 @@ class NewsDbService {
     await AvailableId.findOneAndUpdate(
       { schema: "news" },
       { id: idItem.id + 1 }
-    );
+    ).exec();
+  }
+
+  async delete(id) {
+    NewsItem.deleteOne({ id }).exec();
   }
 }
 
