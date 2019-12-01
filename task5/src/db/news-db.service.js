@@ -1,14 +1,5 @@
-const mongoose = require("mongoose");
 const NewsItem = require("./news-item.model");
 const AvailableId = require("./available-ids.model");
-
-const url = "mongodb://localhost:27017";
-const dbName = "news";
-mongoose.connect(`${url}/${dbName}`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-});
 
 class NewsDbService {
   async getAll() {
