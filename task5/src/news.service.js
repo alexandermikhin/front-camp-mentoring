@@ -40,14 +40,14 @@ class NewsService {
     }
   }
 
-  async update(item) {
+  async update(id, item) {
     try {
       const validationResult = this.isValid(item);
       if (!validationResult[0]) {
         throw new Error(validationResult[1]);
       }
 
-      await this._service.update(item);
+      await this._service.update(id, item);
     } catch (e) {
       return Promise.reject(e);
     }

@@ -57,14 +57,7 @@ async function getNewsById(req, res, next) {
 
 async function createNewsItem(req, res, next) {
   console.log("Request: Create news item.");
-  const body = req.body;
-  const newItem = {
-    id: -1,
-    date: body.date,
-    content: body.content,
-    title: body.title,
-    author: body.author
-  };
+  const newItem = getItemFromBody(req.body);
 
   const validationResult = newsService.isValid(newItem);
   if (!validationResult[0]) {
@@ -94,12 +87,7 @@ async function deleteNewsItem(req, res, next) {
 async function updateNewsItem(req, res, next) {
   console.log("Request: Update news item.");
   const id = parseInt(req.params.id);
-  const body = req.body;
-  const updatedItem = {
-    id,
-    date: body.date,
-    content: body.content
-  };
+  const updatedItem = getItemFromBody(req.body);
 
   const validationResult = newsService.isValid(updatedItem);
   if (!validationResult[0]) {
@@ -108,7 +96,7 @@ async function updateNewsItem(req, res, next) {
   }
 
   try {
-    await newsService.update(updatedItem);
+    await newsService.update(id, updatedItem);
     res.status(200).send();
   } catch (e) {
     next(e);
@@ -136,4 +124,14 @@ function errorHanlder(err, _req, res, _next) {
     res.status(500);
     res.render("error", { message: err.message });
   }
+}
+
+function getItemFromBody(body) {
+  return {
+    id: body.id,
+    date: body.date,
+    content: body.content,
+    title: body.title,
+    author: body.author
+  };
 }

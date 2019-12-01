@@ -45,6 +45,22 @@ class NewsDbService {
   async delete(id) {
     NewsItem.deleteOne({ id }).exec();
   }
+
+  async update(id, item) {
+    const result = await NewsItem.updateOne(
+      { id },
+      {
+        title: item.title,
+        author: item.author,
+        date: new Date(item.date),
+        content: item.content
+      }
+    ).then();
+
+    if (result.n === 0) {
+      throw new Error("No item found for update.");
+    }
+  }
 }
 
 module.exports = NewsDbService;

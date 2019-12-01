@@ -47,14 +47,18 @@ class NewsFileService {
     }
   }
 
-  async update(item) {
+  async update(id, item) {
     const data = await this._getData();
-    const updateItemIndex = data.news.findIndex(newsItem => newsItem.id === item.id);
+    const updateItemIndex = data.news.findIndex(newsItem => newsItem.id === id);
     if (updateItemIndex === -1) {
       throw new Error('No item found for update.');
     }
 
-    data.news[updateItemIndex] = item;
+    data.news[updateItemIndex] = {
+      ...item,
+      id
+    };
+
     this._writeData(data);
   }
 
