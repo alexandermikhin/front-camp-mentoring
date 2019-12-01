@@ -61,7 +61,9 @@ async function createNewsItem(req, res, next) {
   const newItem = {
     id: -1,
     date: body.date,
-    content: body.content
+    content: body.content,
+    title: body.title,
+    author: body.author
   };
 
   const validationResult = newsService.isValid(newItem);

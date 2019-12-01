@@ -62,8 +62,12 @@ class NewsService {
       return [false, "No news date or date is invalid."];
     }
   
-    if (!item.content || !item.content.length) {
+    if (!item.content) {
       return [false, "News content is absent or empty."];
+    }
+
+    if (!item.title) {
+      return [false, "News title is absent or empty."];
     }
 
     return [true, ''];

@@ -8,6 +8,6 @@ const newsItemSchema = new mongoose.Schema({
   content: String
 });
 
-const NewsItem = mongoose.model("news", newsItemSchema);
+const NewsItem = mongoose.model("NewsItem", newsItemSchema, 'news');
 
 module.exports = NewsItem;
