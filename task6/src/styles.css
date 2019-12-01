@@ -1,17 +1,29 @@
 .news-list {
     display: inline-block;
     border-right: 1px solid grey;
+    height: 600px;
+    overflow: auto;
+    padding: 6px;
 }
 
 .news-item-edit {
     display: inline-block;
     vertical-align: top;
+    padding: 6px;
 }
 
 .news-item {
     border-bottom: 1px solid grey;
+    margin: 3px 0;
+    padding: 3px 0;
 }
 
 .content {
     border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    margin: 6px;
+}
+
+.edit-field, .login-field {
+    margin: 3px 0;
 }

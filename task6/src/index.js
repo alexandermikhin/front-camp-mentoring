@@ -1,6 +1,20 @@
 const url = "http://localhost:3000";
 
-function deleteNewsitem() {}
+async function deleteNewsitem() {
+  const id = getInputValue('newsId');
+  const request = new Request(`${url}/news/${id}`, {
+    method: 'DELETE',
+  });
+
+  const response = await fetch(request);
+  if (response.ok) {
+    updateViewList();
+    alert('Update success');
+  } else {
+    const body = await response.text();
+    alert(body);
+  }
+}
 
 async function updateViewList() {
   const newsListElement = document.querySelector("#news-list");
@@ -21,7 +35,29 @@ function buildNewsItemHtml(item) {
           </div>`;
 }
 
-function editNewsItem() {}
+async function editNewsItem() {
+  const id = getInputValue('newsId');
+  const item = {
+    title: getInputValue('title'),
+    author: getInputValue('author'),
+    date: new Date(getInputValue('date')),
+    content: getInputValue('content')
+  };
+
+  const request = new Request(`${url}/news/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(item)
+  });
+
+  const response = await fetch(request);
+  if (response.ok) {
+    updateViewList();
+    alert('Update success');
+  } else {
+    const body = await response.text();
+    alert(body);
+  }
+}
 
 async function selectNewsItem(id) {
   const data = await fetch(`${url}/news/${id}`);
@@ -37,6 +73,12 @@ function setInputValue(elementId, value) {
   /** @type {HTMLInputElement | HTMLTextAreaElement} */
   const input = document.getElementById(elementId);
   input.value = value;
+}
+
+function getInputValue(elementId, value) {
+  /** @type {HTMLInputElement | HTMLTextAreaElement} */
+  const input = document.getElementById(elementId);
+  return input.value;
 }
 
 main();
