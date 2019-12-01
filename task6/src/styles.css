@@ -1,0 +1,17 @@
+.news-list {
+    display: inline-block;
+    border-right: 1px solid grey;
+}
+
+.news-item-edit {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.news-item {
+    border-bottom: 1px solid grey;
+}
+
+.content {
+    border-top: 1px solid grey;
+}

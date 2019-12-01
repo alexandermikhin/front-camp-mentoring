@@ -24,6 +24,7 @@ mongoose.connect(`${url}/${dbName}`, {
 app.set("views", viewsPath);
 app.set("view engine", "pug");
 
+app.use(allowCors);
 app.use(commonMiddleware);
 app.get("/news", getNews);
 app.get("/news/:id", getNewsById);
@@ -39,6 +40,12 @@ app.use(errorLogHandler);
 app.use(errorHanlder);
 
 module.exports = app;
+
+function allowCors(_req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+}
 
 function commonMiddleware(req, _res, next) {
   logger.log("info", `URL: ${req.url}`);

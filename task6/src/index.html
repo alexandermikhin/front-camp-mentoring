@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>News editor</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <div>
+      <h1>News editor</h1>
+      <div class="login">
+        <div class="login-field">
+          <label>Login</label>
+          <input name="login" id="login" />
+        </div>
+        <div class="login-field">
+          <label>Password</label>
+          <input name="password" type="password" id="password" />
+        </div>
+        <div class="login-operations">
+          <button id="login-button">Login</button>
+          <button id="register-button">Register</button>
+          <div>Facebook</div>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div id="news-list" class="news-list">News list goes here</div>
+      <div class="news-item-edit">
+        <h2>Edit news item</h2>
+        <div class="edit-field">
+          <label>News id</label>
+          <input name="newsId" id="newsId" readonly />
+        </div>
+        <div class="edit-field">
+          <label>Title</label>
+          <input name="title" id="title" />
+        </div>
+        <div class="edit-field">
+          <label>Date</label>
+          <input name="date" id="date" type="date" />
+        </div>
+        <div class="edit-field">
+          <label>Author</label>
+          <input name="author" id="author" />
+        </div>
+        <div class="edit-field">
+          <label>Content</label>
+          <textarea name="content" id="content"></textarea>
+        </div>
+        <div class="edit-operations">
+          <button id="edit-save">Save</button>
+          <button id="delete-button">Delete</button>
+        </div>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
