@@ -4,7 +4,11 @@ const AvailableId = require("./available-ids.model");
 
 const url = "mongodb://localhost:27017";
 const dbName = "news";
-mongoose.connect(`${url}/${dbName}`, { useNewUrlParser: true });
+mongoose.connect(`${url}/${dbName}`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+});
 
 class NewsDbService {
   async getAll() {
@@ -35,7 +39,7 @@ class NewsDbService {
     await AvailableId.findOneAndUpdate(
       { schema: "news" },
       { id: idItem.id + 1 }
-    ).then();
+    );
   }
 }
 
