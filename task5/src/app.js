@@ -6,6 +6,8 @@ const NewsDbService = require("./db/news-db.service");
 const UserService = require("./db/user.service");
 const logger = require("./logger");
 const auth = require("./middleware/auth");
+const passport = require('passport');
+require("./passport");
 
 const app = express();
 const dataService = new NewsDbService();
@@ -23,23 +25,19 @@ mongoose.connect(`${url}/${dbName}`, {
 
 app.set("views", viewsPath);
 app.set("view engine", "pug");
-
-// app.use(allowCors);
+app.use(passport.initialize());
 app.use(express.json());
-app.post("/login", login);
+app.post("/login", passport.authenticate('local'));
 app.post("/register", register);
 app.post("/logout", logout);
 app.use(commonMiddleware);
 app.get("/news", getNews);
 app.get("/news/:id", getNewsById);
-// app.use(allowCors);
 app.use(express.json());
 app.post("/news", createNewsItem);
 app.use(auth);
-// app.use(allowCors);
 app.delete("/news/:id", deleteNewsItem);
 app.use(auth);
-// app.use(allowCors);
 app.put("/news/:id", updateNewsItem);
 app.all("*", otherMethodsHandler);
 app.use(errorLogHandler);
@@ -47,15 +45,15 @@ app.use(errorHanlder);
 
 module.exports = app;
 
-function allowCors(_req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
-  next();
-}
+// function allowCors(_req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
+//   next();
+// }
 
 function commonMiddleware(req, _res, next) {
   logger.log("info", `URL: ${req.url}`);
@@ -170,7 +168,7 @@ async function register(req, res, next) {
 }
 
 function logout(req, res, next) {
-  res.header("x-auth-token", null).send('Logged out.');
+  res.header("x-auth-token", null).send("Logged out.");
 }
 
 function errorLogHandler(err, _req, _res, next) {
