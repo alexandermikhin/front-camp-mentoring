@@ -1,17 +1,17 @@
 const express = require("express");
 const path = require("path");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const NewsService = require("./news.service");
 const NewsDbService = require("./db/news-db.service");
-const UserService = require('./db/user.service');
+const UserService = require("./db/user.service");
 const logger = require("./logger");
+const auth = require("./middleware/auth");
 
 const app = express();
 const dataService = new NewsDbService();
 const newsService = new NewsService(dataService);
 const userService = new UserService();
 const viewsPath = path.resolve(__dirname, "./views");
-let currentUser = null;
 
 const url = "mongodb://localhost:27017";
 const dbName = "news";
@@ -24,17 +24,23 @@ mongoose.connect(`${url}/${dbName}`, {
 app.set("views", viewsPath);
 app.set("view engine", "pug");
 
-app.use(allowCors);
+// app.use(allowCors);
+app.use(express.json());
+app.post("/login", login);
+app.post("/register", register);
+app.post("/logout", logout);
 app.use(commonMiddleware);
 app.get("/news", getNews);
 app.get("/news/:id", getNewsById);
+// app.use(allowCors);
 app.use(express.json());
 app.post("/news", createNewsItem);
+app.use(auth);
+// app.use(allowCors);
 app.delete("/news/:id", deleteNewsItem);
+app.use(auth);
+// app.use(allowCors);
 app.put("/news/:id", updateNewsItem);
-app.post('/auth', authenticate);
-app.post('/register', register);
-app.post('/logout', logout);
 app.all("*", otherMethodsHandler);
 app.use(errorLogHandler);
 app.use(errorHanlder);
@@ -43,8 +49,11 @@ module.exports = app;
 
 function allowCors(_req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE")
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
   next();
 }
 
@@ -79,14 +88,8 @@ async function getNewsById(req, res, next) {
 }
 
 async function createNewsItem(req, res, next) {
-  if (!currentUser) {
-    res.status(400).send('User in not authenticated.');
-    return;
-  }
-
   console.log("Request: Create news item.");
   const newItem = getItemFromBody(req.body);
-
   const validationResult = newsService.isValid(newItem);
   if (!validationResult[0]) {
     res.status(400).send(validationResult[1]);
@@ -102,11 +105,6 @@ async function createNewsItem(req, res, next) {
 }
 
 async function deleteNewsItem(req, res, next) {
-  if (!currentUser) {
-    res.status(400).send('User in not authenticated.');
-    return;
-  }
-
   console.log("Request: Delete news item.");
   const id = parseInt(req.params.id);
   try {
@@ -118,11 +116,6 @@ async function deleteNewsItem(req, res, next) {
 }
 
 async function updateNewsItem(req, res, next) {
-  if (!currentUser) {
-    res.status(400).send('User in not authenticated.');
-    return;
-  }
-
   console.log("Request: Update news item.");
   const id = parseInt(req.params.id);
   const updatedItem = getItemFromBody(req.body);
@@ -150,30 +143,34 @@ async function otherMethodsHandler(_req, res, next) {
   }
 }
 
-async function authenticate(req, res, next) {
+async function login(req, res, next) {
   const body = req.body;
-  const user = await userService.auth(body.login, body.password);
-  if (user) {
-    currentUser = user;
-    res.status(200).send('Authenticated.');
-  } else {
-    res.status(400).send('User was not found');
+  const user = await userService.get(body.login);
+  if (!user || user.password !== body.password) {
+    res.status(400).send("User login or password is invalid");
+    return;
   }
+
+  const token = user.generateAuthToken();
+  res.header("x-auth-token", token).send({
+    _id: user._id,
+    login: user.login
+  });
 }
 
 async function register(req, res, next) {
   const body = req.body;
-  try {
-   await userService.register(body.login, body.password);
-   res.status(200).send('Registered successfully');
-  } catch (e) {
-    res.status(400).send('User was not registered');
+  const user = userService.get(body.login);
+  if (user) {
+    res.status(400).send("User already exists");
+    return;
   }
+  await userService.create(body.login, body.password);
+  res.status(200).send({ login: body.login });
 }
 
 function logout(req, res, next) {
-  currentUser = null;
-  res.status(200).send('Logged out');
+  res.header("x-auth-token", null).send('Logged out.');
 }
 
 function errorLogHandler(err, _req, _res, next) {

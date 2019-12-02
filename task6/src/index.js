@@ -1,5 +1,27 @@
 const url = "http://localhost:3000";
 
+async function login() {
+  const login = getInputValue('login');
+  const password = getInputValue('password');
+  const request = new Request(`${url}/login`, {
+    method: 'POST',
+    url: `${url}/login`,
+    body: JSON.stringify({login, password})
+  });
+  console.dir(request)
+
+  const response = await fetch(request);
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+    const element = document.getElementById('user-info');
+    element.innerHTML = data.login;
+  } else {
+    const text = await response.text();
+    alert(text);
+  }
+}
+
 async function deleteNewsitem() {
   const id = getInputValue('newsId');
   const request = new Request(`${url}/news/${id}`, {
