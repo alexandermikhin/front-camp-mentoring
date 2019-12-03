@@ -27,7 +27,7 @@ app.set("views", viewsPath);
 app.set("view engine", "pug");
 app.use(passport.initialize());
 app.use(express.json());
-app.post("/login", passport.authenticate('local'));
+app.post("/login", login);
 app.post("/register", register);
 app.post("/logout", logout);
 app.use(commonMiddleware);
@@ -44,16 +44,6 @@ app.use(errorLogHandler);
 app.use(errorHanlder);
 
 module.exports = app;
-
-// function allowCors(_req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   res.header("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
-//   next();
-// }
 
 function commonMiddleware(req, _res, next) {
   logger.log("info", `URL: ${req.url}`);
@@ -142,6 +132,7 @@ async function otherMethodsHandler(_req, res, next) {
 }
 
 async function login(req, res, next) {
+  console.log('Request: Login');
   const body = req.body;
   const user = await userService.get(body.login);
   if (!user || user.password !== body.password) {
@@ -157,6 +148,7 @@ async function login(req, res, next) {
 }
 
 async function register(req, res, next) {
+  console.log('Request: Register');
   const body = req.body;
   const user = userService.get(body.login);
   if (user) {
@@ -168,6 +160,7 @@ async function register(req, res, next) {
 }
 
 function logout(req, res, next) {
+  console.log('Request: Logout');
   res.header("x-auth-token", null).send("Logged out.");
 }
 
