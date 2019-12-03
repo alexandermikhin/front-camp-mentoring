@@ -14,10 +14,22 @@ passport.use(
         done("No access token");
       }
 
-      const user = {
-        login: profile.displayName
-      };
-      done(null, user);
+      const login = profile.displayName;
+      let user;
+      try {
+        user = await User.findOne({login}).exec();
+        if (!user) {
+          user = {
+            login,
+            password: ''
+          };
+          await User.create(user);
+        }
+      } catch (e) {
+        return done(e);
+      }
+
+      return done(null, user);
     }
   )
 );
