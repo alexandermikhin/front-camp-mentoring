@@ -7,9 +7,10 @@ const UserService = require("./db/user.service");
 const logger = require("./logger");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-const config = require('./config');
+const config = require("./config");
 require("./authentication/passport");
 require("./authentication/passport-jwt");
+require("./authentication/passport-fb");
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -36,10 +37,22 @@ mongoose.connect(`${url}/${dbName}`, {
 app.set("views", viewsPath);
 app.set("view engine", "pug");
 app.use(passport.initialize());
+app.get("/", (req, res, next) => {
+  res.render("index");
+});
 app.use(express.json());
 app.post(
   "/login",
   passport.authenticate("local", { failureFlash: true }),
+  login
+);
+app.get(
+  "/login/facebook",
+  passport.authenticate("facebook", { failureFlash: true })
+);
+app.get(
+  "/login/facebook/callback",
+  passport.authenticate("facebook", { failureFlash: true }),
   login
 );
 app.post("/register", register);
