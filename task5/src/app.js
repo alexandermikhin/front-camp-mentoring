@@ -40,7 +40,13 @@ app.use(passport.initialize());
 app.get("/", (req, res, next) => {
   res.render("index");
 });
-app.use(express.urlencoded())
+app.get("/register", (req, res, next) => {
+  res.render("register");
+});
+app.get("/login", (req, res, next) => {
+  res.render("login");
+});
+app.use(express.urlencoded());
 app.post(
   "/login",
   passport.authenticate("local", { failureFlash: true }),
@@ -56,7 +62,7 @@ app.get(
   login
 );
 app.post("/register", register);
-app.post("/logout", logout);
+app.get("/logout", logout);
 app.use(commonMiddleware);
 app.use(express.json());
 app.get("/news", getNews);
@@ -161,27 +167,26 @@ async function login(req, res, _next) {
   console.log("Request: Login");
   const { user } = req;
   const token = generateAuthToken(user);
-  res.header(config.headerKey, token).send({
-    login: user.login,
-    token
-  });
+  res
+    .header(config.headerKey, token)
+    .render("login", { user: user.login, authorised: true });
 }
 
 async function register(req, res, next) {
   console.log("Request: Register");
   const body = req.body;
-  const user = userService.get(body.login);
+  const user = await userService.get(body.login);
   if (user) {
-    res.status(400).send("User already exists");
+    res.render("register", { message: "User already exists." });
     return;
   }
   await userService.create(body.login, body.password);
-  res.status(200).send({ login: body.login });
+  res.render("register", { message: "User created. Press Back button to login." });
 }
 
 function logout(req, res, next) {
   console.log("Request: Logout");
-  res.header(config.headerKey, null).send("Logged out.");
+  res.header(config.headerKey, null).redirect("/");
 }
 
 function errorLogHandler(err, _req, _res, next) {

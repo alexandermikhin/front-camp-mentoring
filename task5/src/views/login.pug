@@ -1,0 +1,27 @@
+html
+  head
+    title Authentication demo
+  body
+    h1 Authentication demo
+
+    if !authorised
+      div
+        h2 Form authentication
+        form(method="post")
+          div
+            label Login:
+            input(name="login" type="text")
+          div
+            label Password:
+            input(name="password" type="password")
+          div
+            input(type="submit" value="Log in")
+        div
+          a(href="/register") Register
+    else
+      div Hello,
+        span=user
+      div
+        a(href='/logout') Logout
+    div
+        a(href="/") Back
