@@ -3,13 +3,18 @@ html
     title Authentication demo
   body
     h1 Authentication demo
-    div
-      h2 Facebook authentication
-      a(href='/login/facebook') Login with facebook
-    div
-      h2 Form authentication
+    if !user
       div
-        a(href='/login') Login with form
+        h2 Facebook authentication
+        a(href='/login/facebook') Login with facebook
       div
-        a(href="/register") Register
-
+        h2 Form authentication
+        div
+          a(href='/login') Login with form
+        div
+          a(href="/register") Register
+    else
+      div Hello,
+        span= user
+      div
+        a(href='/logout') Logout

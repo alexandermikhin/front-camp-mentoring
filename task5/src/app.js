@@ -7,6 +7,7 @@ const UserService = require("./db/user.service");
 const logger = require("./logger");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const session = require("express-session");
 const config = require("./config");
 require("./authentication/passport");
 require("./authentication/passport-jwt");
@@ -34,11 +35,21 @@ mongoose.connect(`${url}/${dbName}`, {
   useFindAndModify: false
 });
 
+app.use(
+  session({
+    secret: "session-secret",
+    resave: false,
+    saveUninitialized: true
+  })
+);
+
 app.set("views", viewsPath);
 app.set("view engine", "pug");
 app.use(passport.initialize());
+app.use(passport.session());
 app.get("/", (req, res, next) => {
-  res.render("index");
+  const user = req.session && req.session.passport && req.session.passport.user;
+  res.render("index", { user: (user && user.login) || "" });
 });
 app.get("/register", (req, res, next) => {
   res.render("register");
@@ -47,20 +58,9 @@ app.get("/login", (req, res, next) => {
   res.render("login");
 });
 app.use(express.urlencoded());
-app.post(
-  "/login",
-  passport.authenticate("local", { failureFlash: true }),
-  login
-);
-app.get(
-  "/login/facebook",
-  passport.authenticate("facebook", { failureFlash: true })
-);
-app.get(
-  "/login/facebook/callback",
-  passport.authenticate("facebook", { failureFlash: true }),
-  login
-);
+app.post("/login", passport.authenticate("local"), login);
+app.get("/login/facebook", passport.authenticate("facebook"));
+app.get("/login/facebook/callback", passport.authenticate("facebook"), login);
 app.post("/register", register);
 app.get("/logout", logout);
 app.use(commonMiddleware);
@@ -181,12 +181,15 @@ async function register(req, res, next) {
     return;
   }
   await userService.create(body.login, body.password);
-  res.render("register", { message: "User created. Press Back button to login." });
+  res.render("register", {
+    message: "User created. Press Back button to login."
+  });
 }
 
 function logout(req, res, next) {
   console.log("Request: Logout");
-  res.header(config.headerKey, null).redirect("/");
+  req.logout();
+  res.redirect("/");
 }
 
 function errorLogHandler(err, _req, _res, next) {
