@@ -40,7 +40,7 @@ app.use(passport.initialize());
 app.get("/", (req, res, next) => {
   res.render("index");
 });
-app.use(express.json());
+app.use(express.urlencoded())
 app.post(
   "/login",
   passport.authenticate("local", { failureFlash: true }),
@@ -58,6 +58,7 @@ app.get(
 app.post("/register", register);
 app.post("/logout", logout);
 app.use(commonMiddleware);
+app.use(express.json());
 app.get("/news", getNews);
 app.get("/news/:id", getNewsById);
 app.use(express.json());

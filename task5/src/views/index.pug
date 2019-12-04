@@ -4,4 +4,16 @@ html
   body
     h1 Authentication demo
     div
+      h2 Facebook authentication
       a(href='/login/facebook') Login with facebook
+    div
+      h2 Form authentication
+      form(action="/login" method="post")
+        div
+          label Login:
+          input(name="login" type="text")
+        div
+          label Password:
+          input(name="password" type="password")
+        div
+          input(type="submit" value="Log in")
