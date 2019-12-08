@@ -6,14 +6,9 @@ export default class MovieList extends React.Component {
   render() {
     return (
       <div className="search-results-movies">
-        <MovieListItem />
-        <MovieListItem />
-        <MovieListItem />
-        <MovieListItem />
-        <MovieListItem />
-        <MovieListItem />
-        <MovieListItem />
-        <MovieListItem />
+        {this.props.movies.map(movie => (
+          <MovieListItem />
+        ))}
       </div>
     );
   }
