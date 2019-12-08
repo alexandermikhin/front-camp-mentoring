@@ -11,3 +11,7 @@
 .search-parameters {
   color: #ffffff;
 }
+
+.search-by-selector {
+  display: inline;
+}
