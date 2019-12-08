@@ -1,38 +1,61 @@
-.App {
-  text-align: center;
+.header {
+  height: 200px;
+  background-color: gray;
+  padding-top: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header-toolbar {
+  margin: 0 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.app-title {
+  color: #f65261;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.search {
+  width: 80%;
+  margin: 40px auto 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.search-label {
+  color: #ffffff;
+  font-size: 36px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.search-parameters {
+  color: #ffffff;
+}
+
+.search-results-toolbar {
+  color: #ffffff;
+  height: 70px;
+  background-color: darkgray;
+}
+
+.search-results-movies {
+  background-color: grey;
+  color: #ffffff;
+  height: calc(100% - 70px - 200px - 70px);
+}
+
+.search-by-selector {
+  display: inline;
+}
+
+.search-results-movies__item {
+  height: 300px;
+  width: 200px;
+  margin: 20px;
+  display: inline-block;
+  background-color: lightgray;
+}
+
+.movie-item__image {
+  height: 150px;
+}
+
+.footer {
+  color: #ffffff;
+  height: 70px;
+  background-color: darkgray;
 }
