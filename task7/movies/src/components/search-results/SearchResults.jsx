@@ -19,10 +19,14 @@ export default class SearchResults extends React.Component {
     return (
       <main className="search-results">
         <SearchResultsToolbar
-          found={this.props.movies.length}
+          message={this.props.toolbarOptions.message}
+          showSwitcher={this.props.toolbarOptions.showSwitcher}
           onSortChange={this.handleSortChange.bind(this)}
         />
-        <MovieList movies={this.getMovies()} />
+        <MovieList
+          movies={this.getMovies()}
+          onDetailsClick={this.props.onDetailsClick.bind(this)}
+        />
       </main>
     );
   }

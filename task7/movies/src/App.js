@@ -1,13 +1,15 @@
 import React from "react";
 import "./App.css";
-import Search from "./components/search/Search";
+import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
+import Search from "./components/search/Search";
 import movies from "./data/movies";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedMovie: null,
       foundMovies: []
     };
   }
@@ -18,9 +20,76 @@ class App extends React.Component {
   }
 
   handleSearch(phrase, field) {
+    this.setState({ foundMovies: this._filterMovies(phrase, field) });
+  }
+
+  handleDetailsClick(id) {
+    const movie = this.movies.find(m => m.id === id);
+    if (movie) {
+      const foundMovies = this._filterMovies(movie.category, 'genre');
+      this.setState({
+        selectedMovie: movie,
+        foundMovies
+      });
+    }
+  }
+
+  openSearch() {
+    this.setState({
+      selectedMovie: null,
+      foundMovies: this.movies
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <header className="header">
+          <div className="header-toolbar">
+            <span className="app-title">netflixroulette</span>
+            {this.state.selectedMovie && (
+              <span className="app-search" onClick={this.openSearch.bind(this)}>
+                Search
+              </span>
+            )}
+          </div>
+          {this.state.selectedMovie ? (
+            <MovieDetails movie={this.state.selectedMovie} />
+          ) : (
+            <Search onSearch={this.handleSearch.bind(this)} />
+          )}
+        </header>
+        <SearchResults
+          toolbarOptions={this.getToolbarOptions()}
+          movies={this.state.foundMovies}
+          onDetailsClick={this.handleDetailsClick.bind(this)}
+        />
+        <footer className="footer">netflixroulette</footer>
+      </div>
+    );
+  }
+
+  getToolbarOptions() {
+    return {
+      showSwitcher: !this.state.selectedMovie,
+      message: this._getToolbarMesage()
+    };
+  }
+
+  _getToolbarMesage() {
+    if (this.state.selectedMovie) {
+      return `Films by ${this.state.selectedMovie.category}`;
+    }
+
+    const movieCount = this.state.foundMovies.length;
+    return movieCount
+      ? `${movieCount} movie${movieCount > 1 && "s"} found`
+      : "";
+  }
+
+  _filterMovies(phrase, field) {
     if (!phrase) {
-      this.setState({ foundMovies: this.movies });
-      return;
+      return this.movies;
     }
 
     let movies;
@@ -35,22 +104,7 @@ class App extends React.Component {
         movies = this.movies;
     }
 
-    this.setState({ foundMovies: movies });
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <header className="header">
-          <div className="header-toolbar">
-            <div className="app-title">netflixroulette</div>
-          </div>
-          <Search onSearch={this.handleSearch.bind(this)} />
-        </header>
-        <SearchResults movies={this.state.foundMovies} />
-        <footer className="footer">netflixroulette</footer>
-      </div>
-    );
+    return movies;
   }
 }
 

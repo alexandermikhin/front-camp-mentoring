@@ -10,22 +10,19 @@ export default class SearchResultsToolbar extends React.Component {
   render() {
     return (
       <div className="search-results-toolbar">
-        {this.props.found > 0 && (
-          <div className="search-results-toolbar__movie-count">
-            <span className="movie-number">{this.props.found} </span>
-            <span className="movie-number-text">
-              movie{this.props.found > 1 && "s"} found
-            </span>
+        <div className="search-results-toolbar__movie-count">
+          {this.props.message}
+        </div>
+        {this.props.showSwitcher && (
+          <div className="search-results-toolbar__sort">
+            <label>SORT BY</label>
+            <Switcher
+              prop1={{ title: "RELEASE DATE", value: "releaseDate" }}
+              prop2={{ title: "RATING", value: "rating" }}
+              onChange={this.handleSwitch.bind(this)}
+            />
           </div>
         )}
-        <div className="search-results-toolbar__sort">
-          <label>SORT BY</label>
-          <Switcher
-            prop1={{ title: "RELEASE DATE", value: "releaseDate" }}
-            prop2={{ title: "RATING", value: "rating" }}
-            onChange={this.handleSwitch.bind(this)}
-          />
-        </div>
       </div>
     );
   }
