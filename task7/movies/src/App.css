@@ -12,20 +12,6 @@
   color: #f65261;
 }
 
-.search {
-  width: 80%;
-  margin: 40px auto 20px;
-}
-
-.search-label {
-  color: #ffffff;
-  font-size: 36px;
-}
-
-.search-parameters {
-  color: #ffffff;
-}
-
 .search-results-toolbar {
   color: #ffffff;
   height: 70px;
