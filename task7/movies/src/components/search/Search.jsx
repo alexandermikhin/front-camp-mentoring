@@ -17,14 +17,11 @@ export default class Search extends React.Component {
   }
 
   handleSubmit(event) {
-    alert(
-      `Search phrase: "${this.state.searchPhrase}", genre: "${this.state.searchBy}".`
-    );
+    this.props.onSearch(this.state.searchPhrase, this.state.searchBy);
     event.preventDefault();
   }
 
   handleSwitch(value) {
-    debugger;
     this.setState({ searchBy: value });
   }
 

@@ -28,7 +28,6 @@ export default class SearchResults extends React.Component {
   }
 
   getMovies() {
-    debugger;
     const sortedMovies = [...this.props.movies];
     switch (this.state.sorting) {
       case "releaseDate":
