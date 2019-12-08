@@ -1,7 +1,10 @@
 import React from "react";
+import Switcher from "../switcher/Switcher";
 import "./SearchResultsToolbar.css";
 
 export default class SearchResultsToolbar extends React.Component {
+  handleSwitch(value) {}
+
   render() {
     return (
       <div className="search-results-toolbar">
@@ -10,8 +13,12 @@ export default class SearchResultsToolbar extends React.Component {
           <span className="movie-number-text">movie found</span>
         </div>
         <div className="search-results-toolbar__sort">
-          <span>RELEASE DATE</span>
-          <span>RATING</span>
+          <label>SORT BY</label>
+          <Switcher
+            prop1={{ title: "RELEASE DATE", value: "releaseDate" }}
+            prop2={{ title: "RATING", value: "rating" }}
+            onChange={this.handleSwitch.bind(this)}
+          />
         </div>
       </div>
     );
