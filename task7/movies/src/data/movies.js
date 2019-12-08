@@ -7,7 +7,8 @@ function fillIn() {
       title: `Movie title-${i}`,
       category: `category-${i % 3}`,
       annotation: `Movie ${i} annotation.`,
-      imgUrl: "/placeholder.png"
+      imgUrl: "/placeholder.png",
+      rating: (100 - i) / 100 * 5
     });
   }
 

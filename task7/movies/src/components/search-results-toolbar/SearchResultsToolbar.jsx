@@ -3,7 +3,9 @@ import Switcher from "../switcher/Switcher";
 import "./SearchResultsToolbar.css";
 
 export default class SearchResultsToolbar extends React.Component {
-  handleSwitch(value) {}
+  handleSwitch(value) {
+      this.props.onSortChange(value);
+  }
 
   render() {
     return (
