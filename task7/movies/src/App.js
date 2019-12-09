@@ -47,7 +47,7 @@ class App extends React.Component {
       <div className="App">
         <header className="header">
           <div className="header-toolbar">
-            <span className="app-title">netflixroulette</span>
+            <span className="app-title"><span className="app-title__company">netflix</span>roulette</span>
             {this.state.selectedMovie && (
               <span className="app-search" onClick={this.openSearch.bind(this)}>
                 Search

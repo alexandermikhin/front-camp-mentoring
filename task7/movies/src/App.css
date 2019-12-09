@@ -1,15 +1,17 @@
 .header {
-  height: 200px;
+  height: 400px;
   background-color: gray;
   padding-top: 20px;
 }
 
 .header-toolbar {
-  margin: 0 20px;
+  color: #f65261;
+  padding: 15px 50px;
+  font-size: 20px;
 }
 
-.app-title {
-  color: #f65261;
+.app-title__company {
+  font-weight: bold;
 }
 
 .footer {

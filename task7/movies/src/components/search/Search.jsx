@@ -32,10 +32,11 @@ export default class Search extends React.Component {
         <div className="search-input">
           <input
             type="text"
+            className="search-input__element"
             value={this.state.searchPhrase}
             onChange={this.handleChange.bind(this)}
           />
-          <button type="submit" className="search-btn">
+          <button type="submit" className="search-input__button">
             SEARCH
           </button>
         </div>
