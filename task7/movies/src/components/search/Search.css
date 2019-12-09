@@ -40,3 +40,12 @@
   font-size: 20px;
   border-radius: 5px;
 }
+
+.search-parameters {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.search-parameters__label {
+  margin-right: 20px;
+}

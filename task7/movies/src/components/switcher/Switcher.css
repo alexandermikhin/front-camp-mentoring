@@ -1,3 +1,26 @@
-.search-by-selector {
+.switcher-selector {
     display: inline;
-  }
+}
+
+.switcher-button {
+    height: 100%;
+    color: #fff;
+    background-color: #000;
+    font-size: inherit;
+    border: none;
+    padding: 5px 10px;
+}
+
+.switcher-selector :first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.switcher-selector :last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.switcher-button.active {
+    background-color: #f65261;
+}
