@@ -14,8 +14,8 @@ export default class SearchResultsToolbar extends React.Component {
           {this.props.message}
         </div>
         {this.props.showSwitcher && (
-          <div className="search-results-toolbar__sort">
-            <label>SORT BY</label>
+          <div className="search-results-toolbar-sort">
+            <label className="search-results-toolbar-sort__label">SORT BY</label>
             <Switcher
               prop1={{ title: "RELEASE DATE", value: "releaseDate" }}
               prop2={{ title: "RATING", value: "rating" }}

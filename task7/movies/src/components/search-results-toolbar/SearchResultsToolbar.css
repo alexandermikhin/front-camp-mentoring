@@ -1,5 +1,25 @@
 .search-results-toolbar {
-  color: #ffffff;
-  height: 70px;
-  background-color: darkgray;
+    color: #ffffff;
+    height: 70px;
+    background-color: darkgray;
+    padding: 0 100px;
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 900px;
+}
+
+.search-results-toolbar__movie-count {
+    display: inline;
+    font-weight: bold;
+    margin-left: 50px;
+}
+
+.search-results-toolbar-sort {
+    display: inline;
+}
+
+.search-results-toolbar-sort__label {
+    margin-right: 20px;
 }
