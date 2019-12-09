@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { ErrorBoundary } from "./components/error-boundary/ErrorBoundary";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
@@ -26,7 +27,7 @@ class App extends React.Component {
   handleDetailsClick(id) {
     const movie = this.movies.find(m => m.id === id);
     if (movie) {
-      const foundMovies = this._filterMovies(movie.category, 'genre');
+      const foundMovies = this._filterMovies(movie.category, "genre");
       this.setState({
         selectedMovie: movie,
         foundMovies
@@ -59,11 +60,13 @@ class App extends React.Component {
             <Search onSearch={this.handleSearch.bind(this)} />
           )}
         </header>
-        <SearchResults
-          toolbarOptions={this.getToolbarOptions()}
-          movies={this.state.foundMovies}
-          onDetailsClick={this.handleDetailsClick.bind(this)}
-        />
+        <ErrorBoundary>
+          <SearchResults
+            toolbarOptions={this.getToolbarOptions()}
+            movies={this.state.foundMovies}
+            onDetailsClick={this.handleDetailsClick.bind(this)}
+          />
+        </ErrorBoundary>
         <footer className="footer">netflixroulette</footer>
       </div>
     );
