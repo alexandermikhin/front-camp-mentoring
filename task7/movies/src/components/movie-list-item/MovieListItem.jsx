@@ -15,11 +15,10 @@ export default class MoviListItem extends React.Component {
         </div>
         <div className="movie-item__details">
           <div>
-            <h4
-              className="movie-item__title"
-              onClick={this.getDetails.bind(this)}
-            >
-              {this.props.movie.title}
+            <h4 className="movie-item__title">
+              <button onClick={this.getDetails.bind(this)}>
+                {this.props.movie.title}
+              </button>
             </h4>
             <span className="movie-item__year">{this.props.movie.year}</span>
           </div>
