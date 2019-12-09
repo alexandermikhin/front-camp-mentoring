@@ -10,6 +10,11 @@
   font-size: 20px;
 }
 
+.app-title {
+  font-size: 20px;
+  color: #f65261;
+}
+
 .app-title__company {
   font-weight: bold;
 }
@@ -18,4 +23,12 @@
   color: #ffffff;
   height: 70px;
   background-color: darkgray;
+  position: relative;
+}
+
+.footer .app-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
