@@ -19,6 +19,7 @@ export default class SearchResultsToolbar extends React.Component {
             <Switcher
               prop1={{ title: "RELEASE DATE", value: "releaseDate" }}
               prop2={{ title: "RATING", value: "rating" }}
+              active={this.props.activeSorting}
               onChange={this.handleSwitch.bind(this)}
             />
           </div>

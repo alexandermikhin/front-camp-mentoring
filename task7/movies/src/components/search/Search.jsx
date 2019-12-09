@@ -45,6 +45,7 @@ export default class Search extends React.Component {
           <Switcher
             prop1={{ title: "TITLE", value: "title" }}
             prop2={{ title: "GENRE", value: "genre" }}
+            active={this.state.searchBy}
             onChange={this.handleSwitch.bind(this)}
           />
         </div>

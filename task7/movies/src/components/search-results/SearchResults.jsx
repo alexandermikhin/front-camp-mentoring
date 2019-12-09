@@ -21,6 +21,7 @@ export default class SearchResults extends React.Component {
         <SearchResultsToolbar
           message={this.props.toolbarOptions.message}
           showSwitcher={this.props.toolbarOptions.showSwitcher}
+          activeSorting={this.state.sorting}
           onSortChange={this.handleSortChange.bind(this)}
         />
         <MovieList
