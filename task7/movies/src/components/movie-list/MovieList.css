@@ -2,4 +2,5 @@
   background-color: grey;
   color: #ffffff;
   height: calc(100% - 70px - 200px - 70px);
+  text-align: center;
 }
