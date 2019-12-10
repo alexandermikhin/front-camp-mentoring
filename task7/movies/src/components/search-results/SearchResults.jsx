@@ -7,7 +7,7 @@ export default class SearchResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sorting: "releaseDate"
+      sorting: "rating"
     };
   }
 
