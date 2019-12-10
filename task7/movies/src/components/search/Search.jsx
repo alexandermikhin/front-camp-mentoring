@@ -12,6 +12,17 @@ export default class Search extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.search$.subscribe(search => this.setState({
+      searchPhrase: search.searchPhrase,
+      searchBy: search.searchBy
+    }));
+  }
+
+  componentWillUnmount() {
+    this.props.search.unsubscribe();
+  }
+
   handleChange(event) {
     this.setState({ searchPhrase: event.target.value });
   }

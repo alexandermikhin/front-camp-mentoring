@@ -6,6 +6,7 @@ import { ErrorBoundary } from "./components/error-boundary/ErrorBoundary";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
+import { Subject } from "./core/subject";
 import movies from "./data/movies";
 
 class App extends React.Component {
@@ -15,6 +16,8 @@ class App extends React.Component {
       selectedMovie: null,
       foundMovies: []
     };
+
+    this.searchSubject = new Subject();
   }
 
   componentDidMount() {
@@ -43,6 +46,8 @@ class App extends React.Component {
       selectedMovie: null,
       foundMovies
     });
+
+    this.searchSubject.setValue({ searchPhrase: category, searchBy: "genre" });
   }
 
   openSearch() {
@@ -69,7 +74,10 @@ class App extends React.Component {
           {this.state.selectedMovie ? (
             <MovieDetails movie={this.state.selectedMovie} />
           ) : (
-            <Search onSearch={this.handleSearch.bind(this)} />
+            <Search
+              onSearch={this.handleSearch.bind(this)}
+              search$={this.searchSubject}
+            />
           )}
         </header>
         <ErrorBoundary>
