@@ -27,6 +27,7 @@ export default class SearchResults extends React.Component {
         <MovieList
           movies={this.getMovies()}
           onDetailsClick={this.props.onDetailsClick.bind(this)}
+          onCategoryClick={this.props.onCategoryClick.bind(this)}
         />
       </main>
     );

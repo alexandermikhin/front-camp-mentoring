@@ -8,6 +8,12 @@ export default class MoviListItem extends React.Component {
     event.preventDefault();
   }
 
+  filterByCategory(event) {
+    this.props.onCategoryClick(this.props.movie.category);
+    window.scrollTo(0, 0);
+    event.preventDefault();
+  }
+
   render() {
     return (
       <div className="search-results-movies__item movie-item">
@@ -24,7 +30,9 @@ export default class MoviListItem extends React.Component {
             <span className="movie-item__year">{this.props.movie.year}</span>
           </div>
           <div className="movie-item__category">
-            {this.props.movie.category}
+            <button onClick={this.filterByCategory.bind(this)}>
+              {this.props.movie.category}
+            </button>
           </div>
         </div>
       </div>

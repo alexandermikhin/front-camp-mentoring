@@ -37,6 +37,14 @@ class App extends React.Component {
     }
   }
 
+  handleCategoryClick(category) {
+    const foundMovies = this._filterMovies(category, "genre");
+    this.setState({
+      selectedMovie: null,
+      foundMovies
+    });
+  }
+
   openSearch() {
     this.setState({
       selectedMovie: null,
@@ -69,6 +77,7 @@ class App extends React.Component {
             toolbarOptions={this.getToolbarOptions()}
             movies={this.state.foundMovies}
             onDetailsClick={this.handleDetailsClick.bind(this)}
+            onCategoryClick={this.handleCategoryClick.bind(this)}
           />
         </ErrorBoundary>
         <footer className="footer">
