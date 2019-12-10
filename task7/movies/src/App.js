@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import "./App.css";
 import { ErrorBoundary } from "./components/error-boundary/ErrorBoundary";
@@ -5,6 +6,8 @@ import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
 import movies from "./data/movies";
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -52,7 +55,7 @@ class App extends React.Component {
             </span>
             {this.state.selectedMovie && (
               <span className="app-search" onClick={this.openSearch.bind(this)}>
-                Search
+                <FontAwesomeIcon icon={faSearch} />
               </span>
             )}
           </div>

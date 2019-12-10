@@ -15,6 +15,11 @@
   color: #f65261;
 }
 
+.app-search {
+  float: right;
+  cursor: pointer;
+}
+
 .app-title__company {
   font-weight: bold;
 }
