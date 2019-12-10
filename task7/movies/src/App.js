@@ -1,3 +1,4 @@
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import "./App.css";
@@ -6,8 +7,6 @@ import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
 import movies from "./data/movies";
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-
 
 class App extends React.Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 .header {
   height: 400px;
-  background-color: gray;
+  background-color: #232323;
   padding-top: 20px;
 }
 
@@ -27,7 +27,7 @@
 .footer {
   color: #ffffff;
   height: 70px;
-  background-color: darkgray;
+  background-color: #555555;
   position: relative;
 }
 
