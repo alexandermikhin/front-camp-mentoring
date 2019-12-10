@@ -8,7 +8,8 @@ function fillIn() {
       category: `category-${i % 3}`,
       annotation: `Movie ${i} annotation.`,
       imgUrl: "/placeholder.png",
-      rating: (100 - i) / 100 * 5
+      rating: (100 - i) / 100 * 5,
+      duration: 144
     });
   }
 

@@ -4,6 +4,7 @@ import "./MovieListItem.css";
 export default class MoviListItem extends React.Component {
   getDetails(event) {
     this.props.onDetailsClick(this.props.movie.id);
+    window.scrollTo(0, 0);
     event.preventDefault();
   }
 
