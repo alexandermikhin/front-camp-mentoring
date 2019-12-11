@@ -2,7 +2,6 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import "./App.css";
-import { ErrorBoundary } from "./components/error-boundary/ErrorBoundary";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
@@ -27,9 +26,9 @@ class App extends React.Component {
 
   handleSearch = (phrase, field) => {
     this.setState({ foundMovies: this._filterMovies(phrase, field) });
-  }
+  };
 
-  handleDetailsClick = (id) => {
+  handleDetailsClick = id => {
     const movie = this.movies.find(m => m.id === id);
     if (movie) {
       const foundMovies = this._filterMovies(movie.category, "genre");
@@ -38,9 +37,9 @@ class App extends React.Component {
         foundMovies
       });
     }
-  }
+  };
 
-  handleCategoryClick = (category) => {
+  handleCategoryClick = category => {
     const foundMovies = this._filterMovies(category, "genre");
     this.setState({
       selectedMovie: null,
@@ -48,14 +47,14 @@ class App extends React.Component {
     });
 
     this.searchSubject.setValue({ searchPhrase: category, searchBy: "genre" });
-  }
+  };
 
   openSearch = () => {
     this.setState({
       selectedMovie: null,
       foundMovies: this.movies
     });
-  }
+  };
 
   render() {
     return (
@@ -74,20 +73,15 @@ class App extends React.Component {
           {this.state.selectedMovie ? (
             <MovieDetails movie={this.state.selectedMovie} />
           ) : (
-            <Search
-              onSearch={this.handleSearch}
-              search$={this.searchSubject}
-            />
+            <Search onSearch={this.handleSearch} search$={this.searchSubject} />
           )}
         </header>
-        <ErrorBoundary>
-          <SearchResults
-            toolbarOptions={this.getToolbarOptions()}
-            movies={this.state.foundMovies}
-            onDetailsClick={this.handleDetailsClick}
-            onCategoryClick={this.handleCategoryClick}
-          />
-        </ErrorBoundary>
+        <SearchResults
+          toolbarOptions={this.getToolbarOptions()}
+          movies={this.state.foundMovies}
+          onDetailsClick={this.handleDetailsClick}
+          onCategoryClick={this.handleCategoryClick}
+        />
         <footer className="footer">
           <span className="app-title">
             <span className="app-title__company">netflix</span>roulette
