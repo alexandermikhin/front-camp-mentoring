@@ -1,15 +1,17 @@
 import React from "react";
 import "./MovieListItem.css";
+import {MovieItemContext} from "../../context/MovieItemContext";
 
 export default class MoviListItem extends React.Component {
+  static contextType = MovieItemContext
   getDetails = event => {
-    this.props.onDetailsClick(this.props.movie.id);
+    this.context.openMovieDetails(this.props.movie.id);
     window.scrollTo(0, 0);
     event.preventDefault();
   };
 
   filterByCategory = event => {
-    this.props.onCategoryClick(this.props.movie.category);
+    this.context.filterByCategory(this.props.movie.category);
     window.scrollTo(0, 0);
     event.preventDefault();
   };

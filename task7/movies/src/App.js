@@ -5,6 +5,7 @@ import "./App.css";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
+import { MovieItemContext } from "./context/MovieItemContext";
 import { Subject } from "./core/subject";
 import movies from "./data/movies";
 
@@ -14,6 +15,11 @@ class App extends React.Component {
     this.state = {
       selectedMovie: null,
       foundMovies: []
+    };
+
+    this.movieItemContextValue = {
+      openMovieDetails: this.handleDetailsClick,
+      filterByCategory: this.handleCategoryClick
     };
 
     this.searchSubject = new Subject();
@@ -76,12 +82,14 @@ class App extends React.Component {
             <Search onSearch={this.handleSearch} search$={this.searchSubject} />
           )}
         </header>
-        <SearchResults
-          toolbarOptions={this.getToolbarOptions()}
-          movies={this.state.foundMovies}
-          onDetailsClick={this.handleDetailsClick}
-          onCategoryClick={this.handleCategoryClick}
-        />
+        <MovieItemContext.Provider value={this.movieItemContextValue}>
+          <SearchResults
+            toolbarOptions={this.getToolbarOptions()}
+            movies={this.state.foundMovies}
+            onDetailsClick={this.handleDetailsClick}
+            onCategoryClick={this.handleCategoryClick}
+          />
+        </MovieItemContext.Provider>
         <footer className="footer">
           <span className="app-title">
             <span className="app-title__company">netflix</span>roulette

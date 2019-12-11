@@ -24,11 +24,7 @@ export default class SearchResults extends React.Component {
           activeSorting={this.state.sorting}
           onSortChange={this.handleSortChange}
         />
-        <MovieList
-          movies={this.getMovies()}
-          onDetailsClick={this.props.onDetailsClick}
-          onCategoryClick={this.props.onCategoryClick}
-        />
+        <MovieList movies={this.getMovies()} />
       </main>
     );
   }

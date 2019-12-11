@@ -8,15 +8,10 @@ export default class MovieList extends React.Component {
       <div className="search-results-movies">
         {this.props.movies.length > 0 ? (
           this.props.movies.map(movie => (
-            <MovieListItem
-              key={movie.id}
-              movie={movie}
-              onDetailsClick={this.props.onDetailsClick}
-              onCategoryClick={this.props.onCategoryClick}
-            />
+            <MovieListItem key={movie.id} movie={movie} />
           ))
         ) : (
-          <div className="no-results">No movies found.</div>
+          <div className="no-results">No movies found</div>
         )}
       </div>
     );
