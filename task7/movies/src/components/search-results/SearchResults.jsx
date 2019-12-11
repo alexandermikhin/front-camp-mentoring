@@ -11,9 +11,9 @@ export default class SearchResults extends React.Component {
     };
   }
 
-  handleSortChange(value) {
+  handleSortChange = value => {
     this.setState({ sorting: value });
-  }
+  };
 
   render() {
     return (
@@ -22,12 +22,12 @@ export default class SearchResults extends React.Component {
           message={this.props.toolbarOptions.message}
           showSwitcher={this.props.toolbarOptions.showSwitcher}
           activeSorting={this.state.sorting}
-          onSortChange={this.handleSortChange.bind(this)}
+          onSortChange={this.handleSortChange}
         />
         <MovieList
           movies={this.getMovies()}
-          onDetailsClick={this.props.onDetailsClick.bind(this)}
-          onCategoryClick={this.props.onCategoryClick.bind(this)}
+          onDetailsClick={this.props.onDetailsClick}
+          onCategoryClick={this.props.onCategoryClick}
         />
       </main>
     );

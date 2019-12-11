@@ -11,8 +11,8 @@ export default class MovieList extends React.Component {
             <MovieListItem
               key={movie.id}
               movie={movie}
-              onDetailsClick={this.props.onDetailsClick.bind(this)}
-              onCategoryClick={this.props.onCategoryClick.bind(this)}
+              onDetailsClick={this.props.onDetailsClick}
+              onCategoryClick={this.props.onCategoryClick}
             />
           ))
         ) : (

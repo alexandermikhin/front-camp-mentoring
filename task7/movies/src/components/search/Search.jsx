@@ -1,6 +1,6 @@
 import React from "react";
-import "./Search.css";
 import Switcher from "../switcher/Switcher";
+import "./Search.css";
 
 export default class Search extends React.Component {
   constructor(props) {
@@ -13,39 +13,41 @@ export default class Search extends React.Component {
   }
 
   componentDidMount() {
-    this.props.search$.subscribe(search => this.setState({
-      searchPhrase: search.searchPhrase,
-      searchBy: search.searchBy
-    }));
+    this.props.search$.subscribe(search =>
+      this.setState({
+        searchPhrase: search.searchPhrase,
+        searchBy: search.searchBy
+      })
+    );
   }
 
   componentWillUnmount() {
-    this.props.search.unsubscribe();
+    this.props.search$.unsubscribe();
   }
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState({ searchPhrase: event.target.value });
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     this.props.onSearch(this.state.searchPhrase, this.state.searchBy);
     event.preventDefault();
-  }
+  };
 
-  handleSwitch(value) {
+  handleSwitch = value => {
     this.setState({ searchBy: value });
-  }
+  };
 
   render() {
     return (
-      <form className="search" onSubmit={this.handleSubmit.bind(this)}>
+      <form className="search" onSubmit={this.handleSubmit}>
         <label className="search-label">FIND YOUR MOVIE</label>
         <div className="search-input">
           <input
             type="text"
             className="search-input__element"
             value={this.state.searchPhrase}
-            onChange={this.handleChange.bind(this)}
+            onChange={this.handleChange}
           />
           <button type="submit" className="search-input__button">
             SEARCH
@@ -57,7 +59,7 @@ export default class Search extends React.Component {
             prop1={{ title: "TITLE", value: "title" }}
             prop2={{ title: "GENRE", value: "genre" }}
             active={this.state.searchBy}
-            onChange={this.handleSwitch.bind(this)}
+            onChange={this.handleSwitch}
           />
         </div>
       </form>

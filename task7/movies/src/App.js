@@ -25,11 +25,11 @@ class App extends React.Component {
     this.setState({ foundMovies: this.movies });
   }
 
-  handleSearch(phrase, field) {
+  handleSearch = (phrase, field) => {
     this.setState({ foundMovies: this._filterMovies(phrase, field) });
   }
 
-  handleDetailsClick(id) {
+  handleDetailsClick = (id) => {
     const movie = this.movies.find(m => m.id === id);
     if (movie) {
       const foundMovies = this._filterMovies(movie.category, "genre");
@@ -40,7 +40,7 @@ class App extends React.Component {
     }
   }
 
-  handleCategoryClick(category) {
+  handleCategoryClick = (category) => {
     const foundMovies = this._filterMovies(category, "genre");
     this.setState({
       selectedMovie: null,
@@ -50,7 +50,7 @@ class App extends React.Component {
     this.searchSubject.setValue({ searchPhrase: category, searchBy: "genre" });
   }
 
-  openSearch() {
+  openSearch = () => {
     this.setState({
       selectedMovie: null,
       foundMovies: this.movies
@@ -66,7 +66,7 @@ class App extends React.Component {
               <span className="app-title__company">netflix</span>roulette
             </span>
             {this.state.selectedMovie && (
-              <span className="app-search" onClick={this.openSearch.bind(this)}>
+              <span className="app-search" onClick={this.openSearch}>
                 <FontAwesomeIcon icon={faSearch} />
               </span>
             )}
@@ -75,7 +75,7 @@ class App extends React.Component {
             <MovieDetails movie={this.state.selectedMovie} />
           ) : (
             <Search
-              onSearch={this.handleSearch.bind(this)}
+              onSearch={this.handleSearch}
               search$={this.searchSubject}
             />
           )}
@@ -84,8 +84,8 @@ class App extends React.Component {
           <SearchResults
             toolbarOptions={this.getToolbarOptions()}
             movies={this.state.foundMovies}
-            onDetailsClick={this.handleDetailsClick.bind(this)}
-            onCategoryClick={this.handleCategoryClick.bind(this)}
+            onDetailsClick={this.handleDetailsClick}
+            onCategoryClick={this.handleCategoryClick}
           />
         </ErrorBoundary>
         <footer className="footer">

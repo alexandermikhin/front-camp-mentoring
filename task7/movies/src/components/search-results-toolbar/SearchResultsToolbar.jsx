@@ -3,9 +3,9 @@ import Switcher from "../switcher/Switcher";
 import "./SearchResultsToolbar.css";
 
 export default class SearchResultsToolbar extends React.Component {
-  handleSwitch(value) {
+  handleSwitch = value => {
     this.props.onSortChange(value);
-  }
+  };
 
   render() {
     return (
@@ -15,12 +15,14 @@ export default class SearchResultsToolbar extends React.Component {
         </div>
         {this.props.showSwitcher && (
           <div className="search-results-toolbar-sort">
-            <label className="search-results-toolbar-sort__label">SORT BY</label>
+            <label className="search-results-toolbar-sort__label">
+              SORT BY
+            </label>
             <Switcher
               prop1={{ title: "RELEASE DATE", value: "releaseDate" }}
               prop2={{ title: "RATING", value: "rating" }}
               active={this.props.activeSorting}
-              onChange={this.handleSwitch.bind(this)}
+              onChange={this.handleSwitch}
             />
           </div>
         )}
