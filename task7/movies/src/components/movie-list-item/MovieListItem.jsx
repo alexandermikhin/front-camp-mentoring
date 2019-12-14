@@ -25,7 +25,10 @@ export default class MoviListItem extends React.Component {
         <div className="movie-item__details">
           <div>
             <h4 className="movie-item__title">
-              <button onClick={this.getDetails}>
+              <button
+                class="movie-item__title-button"
+                onClick={this.getDetails}
+              >
                 {this.props.movie.title}
               </button>
             </h4>
@@ -42,7 +45,9 @@ export default class MoviListItem extends React.Component {
                 >
                   {genre}
                 </button>
-                {index !== this.props.movie.genres.length - 1 && ", "}
+                {index !== this.props.movie.genres.length - 1 && (
+                  <span>, </span>
+                )}
               </React.Fragment>
             ))}
           </div>

@@ -23,7 +23,12 @@
 
 .movie-item__title {
     margin: 0;
-    display: inline;
+    display: inline-block;
+    width: 80%
+}
+
+.movie-item__title-button {
+  text-align: left;
 }
 
 .movie-item__title button, .movie-item__category button {
