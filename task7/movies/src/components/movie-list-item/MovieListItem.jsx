@@ -26,7 +26,7 @@ export default class MoviListItem extends React.Component {
           <div>
             <h4 className="movie-item__title">
               <button
-                class="movie-item__title-button"
+                className="movie-item__title-button"
                 onClick={this.getDetails}
               >
                 {this.props.movie.title}
@@ -38,11 +38,8 @@ export default class MoviListItem extends React.Component {
           </div>
           <div className="movie-item__category">
             {this.props.movie.genres.map((genre, index) => (
-              <React.Fragment>
-                <button
-                  key={genre}
-                  onClick={this.filterByCategory.bind(this, genre)}
-                >
+              <React.Fragment key={genre}>
+                <button onClick={this.filterByCategory.bind(this, genre)}>
                   {genre}
                 </button>
                 {index !== this.props.movie.genres.length - 1 && (

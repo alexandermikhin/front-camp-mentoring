@@ -34,10 +34,10 @@ class App extends React.Component {
     this.setState({ foundMovies: await this._filterMovies(phrase, field) });
   };
 
-  handleDetailsClick = id => {
-    const movie = this.movies.find(m => m.id === id);
+  handleDetailsClick = async id => {
+    const movie = await this.moviesService.getById(id);
     if (movie) {
-      const foundMovies = this._filterMovies(movie.category, "genre");
+      const foundMovies = await this._filterMovies(movie.genres[0], "genre");
       this.setState({
         selectedMovie: movie,
         foundMovies
@@ -106,7 +106,7 @@ class App extends React.Component {
 
   _getToolbarMesage() {
     if (this.state.selectedMovie) {
-      return `Films by ${this.state.selectedMovie.category}`;
+      return `Films by ${this.state.selectedMovie.genres[0]}`;
     }
 
     const movieCount = this.state.foundMovies.length;

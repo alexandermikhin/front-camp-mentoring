@@ -10,6 +10,12 @@ export class MoviesService {
     return data.data;
   }
 
+  async getById(id) {
+    const request = new Request(`${this._url}/movies/${id}`);
+    const response = await fetch(request);
+    return response.json();
+  }
+
   _getMoviesUrl(params) {
     const url = `${this._url}/movies`;
     if (!params) {
