@@ -7,7 +7,7 @@ import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
 import { MovieItemContext } from "./context/MovieItemContext";
 import { Subject } from "./core/subject";
-import movies from "./data/movies";
+import { MoviesService } from "./services/movies.service";
 
 class App extends React.Component {
   constructor(props) {
@@ -23,10 +23,11 @@ class App extends React.Component {
     };
 
     this.searchSubject = new Subject();
+    this.moviesService = new MoviesService();
   }
 
-  componentDidMount() {
-    this.movies = movies;
+  async componentDidMount() {
+    this.movies = await this.moviesService.getMovies();
     this.setState({ foundMovies: this.movies });
   }
 
