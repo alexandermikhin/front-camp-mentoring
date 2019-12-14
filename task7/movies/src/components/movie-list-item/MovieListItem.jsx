@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import "./MovieListItem.css";
 import { MovieItemContext } from "../../context/MovieItemContext";
@@ -11,8 +10,8 @@ export default class MoviListItem extends React.Component {
     event.preventDefault();
   };
 
-  filterByCategory = event => {
-    this.context.filterByCategory(this.props.movie.category);
+  filterByCategory = (category, event) => {
+    this.context.filterByCategory(category);
     window.scrollTo(0, 0);
     event.preventDefault();
   };
@@ -35,9 +34,17 @@ export default class MoviListItem extends React.Component {
             </span>
           </div>
           <div className="movie-item__category">
-            <button onClick={this.filterByCategory}>
-              {this.props.movie.genres[0]}
-            </button>
+            {this.props.movie.genres.map((genre, index) => (
+              <React.Fragment>
+                <button
+                  key={genre}
+                  onClick={this.filterByCategory.bind(this, genre)}
+                >
+                  {genre}
+                </button>
+                {index !== this.props.movie.genres.length - 1 && ", "}
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </div>

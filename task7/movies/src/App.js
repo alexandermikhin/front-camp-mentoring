@@ -26,13 +26,12 @@ class App extends React.Component {
     this.moviesService = new MoviesService();
   }
 
-  async componentDidMount() {
-    this.movies = await this.moviesService.getMovies();
-    this.setState({ foundMovies: this.movies });
+  componentDidMount() {
+    this.openSearch();
   }
 
-  handleSearch = (phrase, field) => {
-    this.setState({ foundMovies: this._filterMovies(phrase, field) });
+  handleSearch = async (phrase, field) => {
+    this.setState({ foundMovies: await this._filterMovies(phrase, field) });
   };
 
   handleDetailsClick = id => {
@@ -46,8 +45,8 @@ class App extends React.Component {
     }
   };
 
-  handleCategoryClick = category => {
-    const foundMovies = this._filterMovies(category, "genre");
+  handleCategoryClick = async category => {
+    const foundMovies = await this._filterMovies(category, "genre");
     this.setState({
       selectedMovie: null,
       foundMovies
@@ -56,11 +55,9 @@ class App extends React.Component {
     this.searchSubject.setValue({ searchPhrase: category, searchBy: "genre" });
   };
 
-  openSearch = () => {
-    this.setState({
-      selectedMovie: null,
-      foundMovies: this.movies
-    });
+  openSearch = async () => {
+    const foundMovies = await this.moviesService.getMovies();
+    this.setState({ selectedMovie: null, foundMovies });
   };
 
   render() {
@@ -118,24 +115,26 @@ class App extends React.Component {
       : "";
   }
 
-  _filterMovies(phrase, field) {
+  async _filterMovies(phrase, field) {
     if (!phrase) {
-      return this.movies;
+      return await this.moviesService.getMovies();
     }
 
-    let movies;
+    const params = {};
+    params.search = phrase;
     switch (field) {
       case "title":
-        movies = this.movies.filter(m => m.title.includes(phrase));
+        params.searchBy = "title";
         break;
       case "genre":
-        movies = this.movies.filter(m => m.category.includes(phrase));
+        params.searchBy = "genres";
         break;
       default:
-        movies = this.movies;
+        params.searchBy = "title";
+        break;
     }
 
-    return movies;
+    return await this.moviesService.getMovies(params);
   }
 }
 
