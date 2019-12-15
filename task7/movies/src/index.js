@@ -1,13 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import App from "./App";
 import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
+import { store } from "./store/store";
 
 ReactDOM.render(
   <ErrorBoundary>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </ErrorBoundary>,
   document.getElementById("root")
 );

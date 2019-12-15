@@ -1,0 +1,24 @@
+export const APP_SEARCH = "APP_SEARCH";
+
+export const appSearch = (phrase, field) => ({
+  type: APP_SEARCH,
+  payload: {
+    searchPhrase: phrase,
+    searchBy: field
+  }
+});
+
+export const SEARCH_PHRASE_CHANGE = "SEARCH_PHRASE_CHANGE";
+
+export const searchPhraseChange = value => ({
+  type: SEARCH_PHRASE_CHANGE,
+  payload: value
+});
+
+export const SEARCH_BY_CHANGE = "SEARCH_BY_CHANGE";
+
+export const searchByChange = value => ({
+    type: SEARCH_BY_CHANGE,
+    payload: value
+  });
+

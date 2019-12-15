@@ -1,17 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
+import * as act from "../../store/actions";
 import Switcher from "../switcher/Switcher";
 import "./Search.css";
 
-export default class Search extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      searchPhrase: "",
-      searchBy: "title"
-    };
-  }
-
+class Search extends React.Component {
   componentDidMount() {
     this.props.search$.subscribe(search =>
       this.setState({
@@ -26,16 +19,16 @@ export default class Search extends React.Component {
   }
 
   handleChange = event => {
-    this.setState({ searchPhrase: event.target.value });
+    this.props.searchPhraseChange(event.target.value);
   };
 
   handleSubmit = event => {
-    this.props.onSearch(this.state.searchPhrase, this.state.searchBy);
+    this.props.onSearch(this.props.searchPhrase, this.props.searchBy);
     event.preventDefault();
   };
 
   handleSwitch = value => {
-    this.setState({ searchBy: value });
+    this.props.searchByChange(value);
   };
 
   render() {
@@ -46,7 +39,7 @@ export default class Search extends React.Component {
           <input
             type="text"
             className="search-input__element"
-            value={this.state.searchPhrase}
+            value={this.props.searchPhrase}
             onChange={this.handleChange}
           />
           <button type="submit" className="search-input__button">
@@ -58,7 +51,7 @@ export default class Search extends React.Component {
           <Switcher
             prop1={{ title: "TITLE", value: "title" }}
             prop2={{ title: "GENRE", value: "genres" }}
-            active={this.state.searchBy}
+            active={this.props.searchBy}
             onChange={this.handleSwitch}
           />
         </div>
@@ -66,3 +59,16 @@ export default class Search extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  searchPhrase: state.searchPhrase,
+  searchBy: state.searchBy
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSearch: (phrase, genre) => dispatch(act.appSearch(phrase, genre)),
+  searchPhraseChange: phrase => dispatch(act.searchPhraseChange(phrase)),
+  searchByChange: genre => dispatch(act.searchByChange(genre))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

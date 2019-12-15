@@ -1,6 +1,7 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { connect } from "react-redux";
 import "./App.css";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
@@ -16,8 +17,8 @@ class App extends React.Component {
       selectedMovie: null,
       foundMovies: [],
       sortBy: "vote_average",
-      searchBy: "title",
-      searchPhrase: ""
+      searchBy: this.props.searchBy,
+      searchPhrase: this.props.searchPhrase
     };
 
     this.movieItemContextValue = {
@@ -157,4 +158,9 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  searchBy: state.searchBy,
+  searchPhrase: state.searchPhrase
+});
+
+export default connect(mapStateToProps)(App);
