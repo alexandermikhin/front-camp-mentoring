@@ -19,8 +19,8 @@ export default class SearchResultsToolbar extends React.Component {
               SORT BY
             </label>
             <Switcher
-              prop1={{ title: "RELEASE DATE", value: "releaseDate" }}
-              prop2={{ title: "RATING", value: "rating" }}
+              prop1={{ title: "RELEASE DATE", value: "release_date" }}
+              prop2={{ title: "RATING", value: "vote_average" }}
               active={this.props.activeSorting}
               onChange={this.handleSwitch}
             />

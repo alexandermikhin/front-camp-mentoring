@@ -14,7 +14,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       selectedMovie: null,
-      foundMovies: []
+      foundMovies: [],
+      sortBy: "vote_average",
+      searchBy: "title",
+      searchPhrase: ""
     };
 
     this.movieItemContextValue = {
@@ -31,13 +34,22 @@ class App extends React.Component {
   }
 
   handleSearch = async (phrase, field) => {
-    this.setState({ foundMovies: await this._filterMovies(phrase, field) });
+    const foundMovies = await this._filterMovies({
+      search: phrase,
+      searchBy: field
+    });
+
+    this.setState({ foundMovies, searchBy: field, searchPhrase: phrase });
   };
 
   handleDetailsClick = async id => {
     const movie = await this.moviesService.getById(id);
     if (movie) {
-      const foundMovies = await this._filterMovies(movie.genres[0], "genre");
+      const foundMovies = await this._filterMovies({
+        search: movie.genres[0],
+        searchBy: "genres"
+      });
+
       this.setState({
         selectedMovie: movie,
         foundMovies
@@ -46,17 +58,31 @@ class App extends React.Component {
   };
 
   handleCategoryClick = async category => {
-    const foundMovies = await this._filterMovies(category, "genre");
+    const foundMovies = await this._filterMovies({
+      search: category,
+      searchBy: "genres"
+    });
     this.setState({
       selectedMovie: null,
-      foundMovies
+      foundMovies,
+      searchPhrase: category,
+      searchBy: "genres"
     });
 
-    this.searchSubject.setValue({ searchPhrase: category, searchBy: "genre" });
+    this.searchSubject.setValue({ searchPhrase: category, searchBy: "genres" });
+  };
+
+  handleSortChange = async sorting => {
+    const foundMovies = await this._filterMovies({ sortBy: sorting });
+
+    this.setState({
+      foundMovies,
+      sortBy: sorting
+    });
   };
 
   openSearch = async () => {
-    const foundMovies = await this.moviesService.getMovies();
+    const foundMovies = await this._filterMovies();
     this.setState({ selectedMovie: null, foundMovies });
   };
 
@@ -84,6 +110,8 @@ class App extends React.Component {
           <SearchResults
             toolbarOptions={this.getToolbarOptions()}
             movies={this.state.foundMovies}
+            sortBy={this.state.sortBy}
+            onSortChange={this.handleSortChange}
             onDetailsClick={this.handleDetailsClick}
             onCategoryClick={this.handleCategoryClick}
           />
@@ -115,26 +143,17 @@ class App extends React.Component {
       : "";
   }
 
-  async _filterMovies(phrase, field) {
-    if (!phrase) {
-      return await this.moviesService.getMovies();
+  async _filterMovies(params = {}) {
+    const queryParams = {};
+    queryParams.search = params.search || this.state.searchPhrase;
+    if (queryParams.search) {
+      queryParams.searchBy = params.searchBy || this.state.searchBy;
     }
 
-    const params = {};
-    params.search = phrase;
-    switch (field) {
-      case "title":
-        params.searchBy = "title";
-        break;
-      case "genre":
-        params.searchBy = "genres";
-        break;
-      default:
-        params.searchBy = "title";
-        break;
-    }
+    queryParams.sortBy = params.sortBy || this.state.sortBy;
+    queryParams.sortOrder = "desc";
 
-    return await this.moviesService.getMovies(params);
+    return await this.moviesService.getMovies(queryParams);
   }
 }
 

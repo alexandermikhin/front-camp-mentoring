@@ -57,7 +57,7 @@ export default class Search extends React.Component {
           <label className="search-parameters__label">SEARCH BY</label>
           <Switcher
             prop1={{ title: "TITLE", value: "title" }}
-            prop2={{ title: "GENRE", value: "genre" }}
+            prop2={{ title: "GENRE", value: "genres" }}
             active={this.state.searchBy}
             onChange={this.handleSwitch}
           />
