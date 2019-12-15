@@ -1,8 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
+import * as act from "../../store/actions";
 import Switcher from "../switcher/Switcher";
 import "./SearchResultsToolbar.css";
 
-export default class SearchResultsToolbar extends React.Component {
+class SearchResultsToolbar extends React.Component {
   handleSwitch = value => {
     this.props.onSortChange(value);
   };
@@ -30,3 +32,30 @@ export default class SearchResultsToolbar extends React.Component {
     );
   }
 }
+
+function getToolbarMesage(state) {
+  if (state.selectedMovie) {
+    return `Films by ${state.selectedMovie.genres[0]}`;
+  }
+
+  const movieCount = state.foundMovies.length;
+  return movieCount
+    ? `${movieCount} movie${movieCount > 1 && "s"} found`
+    // Todo: replace
+    : "No (need replacement)";
+}
+
+const mapStateToProps = state => ({
+  message: getToolbarMesage(state),
+  showSwitcher: !state.selectedMovie,
+  activeSorting: state.sortBy
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSortChange: value => dispatch(act.sortChange(value))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchResultsToolbar);

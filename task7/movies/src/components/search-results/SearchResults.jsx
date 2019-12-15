@@ -7,12 +7,7 @@ export default class SearchResults extends React.Component {
   render() {
     return (
       <main className="search-results">
-        <SearchResultsToolbar
-          message={this.props.toolbarOptions.message}
-          showSwitcher={this.props.toolbarOptions.showSwitcher}
-          activeSorting={this.props.sortBy}
-          onSortChange={this.props.onSortChange}
-        />
+        <SearchResultsToolbar />
         <MovieList movies={this.props.movies} />
       </main>
     );

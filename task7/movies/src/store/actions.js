@@ -18,7 +18,13 @@ export const searchPhraseChange = value => ({
 export const SEARCH_BY_CHANGE = "SEARCH_BY_CHANGE";
 
 export const searchByChange = value => ({
-    type: SEARCH_BY_CHANGE,
-    payload: value
-  });
+  type: SEARCH_BY_CHANGE,
+  payload: value
+});
 
+export const SORT_CHANGE = "SORT_CHANGE";
+
+export const sortChange = value => ({
+  type: SORT_CHANGE,
+  payload: value
+});

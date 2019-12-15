@@ -16,7 +16,7 @@ class App extends React.Component {
     this.state = {
       selectedMovie: null,
       foundMovies: [],
-      sortBy: "vote_average",
+      sortBy: this.props.sortBy,
       searchBy: this.props.searchBy,
       searchPhrase: this.props.searchPhrase
     };
@@ -73,14 +73,14 @@ class App extends React.Component {
     this.searchSubject.setValue({ searchPhrase: category, searchBy: "genres" });
   };
 
-  handleSortChange = async sorting => {
-    const foundMovies = await this._filterMovies({ sortBy: sorting });
+  // handleSortChange = async sorting => {
+  //   const foundMovies = await this._filterMovies({ sortBy: sorting });
 
-    this.setState({
-      foundMovies,
-      sortBy: sorting
-    });
-  };
+  //   this.setState({
+  //     foundMovies,
+  //     sortBy: sorting
+  //   });
+  // };
 
   openSearch = async () => {
     const foundMovies = await this._filterMovies();
@@ -109,10 +109,7 @@ class App extends React.Component {
         </header>
         <MovieItemContext.Provider value={this.movieItemContextValue}>
           <SearchResults
-            toolbarOptions={this.getToolbarOptions()}
             movies={this.state.foundMovies}
-            sortBy={this.state.sortBy}
-            onSortChange={this.handleSortChange}
             onDetailsClick={this.handleDetailsClick}
             onCategoryClick={this.handleCategoryClick}
           />
@@ -124,24 +121,6 @@ class App extends React.Component {
         </footer>
       </div>
     );
-  }
-
-  getToolbarOptions() {
-    return {
-      showSwitcher: !this.state.selectedMovie,
-      message: this._getToolbarMesage()
-    };
-  }
-
-  _getToolbarMesage() {
-    if (this.state.selectedMovie) {
-      return `Films by ${this.state.selectedMovie.genres[0]}`;
-    }
-
-    const movieCount = this.state.foundMovies.length;
-    return movieCount
-      ? `${movieCount} movie${movieCount > 1 && "s"} found`
-      : "";
   }
 
   async _filterMovies(params = {}) {
