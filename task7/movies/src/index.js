@@ -1,16 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import App from "./App";
 import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
+import { PageNotFound } from "./components/page-not-found/PageNotFound";
 import "./index.css";
-import * as serviceWorker from "./serviceWorker";
 import { store } from "./redux/store";
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <ErrorBoundary>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route component={PageNotFound} />
+        </Switch>
+      </BrowserRouter>
     </Provider>
   </ErrorBoundary>,
   document.getElementById("root")
