@@ -30,6 +30,11 @@ export function reducer(store = initialStore, action) {
         ...store,
         foundMovies: action.payload
       };
+    case act.GET_MOVIE_SUCCESS:
+      return {
+        ...store,
+        selectedMovie: action.payload
+      };
 
     default:
       return store;

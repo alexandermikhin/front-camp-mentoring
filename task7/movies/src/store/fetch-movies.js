@@ -19,3 +19,11 @@ export function fetchMovies(params = {}) {
     dispatch(act.getMoviesSuccess(foundMovies));
   };
 }
+
+export function fetchMovie(id) {
+    return async (dispatch, _getState) => {
+        dispatch(act.getMovie());
+        const movie = await moviesService.getById(id);
+        return dispatch(act.getMovieSuccess(movie));
+    }
+}

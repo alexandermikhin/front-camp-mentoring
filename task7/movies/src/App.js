@@ -7,29 +7,18 @@ import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
 import { MovieItemContext } from "./context/MovieItemContext";
-import { Subject } from "./core/subject";
-import { MoviesService } from "./services/movies.service";
-import { fetchMovies } from "./store/fetch-movies";
+import * as act from "./store/actions";
+import { fetchMovie, fetchMovies } from "./store/fetch-movies";
 import { store } from "./store/store";
-import * as act from './store/actions';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedMovie: null,
-      foundMovies: [],
-      sortBy: this.props.sortBy,
-      searchBy: this.props.searchBy,
-      searchPhrase: this.props.searchPhrase
-    };
 
     this.movieItemContextValue = {
       openMovieDetails: this.handleDetailsClick,
       filterByCategory: this.handleCategoryClick
     };
-
-    this.moviesService = new MoviesService();
   }
 
   componentDidMount() {
@@ -37,24 +26,17 @@ class App extends React.Component {
   }
 
   handleDetailsClick = async id => {
-    const movie = await this.moviesService.getById(id);
-    if (movie) {
-      const foundMovies = await this._filterMovies({
-        search: movie.genres[0],
-        searchBy: "genres"
-      });
-
-      this.setState({
-        selectedMovie: movie,
-        foundMovies
-      });
-    }
+    store.dispatch(fetchMovie(id)).then(action => {
+      const movie = action.payload;
+      return store.dispatch(
+        fetchMovies({ search: movie.genres[0], searchBy: "genres" })
+      );
+    });
   };
 
   handleCategoryClick = async category => {
     this.props.handleCategoryClick(category);
-    store.dispatch(fetchMovies({search: category,
-      searchBy: "genres"}));
+    store.dispatch(fetchMovies({ search: category, searchBy: "genres" }));
   };
 
   openSearch = () => {
@@ -69,14 +51,14 @@ class App extends React.Component {
             <span className="app-title">
               <span className="app-title__company">netflix</span>roulette
             </span>
-            {this.state.selectedMovie && (
+            {this.props.selectedMovie && (
               <span className="app-search" onClick={this.openSearch}>
                 <FontAwesomeIcon icon={faSearch} />
               </span>
             )}
           </div>
-          {this.state.selectedMovie ? (
-            <MovieDetails movie={this.state.selectedMovie} />
+          {this.props.selectedMovie ? (
+            <MovieDetails movie={this.props.selectedMovie} />
           ) : (
             <Search />
           )}
@@ -96,33 +78,20 @@ class App extends React.Component {
       </div>
     );
   }
-
-  async _filterMovies() {
-    const state = this.props.getState();
-    const queryParams = {};
-    queryParams.search = state.searchPhrase;
-    if (queryParams.search) {
-      queryParams.searchBy = state.searchBy;
-    }
-
-    queryParams.sortBy = state.sortBy;
-    queryParams.sortOrder = "desc";
-    const foundMovies = await this.moviesService.getMovies(queryParams);
-    this.props.onSearchComplete(foundMovies);
-  }
 }
 
 const mapStateToProps = state => ({
   searchBy: state.searchBy,
   searchPhrase: state.searchPhrase,
-  foundMovies: state.foundMovies
+  foundMovies: state.foundMovies,
+  selectedMovie: state.selectedMovie
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleCategoryClick: (category) => {
-    dispatch(act.searchByChange('genres'));
+  handleCategoryClick: category => {
+    dispatch(act.searchByChange("genres"));
     dispatch(act.searchPhraseChange(category));
-  },
-})
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
