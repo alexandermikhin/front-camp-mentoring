@@ -28,7 +28,8 @@
 }
 
 .movie-item__title-button {
-  text-align: left;
+  color: inherit;
+  text-decoration: none;
 }
 
 .movie-item__title button, .movie-item__category button {

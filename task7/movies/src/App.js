@@ -2,13 +2,14 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
 import { MovieItemContext } from "./context/MovieItemContext";
 import * as act from "./redux/actions";
-import { fetchMovie, fetchMovies } from "./redux/fetch-movies";
+import { fetchMovies } from "./redux/fetch-movies";
 import { store } from "./redux/store";
 
 class App extends React.Component {
@@ -16,7 +17,6 @@ class App extends React.Component {
     super(props);
 
     this.movieItemContextValue = {
-      openMovieDetails: this.handleDetailsClick,
       filterByCategory: this.handleCategoryClick
     };
   }
@@ -25,13 +25,11 @@ class App extends React.Component {
     this.openSearch();
   }
 
-  handleDetailsClick = async id => {
-    store.dispatch(fetchMovie(id)).then(action => {
-      const movie = action.payload;
-      return store.dispatch(
-        fetchMovies({ search: movie.genres[0], searchBy: "genres" })
-      );
-    });
+  handleMovieLoad = action => {
+    const movie = action.payload;
+    store.dispatch(
+      fetchMovies({ search: movie.genres[0], searchBy: "genres" })
+    );
   };
 
   handleCategoryClick = async category => {
@@ -57,11 +55,18 @@ class App extends React.Component {
               </span>
             )}
           </div>
-          {this.props.selectedMovie ? (
-            <MovieDetails movie={this.props.selectedMovie} />
-          ) : (
-            <Search />
-          )}
+          <Switch>
+            <Route
+              path="/film/:id"
+              children={
+                <MovieDetails
+                  id={this.props.match.params.id}
+                  movieLoaded={this.handleMovieLoad}
+                />
+              }
+            />
+            <Route component={Search} />
+          </Switch>
         </header>
         <MovieItemContext.Provider value={this.movieItemContextValue}>
           <SearchResults

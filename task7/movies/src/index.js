@@ -15,6 +15,7 @@ ReactDOM.render(
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={App} />
+          <Route path="/film/:id" component={App} />
           <Route component={PageNotFound} />
         </Switch>
       </BrowserRouter>

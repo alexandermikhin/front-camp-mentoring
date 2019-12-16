@@ -42,10 +42,7 @@ function getToolbarMesage(state) {
   }
 
   const movieCount = state.foundMovies.length;
-  return movieCount
-    ? `${movieCount} movie${movieCount > 1 && "s"} found`
-    : // Todo: replace
-      "No (need replacement)";
+  return movieCount ? `${movieCount} movie${movieCount > 1 && "s"} found` : "";
 }
 
 const mapStateToProps = state => ({
