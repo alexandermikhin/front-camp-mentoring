@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as act from "../../store/actions";
-import { fetchMovies } from "../../store/fetch-movies";
-import { store } from "../../store/store";
+import * as act from "../../redux/actions";
+import { fetchMovies } from "../../redux/fetch-movies";
+import { store } from "../../redux/store";
 import Switcher from "../switcher/Switcher";
 import "./Search.css";
 

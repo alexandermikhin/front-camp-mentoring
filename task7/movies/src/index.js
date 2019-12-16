@@ -5,7 +5,7 @@ import App from "./App";
 import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import { store } from "./store/store";
+import { store } from "./redux/store";
 
 ReactDOM.render(
   <ErrorBoundary>

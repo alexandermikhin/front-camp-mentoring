@@ -1,5 +1,5 @@
 import { MoviesService } from "../services/movies.service";
-import * as act from "../store/actions";
+import * as act from "./actions";
 
 const moviesService = new MoviesService();
 

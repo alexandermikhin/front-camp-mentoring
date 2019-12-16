@@ -7,9 +7,9 @@ import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
 import { MovieItemContext } from "./context/MovieItemContext";
-import * as act from "./store/actions";
-import { fetchMovie, fetchMovies } from "./store/fetch-movies";
-import { store } from "./store/store";
+import * as act from "./redux/actions";
+import { fetchMovie, fetchMovies } from "./redux/fetch-movies";
+import { store } from "./redux/store";
 
 class App extends React.Component {
   constructor(props) {
