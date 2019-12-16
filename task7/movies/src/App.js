@@ -2,7 +2,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import "./App.css";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
@@ -22,7 +22,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.openSearch();
+    store.dispatch(fetchMovies());
   }
 
   handleMovieLoad = action => {
@@ -37,10 +37,6 @@ class App extends React.Component {
     store.dispatch(fetchMovies({ search: category, searchBy: "genres" }));
   };
 
-  openSearch = () => {
-    store.dispatch(fetchMovies());
-  };
-
   render() {
     return (
       <div className="App">
@@ -50,9 +46,9 @@ class App extends React.Component {
               <span className="app-title__company">netflix</span>roulette
             </span>
             {this.props.selectedMovie && (
-              <span className="app-search" onClick={this.openSearch}>
+              <Link className="app-search" to="/">
                 <FontAwesomeIcon icon={faSearch} />
-              </span>
+              </Link>
             )}
           </div>
           <Switch>

@@ -17,7 +17,7 @@
 
 .app-search {
   float: right;
-  cursor: pointer;
+  color: inherit;
 }
 
 .app-title__company {
