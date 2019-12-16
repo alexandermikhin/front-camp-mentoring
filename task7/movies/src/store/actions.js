@@ -28,3 +28,16 @@ export const sortChange = value => ({
   type: SORT_CHANGE,
   payload: value
 });
+
+export const GET_MOVIES = "GET_MOVIES";
+
+export const getMovies = () => ({
+  type: GET_MOVIES
+});
+
+export const GET_MOVIES_SUCCESS = "GET_MOVIES_SUCCESS";
+
+export const getMoviesSuccess = movies => ({
+  type: GET_MOVIES_SUCCESS,
+  payload: movies
+});

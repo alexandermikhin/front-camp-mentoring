@@ -25,6 +25,12 @@ export function reducer(store = initialStore, action) {
         sortBy: action.payload
       };
 
+    case act.GET_MOVIES_SUCCESS:
+      return {
+        ...store,
+        foundMovies: action.payload
+      };
+
     default:
       return store;
   }

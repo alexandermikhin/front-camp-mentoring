@@ -9,6 +9,8 @@ import Search from "./components/search/Search";
 import { MovieItemContext } from "./context/MovieItemContext";
 import { Subject } from "./core/subject";
 import { MoviesService } from "./services/movies.service";
+import { fetchMovies } from "./store/fetch-movies";
+import { store } from "./store/store";
 
 class App extends React.Component {
   constructor(props) {
@@ -33,15 +35,6 @@ class App extends React.Component {
   componentDidMount() {
     this.openSearch();
   }
-
-  handleSearch = async (phrase, field) => {
-    const foundMovies = await this._filterMovies({
-      search: phrase,
-      searchBy: field
-    });
-
-    this.setState({ foundMovies, searchBy: field, searchPhrase: phrase });
-  };
 
   handleDetailsClick = async id => {
     const movie = await this.moviesService.getById(id);
@@ -73,18 +66,8 @@ class App extends React.Component {
     this.searchSubject.setValue({ searchPhrase: category, searchBy: "genres" });
   };
 
-  // handleSortChange = async sorting => {
-  //   const foundMovies = await this._filterMovies({ sortBy: sorting });
-
-  //   this.setState({
-  //     foundMovies,
-  //     sortBy: sorting
-  //   });
-  // };
-
-  openSearch = async () => {
-    const foundMovies = await this._filterMovies();
-    this.setState({ selectedMovie: null, foundMovies });
+  openSearch = () => {
+    store.dispatch(fetchMovies());
   };
 
   render() {
@@ -104,12 +87,12 @@ class App extends React.Component {
           {this.state.selectedMovie ? (
             <MovieDetails movie={this.state.selectedMovie} />
           ) : (
-            <Search onSearch={this.handleSearch} search$={this.searchSubject} />
+            <Search search$={this.searchSubject} />
           )}
         </header>
         <MovieItemContext.Provider value={this.movieItemContextValue}>
           <SearchResults
-            movies={this.state.foundMovies}
+            movies={this.props.foundMovies}
             onDetailsClick={this.handleDetailsClick}
             onCategoryClick={this.handleCategoryClick}
           />
@@ -123,23 +106,25 @@ class App extends React.Component {
     );
   }
 
-  async _filterMovies(params = {}) {
+  async _filterMovies() {
+    const state = this.props.getState();
     const queryParams = {};
-    queryParams.search = params.search || this.state.searchPhrase;
+    queryParams.search = state.searchPhrase;
     if (queryParams.search) {
-      queryParams.searchBy = params.searchBy || this.state.searchBy;
+      queryParams.searchBy = state.searchBy;
     }
 
-    queryParams.sortBy = params.sortBy || this.state.sortBy;
+    queryParams.sortBy = state.sortBy;
     queryParams.sortOrder = "desc";
-
-    return await this.moviesService.getMovies(queryParams);
+    const foundMovies = await this.moviesService.getMovies(queryParams);
+    this.props.onSearchComplete(foundMovies);
   }
 }
 
 const mapStateToProps = state => ({
   searchBy: state.searchBy,
-  searchPhrase: state.searchPhrase
+  searchPhrase: state.searchPhrase,
+  foundMovies: state.foundMovies
 });
 
 export default connect(mapStateToProps)(App);

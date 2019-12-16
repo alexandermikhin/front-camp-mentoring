@@ -1,12 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as act from "../../store/actions";
+import { fetchMovies } from "../../store/fetch-movies";
+import { store } from "../../store/store";
 import Switcher from "../switcher/Switcher";
 import "./SearchResultsToolbar.css";
 
 class SearchResultsToolbar extends React.Component {
   handleSwitch = value => {
     this.props.onSortChange(value);
+    store.dispatch(fetchMovies({ sortBy: value }));
   };
 
   render() {
@@ -41,8 +44,8 @@ function getToolbarMesage(state) {
   const movieCount = state.foundMovies.length;
   return movieCount
     ? `${movieCount} movie${movieCount > 1 && "s"} found`
-    // Todo: replace
-    : "No (need replacement)";
+    : // Todo: replace
+      "No (need replacement)";
 }
 
 const mapStateToProps = state => ({

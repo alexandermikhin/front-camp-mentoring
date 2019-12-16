@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as act from "../../store/actions";
+import { fetchMovies } from "../../store/fetch-movies";
+import { store } from "../../store/store";
 import Switcher from "../switcher/Switcher";
 import "./Search.css";
 
@@ -24,6 +26,12 @@ class Search extends React.Component {
 
   handleSubmit = event => {
     this.props.onSearch(this.props.searchPhrase, this.props.searchBy);
+    store.dispatch(
+      fetchMovies({
+        search: this.props.searchPhrase,
+        searchBy: this.props.searchBy
+      })
+    );
     event.preventDefault();
   };
 
