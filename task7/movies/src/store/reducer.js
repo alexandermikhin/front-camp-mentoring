@@ -1,7 +1,7 @@
 import * as act from "./actions";
-import { initialStore } from "./initial-store";
+import { initialState } from "./initial-state";
 
-export function reducer(store = initialStore, action) {
+export function reducer(store = initialState, action) {
   switch (action.type) {
     case act.APP_SEARCH:
       return {

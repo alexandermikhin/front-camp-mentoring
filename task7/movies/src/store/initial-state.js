@@ -1,4 +1,4 @@
-export const initialStore = {
+export const initialState = {
   selectedMovie: null,
   foundMovies: [],
   sortBy: "vote_average",
