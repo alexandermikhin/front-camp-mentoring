@@ -22,7 +22,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    store.dispatch(fetchMovies());
+    this.openSearch();
   }
 
   handleMovieLoad = action => {
@@ -37,6 +37,11 @@ class App extends React.Component {
     store.dispatch(fetchMovies({ search: category, searchBy: "genres" }));
   };
 
+  openSearch = () => {
+    this.props.handleInitialLoad();
+    store.dispatch(fetchMovies());
+  }
+
   render() {
     return (
       <div className="App">
@@ -46,7 +51,7 @@ class App extends React.Component {
               <span className="app-title__company">netflix</span>roulette
             </span>
             {this.props.selectedMovie && (
-              <Link className="app-search" to="/">
+              <Link className="app-search" to="/" onClick={this.openSearch}>
                 <FontAwesomeIcon icon={faSearch} />
               </Link>
             )}
@@ -96,6 +101,9 @@ const mapDispatchToProps = dispatch => ({
   handleCategoryClick: category => {
     dispatch(act.searchByChange("genres"));
     dispatch(act.searchPhraseChange(category));
+    dispatch(act.getMovieSuccess(null));
+  },
+  handleInitialLoad: () => {
     dispatch(act.getMovieSuccess(null));
   }
 });
