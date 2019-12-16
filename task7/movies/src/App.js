@@ -11,6 +11,7 @@ import { Subject } from "./core/subject";
 import { MoviesService } from "./services/movies.service";
 import { fetchMovies } from "./store/fetch-movies";
 import { store } from "./store/store";
+import * as act from './store/actions';
 
 class App extends React.Component {
   constructor(props) {
@@ -28,7 +29,6 @@ class App extends React.Component {
       filterByCategory: this.handleCategoryClick
     };
 
-    this.searchSubject = new Subject();
     this.moviesService = new MoviesService();
   }
 
@@ -52,18 +52,9 @@ class App extends React.Component {
   };
 
   handleCategoryClick = async category => {
-    const foundMovies = await this._filterMovies({
-      search: category,
-      searchBy: "genres"
-    });
-    this.setState({
-      selectedMovie: null,
-      foundMovies,
-      searchPhrase: category,
-      searchBy: "genres"
-    });
-
-    this.searchSubject.setValue({ searchPhrase: category, searchBy: "genres" });
+    this.props.handleCategoryClick(category);
+    store.dispatch(fetchMovies({search: category,
+      searchBy: "genres"}));
   };
 
   openSearch = () => {
@@ -87,7 +78,7 @@ class App extends React.Component {
           {this.state.selectedMovie ? (
             <MovieDetails movie={this.state.selectedMovie} />
           ) : (
-            <Search search$={this.searchSubject} />
+            <Search />
           )}
         </header>
         <MovieItemContext.Provider value={this.movieItemContextValue}>
@@ -127,4 +118,11 @@ const mapStateToProps = state => ({
   foundMovies: state.foundMovies
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  handleCategoryClick: (category) => {
+    dispatch(act.searchByChange('genres'));
+    dispatch(act.searchPhraseChange(category));
+  },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

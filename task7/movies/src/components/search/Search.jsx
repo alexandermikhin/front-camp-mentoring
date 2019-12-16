@@ -7,19 +7,6 @@ import Switcher from "../switcher/Switcher";
 import "./Search.css";
 
 class Search extends React.Component {
-  componentDidMount() {
-    this.props.search$.subscribe(search =>
-      this.setState({
-        searchPhrase: search.searchPhrase,
-        searchBy: search.searchBy
-      })
-    );
-  }
-
-  componentWillUnmount() {
-    this.props.search$.unsubscribe();
-  }
-
   handleChange = event => {
     this.props.searchPhraseChange(event.target.value);
   };

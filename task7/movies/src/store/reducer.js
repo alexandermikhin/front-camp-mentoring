@@ -6,7 +6,7 @@ export function reducer(store = initialStore, action) {
     case act.APP_SEARCH:
       return {
         ...store,
-        searchBy: "title",
+        searchBy: action.payload.searchBy,
         searchPhrase: action.payload.searchPhrase
       };
     case act.SEARCH_PHRASE_CHANGE:
