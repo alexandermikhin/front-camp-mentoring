@@ -65,7 +65,7 @@ class App extends React.Component {
                 />
               }
             />
-            <Route component={Search} />
+            <Route path="/search/:query" component={Search} />
           </Switch>
         </header>
         <MovieItemContext.Provider value={this.movieItemContextValue}>
