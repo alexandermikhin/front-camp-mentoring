@@ -66,7 +66,7 @@ class MovieDetails extends React.Component {
   }
 
   getMovieData() {
-    const id = this.props.id;
+    const { id } = this.props;
     if (id !== this._id) {
       store
         .dispatch(fetchMovie(id))

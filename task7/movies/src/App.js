@@ -65,7 +65,11 @@ class App extends React.Component {
                 />
               }
             />
-            <Route path="/search/:query" component={Search} />
+            <Route
+              path="/search/:query"
+              children={<Search query={this.props.match.params.query} />}
+            />
+            <Route component={Search} />
           </Switch>
         </header>
         <MovieItemContext.Provider value={this.movieItemContextValue}>

@@ -8,6 +8,13 @@ import Switcher from "../switcher/Switcher";
 import "./Search.css";
 
 class Search extends React.Component {
+  componentDidMount() {
+    const { query } = this.props;
+    if (query) {
+      this.props.onSearch(query, "title");
+    }
+  }
+
   handleChange = event => {
     this.props.searchPhraseChange(event.target.value);
   };
