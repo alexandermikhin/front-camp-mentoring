@@ -91,6 +91,7 @@ const mapDispatchToProps = dispatch => ({
   handleCategoryClick: category => {
     dispatch(act.searchByChange("genres"));
     dispatch(act.searchPhraseChange(category));
+    dispatch(act.getMovieSuccess(null));
   }
 });
 
