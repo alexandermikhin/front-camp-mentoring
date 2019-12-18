@@ -50,7 +50,12 @@ export default class MoviListItem extends React.Component {
   }
 
   getYear(date) {
-    const parsedDate = new Date(date);
-    return parsedDate.getFullYear();
+    let dateStr = "";
+    if (Date.parse(date)) {
+      const parsedDate = new Date(date);
+      dateStr = parsedDate.getFullYear().toString();
+    }
+    
+    return dateStr;
   }
 }
