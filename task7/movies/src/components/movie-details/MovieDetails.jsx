@@ -1,14 +1,18 @@
+// @flow
 import React from "react";
 import { connect } from "react-redux";
 import { fetchMovie } from "../../redux/fetch-movies";
 import { store } from "../../redux/store";
 import "./MovieDetails.css";
 
-class MovieDetails extends React.Component {
-  constructor(props) {
-    super(props);
-    this._id = "";
-  }
+type Props = {
+  id: string,
+  movie: Object,
+  movieLoaded: (movie: Object) => {}
+}
+
+class MovieDetails extends React.Component<Props> {
+  _id = "";
 
   componentDidMount() {
     this.getMovieData();

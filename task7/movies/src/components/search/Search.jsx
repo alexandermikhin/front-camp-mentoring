@@ -1,3 +1,4 @@
+//@flow
 import React from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
@@ -7,7 +8,16 @@ import { store } from "../../redux/store";
 import Switcher from "../switcher/Switcher";
 import "./Search.css";
 
-class Search extends React.Component {
+type Props = {
+  query: string,
+  searchPhrase: string,
+  searchBy: string,
+  onSearch: (query: string, searchBy: string) => {},
+  searchPhraseChange: (query: string) => {},
+  searchByChange: (searchBy: string) => {}
+}
+
+class Search extends React.Component<Props> {
   componentDidMount() {
     const { query } = this.props;
     if (query) {

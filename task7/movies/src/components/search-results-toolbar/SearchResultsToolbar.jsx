@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import { connect } from "react-redux";
 import * as act from "../../redux/actions";
@@ -6,8 +7,15 @@ import { store } from "../../redux/store";
 import Switcher from "../switcher/Switcher";
 import "./SearchResultsToolbar.css";
 
-class SearchResultsToolbar extends React.Component {
-  handleSwitch = value => {
+type Props = {
+  showSwitcher: boolean,
+  message: string,
+  activeSorting: string,
+  onSortChange: (phrase: string) => {},
+}
+
+class SearchResultsToolbar extends React.Component<Props> {
+  handleSwitch = (value: string) => {
     this.props.onSortChange(value);
     store.dispatch(fetchMovies({ sortBy: value }));
   };
@@ -42,7 +50,7 @@ function getToolbarMesage(state) {
   }
 
   const movieCount = state.foundMovies.length;
-  return movieCount ? `${movieCount} movie${movieCount > 1 && "s"} found` : "";
+  return movieCount ? `${movieCount} movie${movieCount > 1 ? "s" : ""} found` : "";
 }
 
 const mapStateToProps = state => ({

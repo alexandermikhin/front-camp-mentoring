@@ -1,12 +1,17 @@
-import React from "react";
+// @flow
+import * as React from "react";
 import "./MovieListItem.css";
 import { MovieItemContext } from "../../context/MovieItemContext";
 import { Link } from "react-router-dom";
 
-export default class MoviListItem extends React.Component {
+type Props = {
+  movie: Object
+}
+
+export default class MoviListItem extends React.Component<Props> {
   static contextType = MovieItemContext;
 
-  filterByCategory = (category, event) => {
+  filterByCategory = (category: string, event: SyntheticEvent<HTMLButtonElement>) => {
     this.context.filterByCategory(category);
     window.scrollTo(0, 0);
     event.preventDefault();
@@ -49,13 +54,13 @@ export default class MoviListItem extends React.Component {
     );
   }
 
-  getYear(date) {
+  getYear(date: string) {
     let dateStr = "";
     if (Date.parse(date)) {
       const parsedDate = new Date(date);
       dateStr = parsedDate.getFullYear().toString();
     }
-    
+
     return dateStr;
   }
 }

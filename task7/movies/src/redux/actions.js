@@ -1,6 +1,7 @@
+// @flow
 export const APP_SEARCH = "APP_SEARCH";
 
-export const appSearch = (phrase, field) => ({
+export const appSearch = (phrase: string, field: string) => ({
   type: APP_SEARCH,
   payload: {
     searchPhrase: phrase,
@@ -10,21 +11,21 @@ export const appSearch = (phrase, field) => ({
 
 export const SEARCH_PHRASE_CHANGE = "SEARCH_PHRASE_CHANGE";
 
-export const searchPhraseChange = value => ({
+export const searchPhraseChange = (value: string) => ({
   type: SEARCH_PHRASE_CHANGE,
   payload: value
 });
 
 export const SEARCH_BY_CHANGE = "SEARCH_BY_CHANGE";
 
-export const searchByChange = value => ({
+export const searchByChange = (value: string) => ({
   type: SEARCH_BY_CHANGE,
   payload: value
 });
 
 export const SORT_CHANGE = "SORT_CHANGE";
 
-export const sortChange = value => ({
+export const sortChange = (value: string) => ({
   type: SORT_CHANGE,
   payload: value
 });
@@ -37,7 +38,7 @@ export const getMovies = () => ({
 
 export const GET_MOVIES_SUCCESS = "GET_MOVIES_SUCCESS";
 
-export const getMoviesSuccess = movies => ({
+export const getMoviesSuccess = (movies: any[]) => ({
   type: GET_MOVIES_SUCCESS,
   payload: movies
 });
@@ -50,7 +51,7 @@ export const getMovie = () => ({
 
 export const GET_MOVIE_SUCCESS = "GET_MOVIE_SUCCESS";
 
-export const getMovieSuccess = movie => ({
+export const getMovieSuccess = (movie: Object) => ({
   type: GET_MOVIE_SUCCESS,
   payload: movie
 }); 

@@ -1,7 +1,15 @@
+// @flow
 import React from "react";
 import "./Switcher.css";
 
-export default function Switcher(props) {
+type Props = {
+  prop1: Object,
+  prop2: Object,
+  active: string,
+  onChange: Function
+}
+
+export default function Switcher(props: Props) {
   return (
     <div className="switcher-selector">
       <button
