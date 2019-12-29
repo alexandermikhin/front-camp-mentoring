@@ -1,8 +1,9 @@
+// @flow
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
-import { Route, Switch, Link } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import "./App.css";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
@@ -12,14 +13,19 @@ import * as act from "./redux/actions";
 import { fetchMovies } from "./redux/fetch-movies";
 import { store } from "./redux/store";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+type Props = {
+  handleCategoryClick: (category: string) => {},
+  handleInitialLoad: () => {},
+  selectedMovie: Object,
+  match: Object,
+  foundMovies: Array<Object>
+}
 
-    this.movieItemContextValue = {
-      filterByCategory: this.handleCategoryClick
-    };
-  }
+class App extends React.Component<Props> {
+
+  movieItemContextValue = {
+    filterByCategory: this.handleCategoryClick
+  };
 
   componentDidMount() {
     this.openSearch();
@@ -32,7 +38,7 @@ class App extends React.Component {
     );
   };
 
-  handleCategoryClick = async category => {
+  handleCategoryClick = async (category: string) => {
     this.props.handleCategoryClick(category);
     store.dispatch(fetchMovies({ search: category, searchBy: "genres" }));
   };
@@ -76,7 +82,6 @@ class App extends React.Component {
         <MovieItemContext.Provider value={this.movieItemContextValue}>
           <SearchResults
             movies={this.props.foundMovies}
-            onDetailsClick={this.handleDetailsClick}
             onCategoryClick={this.handleCategoryClick}
           />
         </MovieItemContext.Provider>
@@ -97,12 +102,13 @@ const mapStateToProps = state => ({
   selectedMovie: state.selectedMovie
 });
 
-const mapDispatchToProps = dispatch => ({
-  handleCategoryClick: category => {
+const mapDispatchToProps = (dispatch) => ({
+  handleCategoryClick: (category: string) => {
     dispatch(act.searchByChange("genres"));
     dispatch(act.searchPhraseChange(category));
     dispatch(act.getMovieSuccess(null));
   },
+
   handleInitialLoad: () => {
     dispatch(act.getMovieSuccess(null));
   }
