@@ -1,4 +1,6 @@
 // @flow
+import type { Movie  } from '../models/movie.type';
+
 export const APP_SEARCH = "APP_SEARCH";
 
 export const appSearch = (phrase: string, field: string) => ({
@@ -38,7 +40,7 @@ export const getMovies = () => ({
 
 export const GET_MOVIES_SUCCESS = "GET_MOVIES_SUCCESS";
 
-export const getMoviesSuccess = (movies: any[]) => ({
+export const getMoviesSuccess = (movies: Movie[]) => ({
   type: GET_MOVIES_SUCCESS,
   payload: movies
 });
@@ -51,7 +53,7 @@ export const getMovie = () => ({
 
 export const GET_MOVIE_SUCCESS = "GET_MOVIE_SUCCESS";
 
-export const getMovieSuccess = (movie: Object) => ({
+export const getMovieSuccess = (movie: Movie | null) => ({
   type: GET_MOVIE_SUCCESS,
   payload: movie
 }); 

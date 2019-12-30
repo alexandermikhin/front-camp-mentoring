@@ -1,42 +1,44 @@
+// @flow
 import * as act from "./actions";
 import { initialState } from "./initial-state";
+import type { State } from "../models/state.type";
 
-export function reducer(store = initialState, action) {
+export function reducer(state: State = initialState, action) {
   switch (action.type) {
     case act.APP_SEARCH:
       return {
-        ...store,
+        ...state,
         searchBy: action.payload.searchBy,
         searchPhrase: action.payload.searchPhrase
       };
     case act.SEARCH_PHRASE_CHANGE:
       return {
-        ...store,
+        ...state,
         searchPhrase: action.payload
       };
     case act.SEARCH_BY_CHANGE:
       return {
-        ...store,
+        ...state,
         searchBy: action.payload
       };
     case act.SORT_CHANGE:
       return {
-        ...store,
+        ...state,
         sortBy: action.payload
       };
 
     case act.GET_MOVIES_SUCCESS:
       return {
-        ...store,
+        ...state,
         foundMovies: action.payload
       };
     case act.GET_MOVIE_SUCCESS:
       return {
-        ...store,
+        ...state,
         selectedMovie: action.payload
       };
 
     default:
-      return store;
+      return state;
   }
 }

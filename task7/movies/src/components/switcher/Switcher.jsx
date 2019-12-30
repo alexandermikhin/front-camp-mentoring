@@ -2,11 +2,16 @@
 import React from "react";
 import "./Switcher.css";
 
+export type SwitcherProp = {
+  value: string,
+  title: string
+}
+
 type Props = {
-  prop1: Object,
-  prop2: Object,
+  prop1: SwitcherProp,
+  prop2: SwitcherProp,
   active: string,
-  onChange: Function
+  onChange(value: string): void
 }
 
 export default function Switcher(props: Props) {

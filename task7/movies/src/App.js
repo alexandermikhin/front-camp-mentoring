@@ -12,17 +12,17 @@ import { MovieItemContext } from "./context/MovieItemContext";
 import * as act from "./redux/actions";
 import { fetchMovies } from "./redux/fetch-movies";
 import { store } from "./redux/store";
+import type { Movie } from "./models/movie.type";
 
 type Props = {
-  handleCategoryClick: (category: string) => {},
-  handleInitialLoad: () => {},
-  selectedMovie: Object,
-  match: Object,
-  foundMovies: Array<Object>
-}
+  handleCategoryClick(category: string): Promise<void>,
+  handleInitialLoad(): void,
+  selectedMovie: Movie,
+  match: any,
+  foundMovies: Movie[]
+};
 
 class App extends React.Component<Props> {
-
   movieItemContextValue = {
     filterByCategory: this.handleCategoryClick
   };
@@ -46,7 +46,7 @@ class App extends React.Component<Props> {
   openSearch = () => {
     this.props.handleInitialLoad();
     store.dispatch(fetchMovies());
-  }
+  };
 
   render() {
     return (
@@ -102,7 +102,7 @@ const mapStateToProps = state => ({
   selectedMovie: state.selectedMovie
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   handleCategoryClick: (category: string) => {
     dispatch(act.searchByChange("genres"));
     dispatch(act.searchPhraseChange(category));

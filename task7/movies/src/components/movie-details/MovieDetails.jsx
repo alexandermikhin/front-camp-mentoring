@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import { fetchMovie } from "../../redux/fetch-movies";
 import { store } from "../../redux/store";
 import "./MovieDetails.css";
+import type { Movie } from '../../models/movie.type';
 
 type Props = {
   id: string,
-  movie: Object,
-  movieLoaded: (movie: Object) => {}
+  movie: Movie,
+  movieLoaded(movie: Movie): void
 }
 
 class MovieDetails extends React.Component<Props> {

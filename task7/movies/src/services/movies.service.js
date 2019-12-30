@@ -1,15 +1,17 @@
 // @flow
+import type { Movie } from "../models/movie.type";
+
 export class MoviesService {
   _url = "https://reactjs-cdp.herokuapp.com";
 
-  async getMovies(params: { [key: string]: string }) {
+  async getMovies(params: { [key: string]: string }): Promise<Movie[]> {
     const request = new Request(this._getMoviesUrl(params));
     const response = await fetch(request);
     const data = await response.json();
     return data.data;
   }
 
-  async getById(id: string) {
+  async getById(id: string): Promise<Movie> {
     const request = new Request(`${this._url}/movies/${id}`);
     const response = await fetch(request);
     return response.json();

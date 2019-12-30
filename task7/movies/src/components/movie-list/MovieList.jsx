@@ -2,9 +2,10 @@
 import React from "react";
 import MovieListItem from "../movie-list-item/MovieListItem";
 import "./MovieList.css";
+import type { Movie } from '../../models/movie.type';
 
 type Props = {
-  movies: Array<any>
+  movies: Movie[]
 }
 
 export default class MovieList extends React.Component<Props> {

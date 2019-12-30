@@ -11,7 +11,7 @@ type Props = {
   showSwitcher: boolean,
   message: string,
   activeSorting: string,
-  onSortChange: (phrase: string) => {},
+  onSortChange(phrase: string): void,
 }
 
 class SearchResultsToolbar extends React.Component<Props> {

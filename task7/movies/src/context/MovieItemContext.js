@@ -1,5 +1,10 @@
+// @flow
 import React from "react";
 
-export const MovieItemContext = React.createContext({
-  filterByCategory: () => {}
+type Context = {
+  filterByCategory(category: string): Promise<void>
+}
+
+export const MovieItemContext = React.createContext<Context>({
+  filterByCategory: async (category: string) => {}
 });
