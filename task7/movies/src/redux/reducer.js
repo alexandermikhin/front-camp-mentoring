@@ -3,7 +3,10 @@ import * as act from "./actions";
 import { initialState } from "./initial-state";
 import type { State } from "../models/state.type";
 
-export function reducer(state: State = initialState, action) {
+export function reducer(
+  state: State = initialState,
+  action: { type: string, payload: any }
+) {
   switch (action.type) {
     case act.APP_SEARCH:
       return {
