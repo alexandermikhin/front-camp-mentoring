@@ -1,1 +1,10 @@
-<div>Header component.</div>
+<div class="nl-header">
+    <div class="nl-header__top-bar nl-top-bar">
+        <div class="nl-top-bar__logo">Logo</div>
+        <div class="nl-top-bar__login-info">
+            <span *ngIf="login" class="nl-top-bar__login">{{ login }}</span>
+            <button class="nl-top-bar__login-button">{{ login ? "Log in" : "Log out"}}</button>
+        </div>
+    </div>
+    <h1 class="nl-header__source">{{sourceName}}</h1>
+</div>

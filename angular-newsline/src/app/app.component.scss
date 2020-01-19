@@ -1,0 +1,18 @@
+$header-height: 84px;
+$footer-height: 48px;
+$border-width: 1px;
+
+.nl-header {
+    height: $header-height;
+    display: flex;
+    border: $border-width solid;
+  }
+  
+  .nl-main {
+    height: calc(100vh - #{$header-height} - #{$footer-height});
+  }
+  
+  .nl-footer {
+    height: $footer-height;
+    border: $border-width solid;
+  }
