@@ -4,4 +4,6 @@ import { Component } from '@angular/core';
     selector: 'nl-toolbar',
     templateUrl: './toolbar.component.html'
 })
-export class ToolbarComponent { }
+export class ToolbarComponent {
+    sources = [ 'All', 'BBC', 'CNN'];
+}
