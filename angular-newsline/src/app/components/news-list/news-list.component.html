@@ -1,5 +1,9 @@
-<nl-toolbar></nl-toolbar>
-<nl-news-list-item></nl-news-list-item>
-<nl-news-list-item></nl-news-list-item>
-<nl-news-list-item></nl-news-list-item>
-<button>Load More</button>
+<div class="nl-news-list">
+    <nl-toolbar></nl-toolbar>
+    <section class="nl-news-list-items">
+        <div *ngFor="let i of [1,2,3]" class="nl-news-list-items__item">
+            <nl-news-list-item></nl-news-list-item>
+        </div>
+        <button class="nl-news-list__load-more">Load More</button>
+    </section>
+</div>
