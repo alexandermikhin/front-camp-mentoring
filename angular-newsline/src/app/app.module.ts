@@ -4,8 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
-import { MainViewComponent } from './components/main-view/main-view.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { NewsDetailsComponent } from './components/news-details/news-details.component';
 import { NewsEditComponent } from './components/news-edit/news-edit.component';
 import { NewsListItemComponent } from './components/news-list-item/news-list-item.component';
@@ -18,8 +17,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    MainViewComponent,
-    NavigationComponent,
+    ToolbarComponent,
     NewsDetailsComponent,
     NewsEditComponent,
     NewsListComponent,

@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainViewComponent } from './components/main-view/main-view.component';
+import { NewsDetailsComponent } from './components/news-details/news-details.component';
+import { NewsEditComponent } from './components/news-edit/news-edit.component';
+import { NewsListComponent } from './components/news-list/news-list.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
-
 const routes: Routes = [
-  {
-    path: '', component: MainViewComponent,
-  },
+  { path: '', component: NewsListComponent },
+  { path: 'details/:id', component: NewsDetailsComponent },
+  { path: 'edit/:id', component: NewsEditComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', redirectTo: '/404' }
 ];
