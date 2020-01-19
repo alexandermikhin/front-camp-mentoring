@@ -1,44 +1,44 @@
 <form class="nl-news-edit">
-    <div class="nl-news-edit-section-1">
-        <div>
-            <label>Heading</label>
-            <input />
+    <div class="nl-news-edit__section">
+        <div class="nl-news-edit__field">
+            <label class="nl-news-edit__label">Heading</label>
+            <input class="nl-news-edit__input" />
         </div>
-        <div>
-            <label>Short description</label>
-            <input />
+        <div class="nl-news-edit__field">
+            <label class="nl-news-edit__label">Short description</label>
+            <input class="nl-news-edit__input" />
         </div>
-        <div>
-            <label>Content</label>
-            <textarea></textarea>
+        <div class="nl-news-edit__field">
+            <label class="nl-news-edit__label">Content</label>
+            <textarea class="nl-news-edit__input"></textarea>
         </div>
     </div>
-    <div class="nl-news-edit-section-2">
-        <div>
-            <label>Image</label>
-            <div>
+    <div class="nl-news-edit__section">
+        <div class="nl-news-edit__field">
+            <label class="nl-news-edit__label">Image</label>
+            <div class="nl-news-edit__image-source">
                 <input type="radio" name="image" />
                 <label>URL</label>
                 <input type="radio" name="image" />
                 <label>File</label>
             </div>
-            <input />
+            <input class="nl-news-edit__input" />
         </div>
-        <div>
-            <label>Date</label>
-            <input type="datetime" />
+        <div class="nl-news-edit__field">
+            <label class="nl-news-edit__label">Date</label>
+            <input type="datetime" class="nl-news-edit__input" />
         </div>
-        <div>
-            <label>Author</label>
-            <input />
+        <div class="nl-news-edit__field">
+            <label class="nl-news-edit__label">Author</label>
+            <input class="nl-news-edit__input" />
         </div>
-        <div>
-            <label>Source URL</label>
-            <input />
+        <div class="nl-news-edit__field">
+            <label class="nl-news-edit__label">Source URL</label>
+            <input class="nl-news-edit__input" />
         </div>
-        <div>
-            <button>Save</button>
-            <button>Cancel</button>
+        <div class="nl-news-edit-buttons">
+            <button class="nl-news-edit__button">Save</button>
+            <button class="nl-news-edit__button">Cancel</button>
         </div>
     </div>
 </form>

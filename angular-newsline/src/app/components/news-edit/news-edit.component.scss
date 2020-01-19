@@ -1,0 +1,44 @@
+.nl-news-edit {
+    padding: 18px;
+    border: 1px solid;
+    margin: 12px auto;
+    width: 800px;
+}
+
+.nl-news-edit__section {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+
+.nl-news-edit__field {
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.nl-news-edit__input {
+    display: block;
+    padding: 3px;
+    border: 1px solid;
+    border-radius: 3px;
+    width: 90%;
+    max-width: 90%;
+}
+
+.nl-news-edit__image-source {
+    display: inline;
+}
+
+.nl-news-edit-buttons {
+    margin-top: 24px;
+}
+
+.nl-news-edit__button {
+    font-size: 16px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border: 1px solid;
+    border-radius: 6px;
+    width: 84px;
+    margin-right: 12px;
+}
