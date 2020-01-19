@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-    login = '';
+    login = 'username';
     sourceName = 'Source name';
 }
