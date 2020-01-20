@@ -1,8 +1,63 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { NewsItemModel } from 'src/app/models/news-item.model';
+import { User } from 'src/app/models/user.model';
+import { LocalNewsService } from 'src/app/services/localnews.service';
+import { NewsApiService } from 'src/app/services/newsapi.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 'nl-news-details',
     templateUrl: './news-details.component.html',
     styleUrls: ['./news-details.component.scss']
 })
-export class NewsDetailsComponent { }
+export class NewsDetailsComponent implements OnInit, OnDestroy {
+    model: NewsItemModel | undefined;
+
+    private subscription = new Subscription();
+    private activeUser: User;
+    private source: string;
+    private newsId: string;
+
+    constructor(
+        private route: ActivatedRoute,
+        private localNewsService: LocalNewsService,
+        private newsApiService: NewsApiService,
+        private userService: UserService) { }
+
+    ngOnInit() {
+        this.subscription.add(this.route.url.subscribe(url => {
+            this.source = url[0].path;
+            this.newsId = url[1].path;
+            this.updateNewsModel();
+        }));
+
+        this.subscription.add(this.userService.activeUser.subscribe(u => {
+            this.activeUser = u;
+            this.updateNewsModel();
+        }));
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
+    private updateNewsModel() {
+        let model: NewsItemModel | undefined;
+        switch (this.source) {
+            case 'local':
+                model = this.localNewsService.getNewsById(this.newsId);
+                break;
+            case 'newsapi':
+                model = this.newsApiService.getNewsById(this.newsId);
+                break;
+            default:
+                model = undefined;
+                break;
+        }
+
+        model.isEditable = this.source === 'local' && this.activeUser && this.activeUser.login === model.author;
+        this.model = model;
+    }
+}

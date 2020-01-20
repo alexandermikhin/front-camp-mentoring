@@ -1,15 +1,18 @@
 <div class="nl-details">
-    <div class="nl-details__section">
-        <img src="" alt="News photo" class="nl-details__image"/>
-    </div>
-    <div class="nl-details__section nl-details-content">
-        <h2 class="nl-details__news-title">Newsline</h2>
-        <div class="nl-details__news-text">News text</div>
-        <div class="nl-details__news-time">Date: dd/mm/yy: time</div>
-        <div class="nl-details__news-author">Author</div>
-    </div>
-    <div class="nl-details__section nl-details-operations">
-        <button class="nl-details-operations__button">Edit</button>
-        <button class="nl-details-operations__button">Delete</button>
-    </div>
+    <ng-container *ngIf="model">
+        <div class="nl-details__section">
+            <img [src]="model.image" alt="News photo" class="nl-details__image" />
+        </div>
+        <div class="nl-details__section nl-details-content">
+            <h2 class="nl-details__news-title">{{ model.heading }}</h2>
+            <div class="nl-details__news-text">{{ model.content }}</div>
+            <div class="nl-details__news-time">{{ model.date.toLocaleString() }} </div>
+            <div class="nl-details__news-author">{{ model.author }}</div>
+        </div>
+        <div *ngIf="model.isEditable" class="nl-details__section nl-details-operations">
+            <button class="nl-details-operations__button">Edit</button>
+            <button class="nl-details-operations__button">Delete</button>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!model"></ng-container>
 </div>

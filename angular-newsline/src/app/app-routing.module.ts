@@ -7,7 +7,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 
 const routes: Routes = [
   { path: '', component: NewsListComponent },
-  { path: 'details/:id', component: NewsDetailsComponent },
+  { path: 'local/:id', component: NewsDetailsComponent },
+  { path: 'newsapi/:id', component: NewsDetailsComponent },
   { path: 'edit/:id', component: NewsEditComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', redirectTo: '/404' }

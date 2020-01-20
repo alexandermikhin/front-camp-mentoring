@@ -19,6 +19,10 @@ export class NewsApiService {
         return filteredNews.slice(startIndex, endIndex);
     }
 
+    getNewsById(id: string): NewsItemModel {
+        return this.items.find(i => i.id === id);
+    }
+
     getSources(): string[] {
         return ['CNN', 'BBC'];
     }

@@ -19,6 +19,10 @@ export class LocalNewsService {
         return filteredNews.slice(startIndex, endIndex);
     }
 
+    getNewsById(id: string): NewsItemModel {
+        return this.items.find(i => i.id === id);
+    }
+
     deleteNews(id: string) {
         this.items = this.items.filter(i => i.id !== id);
     }
