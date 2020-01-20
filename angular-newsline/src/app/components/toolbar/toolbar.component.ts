@@ -10,15 +10,15 @@ export class ToolbarComponent {
     @Input() sources: string[];
     @Input() selectedSource: string;
     @Input() q: string;
-    @Input() showLocalNews: boolean;
+    @Input() userNewsOnly: boolean;
     @Output() addNewsItemClicked = new EventEmitter();
     @Output() filterApplied = new EventEmitter<FilterModel>();
 
-    showLocalNewsChecked(showLocalNews: boolean) {
+    userNewsOnlyChecked(userNewsOnly: boolean) {
         this.filterApplied.emit({
             q: this.q,
             source: this.selectedSource,
-            showLocalNews
+            userNewsOnly
         });
     }
 
@@ -26,7 +26,7 @@ export class ToolbarComponent {
         this.filterApplied.emit({
             q: this.q,
             source: value,
-            showLocalNews: this.showLocalNews
+            userNewsOnly: this.userNewsOnly
         });
     }
 
@@ -34,7 +34,7 @@ export class ToolbarComponent {
         this.filterApplied.emit({
             q,
             source: this.selectedSource,
-            showLocalNews: this.showLocalNews
+            userNewsOnly: this.userNewsOnly
         });
     }
 

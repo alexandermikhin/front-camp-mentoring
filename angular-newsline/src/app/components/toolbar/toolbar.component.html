@@ -1,5 +1,6 @@
 <div class="nl-toolbar">
-    <select class="nl-toolbar__select-souce" [ngModel]="selectedSource" (ngModelChange)="sourceSelected($event)">
+    <select class="nl-toolbar__select-souce" [attr.disabled]="userNewsOnly ? '' : null" [ngModel]="selectedSource"
+        (ngModelChange)="sourceSelected($event)">
         <option *ngFor="let source of sources" [value]="source">{{ source }}</option>
     </select>
     <div class="nl-toolbar__filter">
@@ -7,8 +8,8 @@
         <button class="nl-toolbar__button" (click)="queryChanged(query.value)">Filter</button>
     </div>
     <div>
-        <input type="checkbox" id="nl-toolbar-only-local" class="nl-toolbar-only-local" [ngModel]="showLocalNews"
-            (ngModelChange)="showLocalNewsChecked($event)" />
+        <input type="checkbox" id="nl-toolbar-only-local" class="nl-toolbar-only-local" [ngModel]="userNewsOnly"
+            (ngModelChange)="userNewsOnlyChecked($event)" />
         <label for="nl-toolbar-only-local">Only created by me</label>
     </div>
     <button class="nl-toolbar__button" (click)="addNewsItem()">Add Article</button>
