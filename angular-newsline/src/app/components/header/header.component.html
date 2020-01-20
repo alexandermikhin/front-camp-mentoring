@@ -2,8 +2,20 @@
     <div class="nl-header__top-bar nl-top-bar">
         <div class="nl-top-bar__logo"><span class="nl-top-bar__logo-text">NL</span></div>
         <div class="nl-top-bar__login-info">
-            <span *ngIf="login" class="nl-top-bar__login">{{ login }}</span>
-            <button class="nl-top-bar__login-button">{{ login ? "Log in" : "Log out"}}</button>
+            <div *ngIf="userName">
+                <span class="nl-top-bar__login">{{ userName }}</span>
+                <button class="nl-top-bar__login-button" (click)="logout()">Log out</button>
+            </div>
+            <div *ngIf="!userName">
+                <label>Login</label>
+                <input #name />
+                <label>Password</label>
+                <input #password type="password" />
+                <button class="nl-top-bar__login-button" (click)="login(name.value, password.value)">Log in</button>
+                <button class="nl-top-bar__login-button"
+                    (click)="register(name.value, password.value)">Register</button>
+                <div *ngIf="errorMessage">{{errorMessage}}</div>
+            </div>
         </div>
     </div>
     <h1 class="nl-header__source">{{sourceName}}</h1>

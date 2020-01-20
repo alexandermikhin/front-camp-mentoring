@@ -10,6 +10,9 @@ import { NewsListItemComponent } from './components/news-list-item/news-list-ite
 import { NewsListComponent } from './components/news-list/news-list.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { LocalNewsService } from './services/localnews.service';
+import { NewsApiService } from './services/newsapi.service';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [UserService, LocalNewsService, NewsApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
