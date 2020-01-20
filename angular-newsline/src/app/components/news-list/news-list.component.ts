@@ -80,13 +80,15 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
     private getDisplayNews(): NewsItemModel[] {
         let news: NewsItemModel[] = [];
-        const author = this.userNewsOnly ? this.activeUser && this.activeUser.login || '' : undefined;
-        const localNews = this.localNewsService.getNews(this.q, author, this.startPage, this.pageSize);
-        localNews.forEach(n => {
-            n.isEditable = this.activeUser && this.activeUser.login === n.author;
-            n.localUrl = `/local/${n.id}`;
-        });
-        news = news.concat(localNews);
+        if (this.selectedSource === 'All') {
+            const author = this.userNewsOnly ? this.activeUser && this.activeUser.login || '' : undefined;
+            const localNews = this.localNewsService.getNews(this.q, author, this.startPage, this.pageSize);
+            localNews.forEach(n => {
+                n.isEditable = this.activeUser && this.activeUser.login === n.author;
+                n.localUrl = `/local/${n.id}`;
+            });
+            news = news.concat(localNews);
+        }
 
         if (!this.userNewsOnly) {
             const source = this.selectedSource === 'All' ? '' : this.selectedSource;
