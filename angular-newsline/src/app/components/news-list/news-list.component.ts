@@ -69,7 +69,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     }
 
     onEditNews(id?: string) {
-        this.router.navigate(['/edit', { id: id || '' }]);
+        this.router.navigate(['/edit', id || '']);
     }
 
     loadMoreClick() {
