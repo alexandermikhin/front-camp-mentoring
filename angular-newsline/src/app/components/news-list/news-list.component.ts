@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { LocalNewsService } from 'src/app/services/localnews.service';
 import { NewsApiService } from 'src/app/services/newsapi.service';
 import { UserService } from 'src/app/services/user.service';
+import { HeaderService } from 'src/app/services/header.service';
 
 @Component({
     selector: 'nl-news-list',
@@ -28,7 +29,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
     constructor(
         private newsApiService: NewsApiService,
         private localNewsService: LocalNewsService,
-        private userService: UserService) { }
+        private userService: UserService,
+        private headerService: HeaderService) { }
 
     ngOnInit() {
         this.sources = [
@@ -42,6 +44,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
             this.activeUser = u;
             this.displayedNews = this.getDisplayNews();
         }));
+        
+        this.updateHeader();
     }
 
     ngOnDestroy() {
@@ -54,6 +58,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.q = filter.q;
         this.startPage = this.initialStartPage;
         this.displayedNews = this.getDisplayNews();
+        this.updateHeader();
     }
 
     onDeleteNews(id: string) {
@@ -97,5 +102,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
         });
 
         return news;
+    }
+
+    private updateHeader() {
+        this.headerService.setHeader(this.selectedSource);
     }
 }

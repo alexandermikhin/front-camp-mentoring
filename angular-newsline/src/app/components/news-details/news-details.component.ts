@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { LocalNewsService } from 'src/app/services/localnews.service';
 import { NewsApiService } from 'src/app/services/newsapi.service';
 import { UserService } from 'src/app/services/user.service';
+import { HeaderService } from 'src/app/services/header.service';
 
 @Component({
     selector: 'nl-news-details',
@@ -25,18 +26,21 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
         private router: Router,
         private localNewsService: LocalNewsService,
         private newsApiService: NewsApiService,
-        private userService: UserService) { }
+        private userService: UserService,
+        private headerService: HeaderService) { }
 
     ngOnInit() {
         this.subscription.add(this.route.url.subscribe(url => {
             this.source = url[0].path;
             this.newsId = url[1].path;
             this.updateNewsModel();
+            this.updateHeader();
         }));
 
         this.subscription.add(this.userService.activeUser.subscribe(u => {
             this.activeUser = u;
             this.updateNewsModel();
+            this.updateHeader();
         }));
     }
 
@@ -65,5 +69,9 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
         }
 
         this.model = model;
+    }
+
+    private updateHeader() {
+        this.headerService.setHeader(this.model ? this.model.heading : '');
     }
 }
