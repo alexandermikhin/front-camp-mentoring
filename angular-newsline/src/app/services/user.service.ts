@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
-import { Subject, Observable } from 'rxjs';
 
 @Injectable()
 export class UserService {
-    private user = new Subject<User | undefined>();
+    private user = new BehaviorSubject<User | undefined>(undefined);
 
     private users: User[] = [
         { login: 'admin', password: 'admin' }

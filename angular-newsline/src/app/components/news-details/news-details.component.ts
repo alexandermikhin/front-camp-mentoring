@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NewsItemModel } from 'src/app/models/news-item.model';
 import { User } from 'src/app/models/user.model';
@@ -22,6 +22,7 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private localNewsService: LocalNewsService,
         private newsApiService: NewsApiService,
         private userService: UserService) { }
@@ -41,6 +42,11 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+    }
+
+    onDeleteClick() {
+        this.localNewsService.deleteNews(this.model.id);
+        this.router.navigate(['/']);
     }
 
     private updateNewsModel() {

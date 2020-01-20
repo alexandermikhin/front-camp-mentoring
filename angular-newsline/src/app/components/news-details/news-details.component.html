@@ -11,8 +11,10 @@
         </div>
         <div *ngIf="model.isEditable" class="nl-details__section nl-details-operations">
             <button class="nl-details-operations__button">Edit</button>
-            <button class="nl-details-operations__button">Delete</button>
+            <button class="nl-details-operations__button" (click)="onDeleteClick()">Delete</button>
         </div>
     </ng-container>
-    <ng-container *ngIf="!model"><div>No news found.</div></ng-container>
+    <ng-container *ngIf="!model">
+        <div>No news found.</div>
+    </ng-container>
 </div>
