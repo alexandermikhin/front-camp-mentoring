@@ -48,6 +48,7 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
         switch (this.source) {
             case 'local':
                 model = this.localNewsService.getNewsById(this.newsId);
+                model.isEditable = this.activeUser && this.activeUser.login === model.author;
                 break;
             case 'newsapi':
                 model = this.newsApiService.getNewsById(this.newsId);
@@ -57,7 +58,6 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
                 break;
         }
 
-        model.isEditable = this.source === 'local' && this.activeUser && this.activeUser.login === model.author;
         this.model = model;
     }
 }

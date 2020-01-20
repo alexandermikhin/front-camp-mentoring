@@ -14,6 +14,14 @@
     position: relative;
 }
 
+.nl-top-bar__home {
+    text-decoration: none;
+    &:visited {
+        color: black;
+    }
+}
+
+
 .nl-top-bar__logo-text {
     font-size: 30px;
     font-weight: bold;

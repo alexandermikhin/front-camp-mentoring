@@ -8,7 +8,7 @@
             <div class="nl-news-list-item__news-time">{{ model.date.toLocaleString() }}</div>
         </div>
         <div class="nl-news-list-item__news-text">{{ model.shortDescription }}</div>
-        <a href="" class="nl-news-list-item__more-link">Read more...</a>
+        <a [routerLink]="model.localUrl" class="nl-news-list-item__more-link">Read more...</a>
     </div>
     <div *ngIf="model.isEditable" class="nl-news-list-item__section nl-news-list-item-operations">
         <button class="nl-news-list-item-operations__button" (click)="editNewsClick(model.id)">Edit</button>
