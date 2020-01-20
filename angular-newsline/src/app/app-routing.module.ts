@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: '', component: NewsListComponent },
   { path: 'local/:id', component: NewsDetailsComponent },
   { path: 'newsapi/:id', component: NewsDetailsComponent },
+  { path: 'edit', component: NewsEditComponent },
   { path: 'edit/:id', component: NewsEditComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', redirectTo: '/404' }

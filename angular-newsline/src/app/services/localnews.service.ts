@@ -27,6 +27,21 @@ export class LocalNewsService {
         this.items = this.items.filter(i => i.id !== id);
     }
 
+    editNews(item: NewsItemModel) {
+        if (!item.id) {
+            const itemToModify = { ...item };
+            const latestItem = this.items[this.items.length - 1];
+            const newId = latestItem && parseInt(latestItem.id, 10) + 1 || 1;
+            itemToModify.id = newId.toString();
+            this.items.push(itemToModify);
+        } else {
+            const index = this.items.findIndex(i => i.id === item.id);
+            if (index !== -1) {
+                this.items[index] = item;
+            }
+        }
+    }
+
     private generateItems() {
         for (let i = 0; i < 10; i++) {
             this.items.push({

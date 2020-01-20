@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilterModel } from 'src/app/models/filter.model';
 import { NewsItemModel } from 'src/app/models/news-item.model';
 import { User } from 'src/app/models/user.model';
+import { HeaderService } from 'src/app/services/header.service';
 import { LocalNewsService } from 'src/app/services/localnews.service';
 import { NewsApiService } from 'src/app/services/newsapi.service';
 import { UserService } from 'src/app/services/user.service';
-import { HeaderService } from 'src/app/services/header.service';
 
 @Component({
     selector: 'nl-news-list',
@@ -27,6 +28,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private subscription = new Subscription();
 
     constructor(
+        private router: Router,
         private newsApiService: NewsApiService,
         private localNewsService: LocalNewsService,
         private userService: UserService,
@@ -44,7 +46,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
             this.activeUser = u;
             this.displayedNews = this.getDisplayNews();
         }));
-        
+
         this.updateHeader();
     }
 
@@ -64,6 +66,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
     onDeleteNews(id: string) {
         this.localNewsService.deleteNews(id);
         this.displayedNews = this.getDisplayNews();
+    }
+
+    onEditNews(id?: string) {
+        this.router.navigate(['/edit', { id: id || '' }]);
     }
 
     loadMoreClick() {
