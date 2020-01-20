@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NewsItemModel } from 'src/app/models/news-item.model';
 import { LocalNewsService } from 'src/app/services/localnews.service';
 import { NewsApiService } from 'src/app/services/newsapi.service';
+import { FilterModel } from 'src/app/models/filter.model';
 
 @Component({
     selector: 'nl-news-list',
@@ -17,6 +18,7 @@ export class NewsListComponent implements OnInit {
 
     private newsApiNews: NewsItemModel[] = [];
     private localNews: NewsItemModel[] = [];
+    private readonly initialStartPage = 1;
     private startPage = 1;
     private pageSize = 5;
 
@@ -29,23 +31,34 @@ export class NewsListComponent implements OnInit {
             ...this.newsApiService.getSources()
         ];
 
-        this.updateNews();
+        this.startPage = this.initialStartPage;
+
+        this.displayedNews = this.getDisplayNews();
+    }
+
+    filterAppliedHandler(filter: FilterModel) {
+        this.selectedSource = filter.source;
+        this.showLocalNews = filter.showLocalNews;
+        this.q = filter.q;
+        this.startPage = this.initialStartPage;
+        this.displayedNews = this.getDisplayNews();
     }
 
     loadMoreClick() {
         this.startPage++;
-        this.updateNews();
+        const news = this.getDisplayNews();
+        this.displayedNews = this.displayedNews.concat(news);
     }
 
-    private updateNews() {
+    private getDisplayNews(): NewsItemModel[] {
         if (this.showLocalNews) {
             this.localNews = [];
         } else {
             const source = this.selectedSource === 'All' ? '' : this.selectedSource;
             const news = this.newsApiService.getNews(this.q, source, this.startPage, this.pageSize);
-            this.newsApiNews = this.newsApiNews.concat(news);
+            this.newsApiNews = news;
         }
 
-        this.displayedNews = this.showLocalNews ? this.localNews : this.newsApiNews;
+        return this.showLocalNews ? this.localNews : this.newsApiNews;
     }
 }

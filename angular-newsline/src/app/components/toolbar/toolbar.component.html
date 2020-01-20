@@ -1,14 +1,15 @@
 <div class="nl-toolbar">
-    <select class="nl-toolbar__select-souce">
+    <select class="nl-toolbar__select-souce" [ngModel]="selectedSource" (ngModelChange)="sourceSelected($event)">
         <option *ngFor="let source of sources" [value]="source">{{ source }}</option>
     </select>
     <div class="nl-toolbar__filter">
-        <input class="nl-toolbar__filter-input" />
-        <button class="nl-toolbar__button">Filter</button>
+        <input #query class="nl-toolbar__filter-input" [ngModel]="q" (ngModelChange)="queryChanged($event)" />
+        <button class="nl-toolbar__button" (click)="queryChanged(query.value)">Filter</button>
     </div>
     <div>
-        <input type="checkbox" id="nl-toolbar-only-local" class="nl-toolbar-only-local" />
+        <input type="checkbox" id="nl-toolbar-only-local" class="nl-toolbar-only-local" [ngModel]="showLocalNews"
+            (ngModelChange)="showLocalNewsChecked($event)" />
         <label for="nl-toolbar-only-local">Only created by me</label>
     </div>
-    <button class="nl-toolbar__button">Add Article</button>
+    <button class="nl-toolbar__button" (click)="addNewsItem()">Add Article</button>
 </div>
