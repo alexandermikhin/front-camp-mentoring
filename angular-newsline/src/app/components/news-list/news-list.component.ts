@@ -56,6 +56,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.displayedNews = this.getDisplayNews();
     }
 
+    onDeleteNews(id: string) {
+        this.localNewsService.deleteNews(id);
+        this.displayedNews = this.getDisplayNews();
+    }
+
     loadMoreClick() {
         this.startPage++;
         const news = this.getDisplayNews();

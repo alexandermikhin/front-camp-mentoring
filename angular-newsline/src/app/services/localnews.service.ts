@@ -19,6 +19,10 @@ export class LocalNewsService {
         return filteredNews.slice(startIndex, endIndex);
     }
 
+    deleteNews(id: string) {
+        this.items = this.items.filter(i => i.id !== id);
+    }
+
     private generateItems() {
         for (let i = 0; i < 10; i++) {
             this.items.push({

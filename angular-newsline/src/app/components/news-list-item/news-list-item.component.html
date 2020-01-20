@@ -11,7 +11,7 @@
         <a href="" class="nl-news-list-item__more-link">Read more...</a>
     </div>
     <div *ngIf="model.isEditable" class="nl-news-list-item__section nl-news-list-item-operations">
-        <button class="nl-news-list-item-operations__button">Edit</button>
-        <button class="nl-news-list-item-operations__button">Delete</button>
+        <button class="nl-news-list-item-operations__button" (click)="editNewsClick(model.id)">Edit</button>
+        <button class="nl-news-list-item-operations__button" (click)="deleteNewsClick(model.id)">Delete</button>
     </div>
 </div>
