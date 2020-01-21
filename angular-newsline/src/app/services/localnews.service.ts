@@ -51,7 +51,7 @@ export class LocalNewsService {
                 content: `Local news ${i} content`,
                 date: new Date(),
                 source: i % 2 === 0 ? 'CNN' : 'BBC',
-                image: `Local news ${i} image url`,
+                image: `/assets/news-logo.png`,
                 author: i % 2 === 0 ? 'admin' : 'user',
                 sourceUrl: 'http://www.google.com'
             });

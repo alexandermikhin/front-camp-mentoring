@@ -36,7 +36,7 @@ export class NewsApiService {
                 content: `News ${i} content`,
                 date: new Date(),
                 source: i % 2 === 0 ? 'CNN' : 'BBC',
-                image: `News ${i} image url`,
+                image: `/assets/news-logo.png`,
                 author: 'Author',
                 sourceUrl: 'http://www.google.com'
             });
