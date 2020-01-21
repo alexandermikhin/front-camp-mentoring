@@ -1,6 +1,6 @@
 <div class="nl-news-list">
     <nl-toolbar [sources]="sources" [selectedSource]="selectedSource" [q]="q" [userNewsOnly]="userNewsOnly"
-        (filterApplied)="filterAppliedHandler($event)" (addNewsItemClicked)="onEditNews()">
+        (filterApplied)="filterAppliedHandler($event)" (addNewsItemClicked)="onAddNews()">
     </nl-toolbar>
     <section class="nl-news-list-items">
         <div *ngFor="let newsItem of displayedNews" class="nl-news-list-items__item">
