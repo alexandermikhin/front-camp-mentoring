@@ -7,16 +7,16 @@
                 <span class="nl-top-bar__login">{{ userName }}</span>
                 <button class="nl-top-bar__login-button" (click)="logout()">Log out</button>
             </div>
-            <div *ngIf="!userName">
+            <form *ngIf="!userName" (ngSubmit)="login(name.value, password.value)">
                 <label>Login</label>
-                <input #name />
+                <input #name name="login" />
                 <label>Password</label>
-                <input #password type="password" />
-                <button class="nl-top-bar__login-button" (click)="login(name.value, password.value)">Log in</button>
+                <input #password name="password" type="password" />
+                <button class="nl-top-bar__login-button" type="submit">Log in</button>
                 <button class="nl-top-bar__login-button"
                     (click)="register(name.value, password.value)">Register</button>
                 <div *ngIf="errorMessage">{{errorMessage}}</div>
-            </div>
+            </form>
         </div>
     </div>
     <h1 class="nl-header__header">{{ header }}</h1>
