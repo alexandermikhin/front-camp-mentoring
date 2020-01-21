@@ -14,12 +14,12 @@ export class EditGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot) {
         const id = route.paramMap.get('id');
         const newsItem = this.localNewsService.getNewsById(id);
-        return this.userService.activeUser.pipe(map(user => {
-            return !!(newsItem && user && newsItem.author === user.login);
-        }, tap(result => {
-            if (!result) {
-                this.router.navigate(['/']);
-            }
-        })));
+        return this.userService.activeUser.pipe(map(user =>
+            !!(newsItem && user && newsItem.author === user.login))
+            , tap(result => {
+                if (!result) {
+                    this.router.navigate(['/']);
+                }
+            }));
     }
 }
