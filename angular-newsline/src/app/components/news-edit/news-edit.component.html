@@ -2,15 +2,27 @@
     <div class="nl-news-edit__section">
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Heading</label>
-            <input class="nl-news-edit__input" name="heading" [(ngModel)]="model.heading" />
+            <input
+                class="nl-news-edit__input"
+                name="heading"
+                [(ngModel)]="model.heading"
+            />
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Short description</label>
-            <input class="nl-news-edit__input" name="shortDescription" [(ngModel)]="model.shortDescription" />
+            <input
+                class="nl-news-edit__input"
+                name="shortDescription"
+                [(ngModel)]="model.shortDescription"
+            />
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Content</label>
-            <textarea class="nl-news-edit__input" name="content" [(ngModel)]="model.content"></textarea>
+            <textarea
+                class="nl-news-edit__input"
+                name="content"
+                [(ngModel)]="model.content"
+            ></textarea>
         </div>
     </div>
     <div class="nl-news-edit__section">
@@ -22,24 +34,43 @@
                 <input type="radio" name="image" />
                 <label>File</label>
             </div>
-            <input class="nl-news-edit__input" name="image" [(ngModel)]="model.image" />
+            <input
+                class="nl-news-edit__input"
+                name="image"
+                [(ngModel)]="model.image"
+            />
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Date</label>
-            <input type="datetime" class="nl-news-edit__input" readonly name="date"
-                [ngModel]="model.date | date:'long'" />
+            <input
+                type="datetime"
+                class="nl-news-edit__input"
+                readonly
+                name="date"
+                [ngModel]="model.date | date: 'long'"
+            />
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Author</label>
-            <input class="nl-news-edit__input" name="author" [(ngModel)]="model.author" />
+            <input
+                class="nl-news-edit__input"
+                name="author"
+                [(ngModel)]="model.author"
+            />
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Source URL</label>
-            <input class="nl-news-edit__input" name="sourceUrl" [(ngModel)]="model.sourceUrl" />
+            <input
+                class="nl-news-edit__input"
+                name="sourceUrl"
+                [(ngModel)]="model.sourceUrl"
+            />
         </div>
         <div class="nl-news-edit-buttons">
             <button class="nl-news-edit__button" type="submit">Save</button>
-            <button class="nl-news-edit__button" (click)="cancel()">Cancel</button>
+            <button class="nl-news-edit__button" (click)="cancel()">
+                Cancel
+            </button>
         </div>
     </div>
 </form>

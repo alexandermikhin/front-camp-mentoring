@@ -8,17 +8,21 @@ import { AuthGuard } from './guards/auth.guard';
 import { EditGuard } from './guards/edit.guard';
 
 const routes: Routes = [
-  { path: '', component: NewsListComponent },
-  { path: 'local/:id', component: NewsDetailsComponent },
-  { path: 'newsapi/:id', component: NewsDetailsComponent },
-  { path: 'create', component: NewsEditComponent, canActivate: [AuthGuard] },
-  { path: 'edit/:id', component: NewsEditComponent, canActivate: [EditGuard] },
-  { path: '404', component: PageNotFoundComponent },
-  { path: '**', redirectTo: '/404' }
+    { path: '', component: NewsListComponent },
+    { path: 'local/:id', component: NewsDetailsComponent },
+    { path: 'newsapi/:id', component: NewsDetailsComponent },
+    { path: 'create', component: NewsEditComponent, canActivate: [AuthGuard] },
+    {
+        path: 'edit/:id',
+        component: NewsEditComponent,
+        canActivate: [EditGuard]
+    },
+    { path: '404', component: PageNotFoundComponent },
+    { path: '**', redirectTo: '/404' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

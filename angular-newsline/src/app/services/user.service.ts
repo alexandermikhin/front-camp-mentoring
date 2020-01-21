@@ -6,19 +6,19 @@ import { User } from '../models/user.model';
 export class UserService {
     private user = new BehaviorSubject<User | undefined>(undefined);
 
-    private users: User[] = [
-        { login: 'admin', password: 'admin' }
-    ];
+    private users: User[] = [{ login: 'admin', password: 'admin' }];
 
     get activeUser(): Observable<User | undefined> {
         return this.user.asObservable();
     }
 
     login(login: string, password: string): [boolean, string] {
-        const user = this.users.find(u => u.login === login && u.password === password);
+        const user = this.users.find(
+            u => u.login === login && u.password === password
+        );
         this.user.next(user);
-        return user ?
-            [true, 'Success']
+        return user
+            ? [true, 'Success']
             : [false, 'User or password is incorrect'];
     }
 

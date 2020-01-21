@@ -5,13 +5,16 @@ import { UserService } from '../services/user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private userService: UserService, private router: Router) { }
+    constructor(private userService: UserService, private router: Router) {}
 
     canActivate() {
-        return this.userService.activeUser.pipe(map(u => !!u), tap(result => {
-            if (!result) {
-                this.router.navigate(['/']);
-            }
-        }));
+        return this.userService.activeUser.pipe(
+            map(u => !!u),
+            tap(result => {
+                if (!result) {
+                    this.router.navigate(['/']);
+                }
+            })
+        );
     }
 }

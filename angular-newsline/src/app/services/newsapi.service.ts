@@ -8,11 +8,21 @@ export class NewsApiService {
         this.generateItems();
     }
 
-    getNews(q: string, source: string, page: number, pageSize: number = 5): NewsItemModel[] {
-        let filteredNews = source ? this.items.filter(i => i.source === source) : this.items;
-        filteredNews = filteredNews.filter(i => i.heading.includes(q) ||
-            i.shortDescription.includes(q) ||
-            i.content.includes(q));
+    getNews(
+        q: string,
+        source: string,
+        page: number,
+        pageSize: number = 5
+    ): NewsItemModel[] {
+        let filteredNews = source
+            ? this.items.filter(i => i.source === source)
+            : this.items;
+        filteredNews = filteredNews.filter(
+            i =>
+                i.heading.includes(q) ||
+                i.shortDescription.includes(q) ||
+                i.content.includes(q)
+        );
 
         const startIndex = (page - 1) * pageSize;
         const endIndex = startIndex + pageSize;

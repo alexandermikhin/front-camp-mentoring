@@ -19,23 +19,26 @@ import { NewsApiService } from './services/newsapi.service';
 import { UserService } from './services/user.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    ToolbarComponent,
-    NewsDetailsComponent,
-    NewsEditComponent,
-    NewsListComponent,
-    NewsListItemComponent,
-    PageNotFoundComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule
-  ],
-  providers: [UserService, LocalNewsService, NewsApiService, HeaderService, AuthGuard, EditGuard],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        FooterComponent,
+        ToolbarComponent,
+        NewsDetailsComponent,
+        NewsEditComponent,
+        NewsListComponent,
+        NewsListItemComponent,
+        PageNotFoundComponent
+    ],
+    imports: [BrowserModule, AppRoutingModule, FormsModule],
+    providers: [
+        UserService,
+        LocalNewsService,
+        NewsApiService,
+        HeaderService,
+        AuthGuard,
+        EditGuard
+    ],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

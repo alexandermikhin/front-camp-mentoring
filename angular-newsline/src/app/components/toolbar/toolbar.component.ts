@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    OnChanges
+} from '@angular/core';
 import { FilterModel } from 'src/app/models/filter.model';
 
 @Component({

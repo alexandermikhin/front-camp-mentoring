@@ -8,11 +8,22 @@ export class LocalNewsService {
         this.generateItems();
     }
 
-    getNews(q: string, author: string | undefined, page: number, pageSize: number = 5): NewsItemModel[] {
-        let filteredNews = author !== undefined ? this.items.filter(i => i.author === author) : this.items;
-        filteredNews = filteredNews.filter(i => i.heading.includes(q) ||
-            i.shortDescription.includes(q) ||
-            i.content.includes(q));
+    getNews(
+        q: string,
+        author: string | undefined,
+        page: number,
+        pageSize: number = 5
+    ): NewsItemModel[] {
+        let filteredNews =
+            author !== undefined
+                ? this.items.filter(i => i.author === author)
+                : this.items;
+        filteredNews = filteredNews.filter(
+            i =>
+                i.heading.includes(q) ||
+                i.shortDescription.includes(q) ||
+                i.content.includes(q)
+        );
 
         const startIndex = (page - 1) * pageSize;
         const endIndex = startIndex + pageSize;
@@ -31,7 +42,7 @@ export class LocalNewsService {
         if (!item.id) {
             const itemToModify = { ...item };
             const latestItem = this.items[this.items.length - 1];
-            const newId = latestItem && parseInt(latestItem.id, 10) + 1 || 1;
+            const newId = (latestItem && parseInt(latestItem.id, 10) + 1) || 1;
             itemToModify.id = newId.toString();
             this.items.push(itemToModify);
         } else {

@@ -27,21 +27,26 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
         private localNewsService: LocalNewsService,
         private newsApiService: NewsApiService,
         private userService: UserService,
-        private headerService: HeaderService) { }
+        private headerService: HeaderService
+    ) {}
 
     ngOnInit() {
-        this.subscription.add(this.route.url.subscribe(url => {
-            this.source = url[0].path;
-            this.newsId = url[1].path;
-            this.updateNewsModel();
-            this.updateHeader();
-        }));
+        this.subscription.add(
+            this.route.url.subscribe(url => {
+                this.source = url[0].path;
+                this.newsId = url[1].path;
+                this.updateNewsModel();
+                this.updateHeader();
+            })
+        );
 
-        this.subscription.add(this.userService.activeUser.subscribe(u => {
-            this.activeUser = u;
-            this.updateNewsModel();
-            this.updateHeader();
-        }));
+        this.subscription.add(
+            this.userService.activeUser.subscribe(u => {
+                this.activeUser = u;
+                this.updateNewsModel();
+                this.updateHeader();
+            })
+        );
     }
 
     ngOnDestroy() {
@@ -58,7 +63,8 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
         switch (this.source) {
             case 'local':
                 model = this.localNewsService.getNewsById(this.newsId);
-                model.isEditable = this.activeUser && this.activeUser.login === model.author;
+                model.isEditable =
+                    this.activeUser && this.activeUser.login === model.author;
                 break;
             case 'newsapi':
                 model = this.newsApiService.getNewsById(this.newsId);

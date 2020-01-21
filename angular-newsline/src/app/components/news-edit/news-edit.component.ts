@@ -23,21 +23,26 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private headerService: HeaderService) { }
+        private headerService: HeaderService
+    ) {}
 
     ngOnInit() {
-        this.subscription.add(this.userService.activeUser.subscribe(u => this.activeUser = u));
+        this.subscription.add(
+            this.userService.activeUser.subscribe(u => (this.activeUser = u))
+        );
         const id = this.route.snapshot.paramMap.get('id');
         this.headerService.setHeader(id ? 'Edit' : 'Create');
-        this.model = id ? this.localNewsService.getNewsById(id) : {
-            id: '',
-            heading: '',
-            date: new Date(),
-            content: '',
-            shortDescription: '',
-            source: '',
-            author: this.activeUser && this.activeUser.login || ''
-        };
+        this.model = id
+            ? this.localNewsService.getNewsById(id)
+            : {
+                  id: '',
+                  heading: '',
+                  date: new Date(),
+                  content: '',
+                  shortDescription: '',
+                  source: '',
+                  author: (this.activeUser && this.activeUser.login) || ''
+              };
     }
 
     ngOnDestroy() {
