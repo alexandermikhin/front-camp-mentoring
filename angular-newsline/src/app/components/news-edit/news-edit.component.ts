@@ -27,9 +27,8 @@ export class NewsEditComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscription.add(this.userService.activeUser.subscribe(u => this.activeUser = u));
-        this.headerService.setHeader('Edit');
-
         const id = this.route.snapshot.paramMap.get('id');
+        this.headerService.setHeader(id ? 'Edit' : 'Create');
         this.model = id ? this.localNewsService.getNewsById(id) : {
             id: '',
             heading: '',

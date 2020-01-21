@@ -20,6 +20,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     q = '';
     sources: string[];
     selectedSource = 'All';
+    canAddNews: boolean;
 
     private readonly initialStartPage = 1;
     private startPage = 1;
@@ -45,6 +46,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.subscription.add(this.userService.activeUser.subscribe(u => {
             this.activeUser = u;
             this.displayedNews = this.getDisplayNews();
+            this.canAddNews = !!this.activeUser;
         }));
 
         this.updateHeader();

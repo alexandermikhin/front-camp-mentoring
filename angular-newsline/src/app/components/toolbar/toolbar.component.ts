@@ -11,6 +11,7 @@ export class ToolbarComponent {
     @Input() selectedSource: string;
     @Input() q: string;
     @Input() userNewsOnly: boolean;
+    @Input() canAddNews: boolean;
     @Output() addNewsItemClicked = new EventEmitter();
     @Output() filterApplied = new EventEmitter<FilterModel>();
 

@@ -12,5 +12,7 @@
             (ngModelChange)="userNewsOnlyChecked($event)" />
         <label for="nl-toolbar-only-local">Only created by me</label>
     </div>
-    <button class="nl-toolbar__button" (click)="addNewsItem()">Add Article</button>
+    <button class="nl-toolbar__button" [attr.disabled]="!canAddNews ? '' : null" (click)="addNewsItem()"
+        [attr.title]="!canAddNews ? 'Should be authenticated' : null">Add
+        Article</button>
 </div>
