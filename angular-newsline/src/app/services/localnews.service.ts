@@ -31,8 +31,10 @@ export class LocalNewsService {
             );
     }
 
-    getNewsById(id: string): NewsItemModel {
-        return this.items.find(i => i.id === id);
+    getNewsById(id: string): Observable<LocalNewsModel> {
+        const url = `${this.API_URL}/news/${id}`;
+        
+        return this.httpClient.get<LocalNewsModel>(url);
     }
 
     deleteNews(id: string) {

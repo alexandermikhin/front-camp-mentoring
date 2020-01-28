@@ -2,6 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import {
+    getNewsItemFromLocal,
+    getNewsItemModel
+} from 'src/app/helpers/news-item-model-helpers';
 import { LocalNewsModel } from 'src/app/models/data-models/local-news.model';
 import { FilterModel } from 'src/app/models/filter.model';
 import { NewsItemModel } from 'src/app/models/news-item.model';
@@ -150,11 +154,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
     private initDisplayedNews() {
         const newsApiItems: NewsItemModel[] = this.newsApiArticles.map(a =>
-            this.getNewsItemModel(a)
+            getNewsItemModel(a)
         );
 
         const localNewsItems: NewsItemModel[] = this.localArticles.map(a =>
-            this.getNewsItemFromLocal(a)
+            getNewsItemFromLocal(a)
         );
 
         const combinedNews = newsApiItems.concat(localNewsItems);
@@ -165,31 +169,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
     private getSource(source: NewsApiSourceModel): SourceModel {
         return { id: source.id, title: source.name };
-    }
-
-    private getNewsItemModel(article: NewsApiArticleModel): NewsItemModel {
-        return {
-            content: article.content,
-            date: new Date(article.publishedAt),
-            heading: article.title,
-            id: '',
-            shortDescription: article.description || '',
-            source: article.url,
-            image: article.urlToImage
-        };
-    }
-
-    private getNewsItemFromLocal(article: LocalNewsModel): NewsItemModel {
-        return {
-            id: article.id,
-            date: new Date(article.date),
-            heading: article.heading,
-            content: article.content,
-            shortDescription: article.shortDescription,
-            sourceUrl: article.sourceUrl,
-            image: article.imageUrl,
-            source: ''
-        };
     }
 
     private setEditRights(items: NewsItemModel[]) {

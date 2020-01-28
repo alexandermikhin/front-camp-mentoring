@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { getNewsItemFromLocal } from 'src/app/helpers/news-item-model-helpers';
 import { NewsItemModel } from 'src/app/models/news-item.model';
 import { User } from 'src/app/models/user.model';
 import { HeaderService } from 'src/app/services/header.service';
@@ -32,17 +34,22 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         );
         const id = this.route.snapshot.paramMap.get('id');
         this.headerService.setHeader(id ? 'Edit' : 'Create');
-        this.model = id
-            ? this.localNewsService.getNewsById(id)
-            : {
-                  id: '',
-                  heading: '',
-                  date: new Date(),
-                  content: '',
-                  shortDescription: '',
-                  source: '',
-                  author: (this.activeUser && this.activeUser.login) || ''
-              };
+        if (id) {
+            this.localNewsService
+                .getNewsById(id)
+                .pipe(take(1))
+                .subscribe(item => (this.model = getNewsItemFromLocal(item)));
+        } else {
+            this.model = {
+                id: '',
+                heading: '',
+                date: new Date(),
+                content: '',
+                shortDescription: '',
+                source: '',
+                author: (this.activeUser && this.activeUser.login) || ''
+            };
+        }
     }
 
     ngOnDestroy() {

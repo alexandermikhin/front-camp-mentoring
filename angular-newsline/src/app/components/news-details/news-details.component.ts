@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { getNewsItemFromLocal } from 'src/app/helpers/news-item-model-helpers';
 import { NewsItemModel } from 'src/app/models/news-item.model';
 import { User } from 'src/app/models/user.model';
-import { LocalNewsService } from 'src/app/services/localnews.service';
-import { NewsApiService } from 'src/app/services/newsapi.service';
-import { UserService } from 'src/app/services/user.service';
 import { HeaderService } from 'src/app/services/header.service';
+import { LocalNewsService } from 'src/app/services/localnews.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 'nl-news-details',
@@ -25,7 +26,6 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private localNewsService: LocalNewsService,
-        private newsApiService: NewsApiService,
         private userService: UserService,
         private headerService: HeaderService
     ) {}
@@ -36,15 +36,13 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
                 this.source = url[0].path;
                 this.newsId = url[1].path;
                 this.updateNewsModel();
-                this.updateHeader();
             })
         );
 
         this.subscription.add(
             this.userService.activeUser.subscribe(u => {
                 this.activeUser = u;
-                this.updateNewsModel();
-                this.updateHeader();
+                this.setRights(this.model);
             })
         );
     }
@@ -59,19 +57,32 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
     }
 
     private updateNewsModel() {
-        let model: NewsItemModel | undefined;
         switch (this.source) {
             case 'local':
-                model = this.localNewsService.getNewsById(this.newsId);
-                model.isEditable =
-                    this.activeUser && this.activeUser.login === model.author;
+                this.localNewsService
+                    .getNewsById(this.newsId)
+                    .pipe(take(1))
+                    .subscribe(item => {
+                        const model = getNewsItemFromLocal(item);
+                        this.setRights(model);
+                        this.model = model;
+                        this.updateHeader();
+                    });
+
                 break;
             default:
-                model = undefined;
+                this.model = undefined;
                 break;
         }
+    }
 
-        this.model = model;
+    private setRights(item: NewsItemModel | undefined) {
+        if (!item) {
+            return;
+        }
+
+        item.isEditable =
+            this.activeUser && this.activeUser.login === item.author;
     }
 
     private updateHeader() {
