@@ -20,6 +20,21 @@
             Filter
         </button>
     </div>
+    <div class="nl-toolbar__filter">
+        <input
+            class="nl-toolbar__filter-input"
+            placeholder="Type to search within..."
+            [ngModel]="searchWithin"
+            (ngModelChange)="searchWithinChanged($event)"
+        />
+        <button
+            *ngIf="searchWithin"
+            class="nl-toolbar__button"
+            (click)="searchWithinChanged('')"
+        >
+            Reset
+        </button>
+    </div>
     <div>
         <input
             type="checkbox"

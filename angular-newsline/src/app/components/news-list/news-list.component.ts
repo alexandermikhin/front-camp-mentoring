@@ -23,6 +23,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     displayedNews: NewsItemModel[] = [];
     userNewsOnly = false;
     q = '';
+    searchWithinPhrase = '';
     sources: SourceModel[];
     selectedSourceId: string;
     canAddNews: boolean;
@@ -98,6 +99,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
         this.router.navigate(['/edit', id || '']);
     }
 
+    onSearchWithinApply(value: string) {
+        this.searchWithinPhrase = value;
+    }
+
     loadMoreClick() {
         this.startPage++;
         this.getNewsApiNews(true);
@@ -168,7 +173,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
             date: new Date(article.publishedAt),
             heading: article.title,
             id: '',
-            shortDescription: article.description,
+            shortDescription: article.description || '',
             source: article.url,
             image: article.urlToImage
         };

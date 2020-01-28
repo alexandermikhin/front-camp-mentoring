@@ -14,6 +14,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { AuthGuard } from './guards/auth.guard';
 import { EditGuard } from './guards/edit.guard';
+import { SearchWithinPipe } from './pipes/search-within.pipe';
 import { HeaderService } from './services/header.service';
 import { LocalNewsService } from './services/localnews.service';
 import { NewsApiService } from './services/newsapi.service';
@@ -29,7 +30,8 @@ import { UserService } from './services/user.service';
         NewsEditComponent,
         NewsListComponent,
         NewsListItemComponent,
-        PageNotFoundComponent
+        PageNotFoundComponent,
+        SearchWithinPipe
     ],
     imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
     providers: [

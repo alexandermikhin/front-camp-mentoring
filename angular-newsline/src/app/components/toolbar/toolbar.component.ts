@@ -19,8 +19,10 @@ export class ToolbarComponent {
     @Input() q: string;
     @Input() userNewsOnly: boolean;
     @Input() canAddNews: boolean;
+    @Input() searchWithin: string;
     @Output() addNewsItemClicked = new EventEmitter();
     @Output() filterApplied = new EventEmitter<FilterModel>();
+    @Output() searchWithinApplied = new EventEmitter<string>();
 
     userNewsOnlyChecked(userNewsOnly: boolean) {
         this.filterApplied.emit({
@@ -48,5 +50,9 @@ export class ToolbarComponent {
 
     addNewsItem() {
         this.addNewsItemClicked.emit();
+    }
+
+    searchWithinChanged(value: string) {
+        this.searchWithinApplied.emit(value);
     }
 }
