@@ -1,10 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { LocalNewsModel } from '../models/data-models/local-news.model';
 import { NewsItemModel } from '../models/news-item.model';
 
 @Injectable()
 export class LocalNewsService {
     private items: NewsItemModel[] = [];
-    constructor() {
+
+    private readonly API_URL = 'http://localhost:3000';
+    constructor(private httpClient: HttpClient) {
         this.generateItems();
     }
 
@@ -13,21 +19,16 @@ export class LocalNewsService {
         author: string | undefined,
         page: number,
         pageSize: number = 5
-    ): NewsItemModel[] {
-        let filteredNews =
-            author !== undefined
-                ? this.items.filter(i => i.author === author)
-                : this.items;
-        filteredNews = filteredNews.filter(
-            i =>
-                i.heading.includes(q) ||
-                i.shortDescription.includes(q) ||
-                i.content.includes(q)
-        );
+    ): Observable<LocalNewsModel[]> {
+        const url = `${this.API_URL}/news`;
 
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        return filteredNews.slice(startIndex, endIndex);
+        return this.httpClient
+            .get<LocalNewsModel[]>(url)
+            .pipe(
+                map(items =>
+                    this.getFilteredItems(items, q, author, page, pageSize)
+                )
+            );
     }
 
     getNewsById(id: string): NewsItemModel {
@@ -67,5 +68,28 @@ export class LocalNewsService {
                 sourceUrl: 'http://www.google.com'
             });
         }
+    }
+
+    private getFilteredItems(
+        items: LocalNewsModel[],
+        q: string,
+        author: string | undefined,
+        page: number,
+        pageSize: number
+    ): LocalNewsModel[] {
+        let filteredNews =
+            author !== undefined
+                ? items.filter(i => i.author === author)
+                : items;
+        filteredNews = filteredNews.filter(
+            i =>
+                i.heading.includes(q) ||
+                i.shortDescription.includes(q) ||
+                i.content.includes(q)
+        );
+
+        const startIndex = (page - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        return filteredNews.slice(startIndex, endIndex);
     }
 }

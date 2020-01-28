@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { LocalNewsModel } from 'src/app/models/data-models/local-news.model';
 import { FilterModel } from 'src/app/models/filter.model';
 import { NewsItemModel } from 'src/app/models/news-item.model';
 import { NewsApiArticleModel } from 'src/app/models/newsapi-response.model';
@@ -32,7 +33,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private activeUser: User;
     private subscription = new Subscription();
     private newsApiArticles: NewsApiArticleModel[] = [];
-    private localArticles: NewsItemModel[] = [];
+    private localArticles: LocalNewsModel[] = [];
 
     constructor(
         private router: Router,
@@ -131,22 +132,15 @@ export class NewsListComponent implements OnInit, OnDestroy {
             ? (this.activeUser && this.activeUser.login) || ''
             : undefined;
 
-        const localNews = this.localNewsService.getNews(
-            this.q,
-            author,
-            this.startPage,
-            this.pageSize
-        );
-
-        localNews.forEach(n => {
-            n.localUrl = `/local/${n.id}`;
-        });
-
-        this.localArticles = append
-            ? this.localArticles.concat(localNews)
-            : localNews;
-
-        this.initDisplayedNews();
+        this.localNewsService
+            .getNews(this.q, author, this.startPage, this.pageSize)
+            .pipe(take(1))
+            .subscribe(response => {
+                this.localArticles = append
+                    ? this.localArticles.concat(response)
+                    : response;
+                this.initDisplayedNews();
+            });
     }
 
     private initDisplayedNews() {
@@ -154,7 +148,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
             this.getNewsItemModel(a)
         );
 
-        const localNewsItems: NewsItemModel[] = this.localArticles;
+        const localNewsItems: NewsItemModel[] = this.localArticles.map(a =>
+            this.getNewsItemFromLocal(a)
+        );
+
         const combinedNews = newsApiItems.concat(localNewsItems);
         this.sortNews(combinedNews);
         this.setEditRights(combinedNews);
@@ -174,6 +171,19 @@ export class NewsListComponent implements OnInit, OnDestroy {
             shortDescription: article.description,
             source: article.url,
             image: article.urlToImage
+        };
+    }
+
+    private getNewsItemFromLocal(article: LocalNewsModel): NewsItemModel {
+        return {
+            id: article.id,
+            date: new Date(article.date),
+            heading: article.heading,
+            content: article.content,
+            shortDescription: article.shortDescription,
+            sourceUrl: article.sourceUrl,
+            image: article.imageUrl,
+            source: ''
         };
     }
 

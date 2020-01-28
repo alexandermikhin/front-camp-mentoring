@@ -1,18 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NewsItemModel } from '../models/news-item.model';
 import { NewsApiRequestModel } from '../models/newsapi-request.model';
 import { NewsApiResponseModel } from '../models/newsapi-response.model';
 import { NewsApiSourcesModel } from '../models/newsapi-sources.model';
 
 @Injectable()
 export class NewsApiService {
-    private items: NewsItemModel[] = [];
     private readonly API_KEY = 'D7d93d013b914df292f2f135562b7514';
     private readonly API_URL = 'https://newsapi.org/v2';
 
-    constructor(private httpService: HttpClient) {}
+    constructor(private httpClient: HttpClient) {}
 
     getNews(
         q: string,
@@ -28,13 +26,13 @@ export class NewsApiService {
             sources: source
         });
 
-        return this.httpService.get<NewsApiResponseModel>(url);
+        return this.httpClient.get<NewsApiResponseModel>(url);
     }
 
     getSources(): Observable<NewsApiSourcesModel> {
         const url = `${this.API_URL}/sources?apiKey=${this.API_KEY}`;
 
-        return this.httpService.get<NewsApiSourcesModel>(url);
+        return this.httpClient.get<NewsApiSourcesModel>(url);
     }
 
     private getNewsUrl(params: NewsApiRequestModel): string {
