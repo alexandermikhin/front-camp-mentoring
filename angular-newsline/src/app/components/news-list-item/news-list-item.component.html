@@ -10,7 +10,7 @@
         <div class="nl-news-list-item-header">
             <h2 class="nl-news-list-item__news-title">{{ model.heading }}</h2>
             <div class="nl-news-list-item__news-time">
-                {{ model.date.toLocaleString() }}
+                {{ model.date | date: 'medium' }}
             </div>
         </div>
         <div class="nl-news-list-item__news-text">

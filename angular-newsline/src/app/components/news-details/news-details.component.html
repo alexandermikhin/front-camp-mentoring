@@ -11,7 +11,7 @@
             <h2 class="nl-details__news-title">{{ model.heading }}</h2>
             <div class="nl-details__news-text">{{ model.content }}</div>
             <div class="nl-details__news-time">
-                {{ model.date.toLocaleString() }}
+                {{ model.date | date: 'medium' }}
             </div>
             <div class="nl-details__news-author">{{ model.author }}</div>
         </div>
