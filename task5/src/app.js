@@ -1,14 +1,13 @@
 const express = require("express");
 const path = require("path");
-const mongoose = require("mongoose");
 const NewsService = require("./news.service");
-const NewsDbService = require("./db/news-db.service");
 const UserService = require("./db/user.service");
 const logger = require("./logger");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const config = require("./config");
+const cors = require("cors");
 require("./authentication/passport");
 require("./authentication/passport-jwt");
 require("./authentication/passport-fb");
@@ -22,18 +21,17 @@ passport.deserializeUser(function(user, done) {
 });
 
 const app = express();
-const dataService = new NewsDbService();
+const processArgs = process.argv;
+const useDb = processArgs.includes("use-db");
+const dataService = useDb ? buildNewsDbService() : buildNewsFileService();
+if (useDb) {
+  connectToDb();
+}
 const newsService = new NewsService(dataService);
 const userService = new UserService();
 const viewsPath = path.resolve(__dirname, "./views");
 
-const url = "mongodb://localhost:27017";
-const dbName = "news";
-mongoose.connect(`${url}/${dbName}`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-});
+app.use(cors());
 
 app.use(
   session({
@@ -219,4 +217,25 @@ function getItemFromBody(body) {
 function generateAuthToken(user) {
   const token = jwt.sign({ login: user.login }, "authorization-key");
   return token;
+}
+
+function buildNewsDbService() {
+  const NewsDbService = require("./db/news-db.service");
+  return new NewsDbService();
+}
+
+function buildNewsFileService() {
+  const NewsFileService = require("./news-file.service");
+  return new NewsFileService();
+}
+
+function connectToDb() {
+  const mongoose = require("mongoose");
+  const url = "mongodb://localhost:27017";
+  const dbName = "news";
+  mongoose.connect(`${url}/${dbName}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  });
 }
