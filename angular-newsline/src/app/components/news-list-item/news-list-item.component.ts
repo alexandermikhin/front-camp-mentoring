@@ -8,6 +8,7 @@ import { NewsItemModel } from 'src/app/models/news-item.model';
 })
 export class NewsListItemComponent {
     @Input() model: NewsItemModel;
+    @Input() searchWithin: string;
     @Output() editNews = new EventEmitter<string>();
     @Output() deleteNews = new EventEmitter<string>();
 

@@ -8,14 +8,18 @@
     </div>
     <div class="nl-news-list-item__section nl-news-list-item-content">
         <div class="nl-news-list-item-header">
-            <h2 class="nl-news-list-item__news-title">{{ model.heading }}</h2>
+            <h2
+                class="nl-news-list-item__news-title"
+                [innerHTML]="model.heading | highlight: searchWithin"
+            ></h2>
             <div class="nl-news-list-item__news-time">
                 {{ model.date | date: 'medium' }}
             </div>
         </div>
-        <div class="nl-news-list-item__news-text">
-            {{ model.shortDescription }}
-        </div>
+        <div
+            class="nl-news-list-item__news-text"
+            [innerHTML]="model.shortDescription | highlight: searchWithin"
+        ></div>
         <a [routerLink]="model.localUrl" class="nl-news-list-item__more-link"
             >Read more...</a
         >

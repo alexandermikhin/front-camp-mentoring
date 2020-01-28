@@ -20,6 +20,7 @@
         >
             <nl-news-list-item
                 [model]="newsItem"
+                [searchWithin]="searchWithinPhrase"
                 (deleteNews)="onDeleteNews($event)"
                 (editNews)="onEditNews($event)"
             >
