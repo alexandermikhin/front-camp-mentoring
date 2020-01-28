@@ -2,11 +2,11 @@
     <select
         class="nl-toolbar__select-souce"
         [attr.disabled]="userNewsOnly ? '' : null"
-        [ngModel]="selectedSource"
+        [ngModel]="selectedSourceId"
         (ngModelChange)="sourceSelected($event)"
     >
-        <option *ngFor="let source of sources" [value]="source">{{
-            source
+        <option *ngFor="let source of sources" [value]="source.id">{{
+            source.title
         }}</option>
     </select>
     <div class="nl-toolbar__filter">

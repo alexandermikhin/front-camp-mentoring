@@ -66,9 +66,6 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
                 model.isEditable =
                     this.activeUser && this.activeUser.login === model.author;
                 break;
-            case 'newsapi':
-                model = this.newsApiService.getNewsById(this.newsId);
-                break;
             default:
                 model = undefined;
                 break;

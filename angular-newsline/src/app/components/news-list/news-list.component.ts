@@ -1,9 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { FilterModel } from 'src/app/models/filter.model';
 import { NewsItemModel } from 'src/app/models/news-item.model';
+import { NewsApiArticleModel } from 'src/app/models/newsapi-response.model';
+import { NewsApiSourceModel } from 'src/app/models/newsapi-sources.model';
 import { User } from 'src/app/models/user.model';
+import { SourceModel } from 'src/app/models/view-models/source.model';
 import { HeaderService } from 'src/app/services/header.service';
 import { LocalNewsService } from 'src/app/services/localnews.service';
 import { NewsApiService } from 'src/app/services/newsapi.service';
@@ -18,8 +22,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
     displayedNews: NewsItemModel[] = [];
     userNewsOnly = false;
     q = '';
-    sources: string[];
-    selectedSource = 'All';
+    sources: SourceModel[];
+    selectedSourceId: string;
     canAddNews: boolean;
 
     private readonly initialStartPage = 1;
@@ -27,6 +31,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private pageSize = 5;
     private activeUser: User;
     private subscription = new Subscription();
+    private newsApiArticles: NewsApiArticleModel[] = [];
+    private localArticles: NewsItemModel[] = [];
 
     constructor(
         private router: Router,
@@ -37,14 +43,26 @@ export class NewsListComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.sources = ['All', ...this.newsApiService.getSources()];
-
         this.startPage = this.initialStartPage;
-        this.displayedNews = this.getDisplayNews();
+
+        this.newsApiService
+            .getSources()
+            .pipe(take(1))
+            .subscribe(response => {
+                const newsApiSources = response.sources.map(s =>
+                    this.getSource(s)
+                );
+
+                this.sources = [{ id: 'all', title: 'All' }, ...newsApiSources];
+                this.selectedSourceId = this.sources[0].id;
+                this.getNewsApiNews();
+                this.getLocalNews();
+            });
+
         this.subscription.add(
             this.userService.activeUser.subscribe(u => {
                 this.activeUser = u;
-                this.displayedNews = this.getDisplayNews();
+                this.setEditRights(this.displayedNews);
                 this.canAddNews = !!this.activeUser;
             })
         );
@@ -57,17 +75,18 @@ export class NewsListComponent implements OnInit, OnDestroy {
     }
 
     filterAppliedHandler(filter: FilterModel) {
-        this.selectedSource = filter.source;
+        this.selectedSourceId = filter.sourceId;
         this.userNewsOnly = filter.userNewsOnly;
         this.q = filter.q;
         this.startPage = this.initialStartPage;
-        this.displayedNews = this.getDisplayNews();
+        this.getNewsApiNews();
+        this.getLocalNews();
         this.updateHeader();
     }
 
     onDeleteNews(id: string) {
         this.localNewsService.deleteNews(id);
-        this.displayedNews = this.getDisplayNews();
+        this.getLocalNews();
     }
 
     onAddNews() {
@@ -80,44 +99,94 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
     loadMoreClick() {
         this.startPage++;
-        const news = this.getDisplayNews();
-        this.displayedNews = this.displayedNews.concat(news);
+        this.getNewsApiNews(true);
+        this.getLocalNews(true);
     }
 
-    private getDisplayNews(): NewsItemModel[] {
-        let news: NewsItemModel[] = [];
-        if (this.selectedSource === 'All') {
-            const author = this.userNewsOnly
-                ? (this.activeUser && this.activeUser.login) || ''
-                : undefined;
-            const localNews = this.localNewsService.getNews(
-                this.q,
-                author,
-                this.startPage,
-                this.pageSize
-            );
-            localNews.forEach(n => {
-                n.isEditable =
-                    this.activeUser && this.activeUser.login === n.author;
-                n.localUrl = `/local/${n.id}`;
+    private getNewsApiNews(append?: boolean) {
+        if (this.userNewsOnly) {
+            return;
+        }
+
+        const source =
+            this.selectedSourceId === 'all' ? '' : this.selectedSourceId;
+
+        this.newsApiService
+            .getNews(this.q, source, this.startPage, this.pageSize)
+            .pipe(take(1))
+            .subscribe(response => {
+                this.newsApiArticles = append
+                    ? this.newsApiArticles.concat(response.articles)
+                    : response.articles;
+                this.initDisplayedNews();
             });
-            news = news.concat(localNews);
+    }
+
+    private getLocalNews(append?: boolean) {
+        if (this.selectedSourceId !== 'all') {
+            return;
         }
 
-        if (!this.userNewsOnly) {
-            const source =
-                this.selectedSource === 'All' ? '' : this.selectedSource;
-            const newsApiNews = this.newsApiService.getNews(
-                this.q,
-                source,
-                this.startPage,
-                this.pageSize
-            );
-            newsApiNews.forEach(n => (n.localUrl = `/newsapi/${n.id}`));
-            news = news.concat(newsApiNews);
-        }
+        const author = this.userNewsOnly
+            ? (this.activeUser && this.activeUser.login) || ''
+            : undefined;
 
-        news.sort((a, b) => {
+        const localNews = this.localNewsService.getNews(
+            this.q,
+            author,
+            this.startPage,
+            this.pageSize
+        );
+
+        localNews.forEach(n => {
+            n.localUrl = `/local/${n.id}`;
+        });
+
+        this.localArticles = append
+            ? this.localArticles.concat(localNews)
+            : localNews;
+
+        this.initDisplayedNews();
+    }
+
+    private initDisplayedNews() {
+        const newsApiItems: NewsItemModel[] = this.newsApiArticles.map(a =>
+            this.getNewsItemModel(a)
+        );
+
+        const localNewsItems: NewsItemModel[] = this.localArticles;
+        const combinedNews = newsApiItems.concat(localNewsItems);
+        this.sortNews(combinedNews);
+        this.setEditRights(combinedNews);
+        this.displayedNews = combinedNews;
+    }
+
+    private getSource(source: NewsApiSourceModel): SourceModel {
+        return { id: source.id, title: source.name };
+    }
+
+    private getNewsItemModel(article: NewsApiArticleModel): NewsItemModel {
+        return {
+            content: article.content,
+            date: new Date(article.publishedAt),
+            heading: article.title,
+            id: '',
+            shortDescription: article.description,
+            source: article.url,
+            image: article.urlToImage
+        };
+    }
+
+    private setEditRights(items: NewsItemModel[]) {
+        items.forEach(
+            n =>
+                (n.isEditable =
+                    this.activeUser && this.activeUser.login === n.author)
+        );
+    }
+
+    private sortNews(items: NewsItemModel[]) {
+        items.sort((a, b) => {
             if (a.date === b.date) {
                 return 0;
             }
@@ -128,11 +197,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
             return -1;
         });
-
-        return news;
     }
 
     private updateHeader() {
-        this.headerService.setHeader(this.selectedSource);
+        this.headerService.setHeader(this.selectedSourceId);
     }
 }

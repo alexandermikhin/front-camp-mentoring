@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -30,7 +31,7 @@ import { UserService } from './services/user.service';
         NewsListItemComponent,
         PageNotFoundComponent
     ],
-    imports: [BrowserModule, AppRoutingModule, FormsModule],
+    imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
     providers: [
         UserService,
         LocalNewsService,

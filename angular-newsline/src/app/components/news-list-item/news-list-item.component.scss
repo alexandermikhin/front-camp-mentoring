@@ -9,9 +9,8 @@
 
 .nl-news-list-item__image {
     width: 84px;
-    height: 84px;
+    max-height: 84px;
     display: inline-block;
-    border: 1px solid;
 }
 
 .nl-news-list-item-content {
