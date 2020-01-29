@@ -12,20 +12,7 @@
     >
     </nl-toolbar>
     <section class="nl-news-list-items">
-        <div
-            *ngFor="
-                let newsItem of displayedNews | searchWithin: searchWithinPhrase
-            "
-            class="nl-news-list-items__item"
-        >
-            <nl-news-list-item
-                [model]="newsItem"
-                [searchWithin]="searchWithinPhrase"
-                (deleteNews)="onDeleteNews($event)"
-                (editNews)="onEditNews($event)"
-            >
-            </nl-news-list-item>
-        </div>
+        <ng-template #newsItemsHost></ng-template>
         <button class="nl-news-list__load-more" (click)="loadMoreClick()">
             Load More
         </button>

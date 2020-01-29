@@ -35,6 +35,7 @@ import { UserService } from './services/user.service';
         SearchWithinPipe,
         HighlightPipe
     ],
+    entryComponents: [NewsListItemComponent],
     imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
     providers: [
         UserService,
@@ -42,7 +43,8 @@ import { UserService } from './services/user.service';
         NewsApiService,
         HeaderService,
         AuthGuard,
-        EditGuard
+        EditGuard,
+        SearchWithinPipe
     ],
     bootstrap: [AppComponent]
 })
