@@ -128,7 +128,7 @@ async function deleteNewsItem(req, res, next) {
   const id = parseInt(req.params.id);
   try {
     await newsService.delete(id);
-    res.status(200).send("News delete successful.");
+    res.status(200).send({ message: "News delete successful." });
   } catch (e) {
     next(e);
   }

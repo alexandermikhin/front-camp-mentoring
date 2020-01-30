@@ -110,8 +110,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
     }
 
     onDeleteNews(id: string) {
-        this.localNewsService.deleteNews(id);
-        this.getLocalNews();
+        this.localNewsService
+            .deleteNews(id)
+            .subscribe(() => this.getLocalNews());
     }
 
     onAddNews() {
