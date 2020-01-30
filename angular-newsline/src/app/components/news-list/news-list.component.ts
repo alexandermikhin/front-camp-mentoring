@@ -89,6 +89,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
             this.userService.activeUser.subscribe(u => {
                 this.activeUser = u;
                 this.setEditRights(this.displayedNews);
+                this.renderDisplayedItems();
                 this.canAddNews = !!this.activeUser;
             })
         );

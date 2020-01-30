@@ -16,13 +16,15 @@ export function getNewsItemModel(article: NewsApiArticleModel): NewsItemModel {
 
 export function getNewsItemFromLocal(article: LocalNewsModel): NewsItemModel {
     return {
-        id: article.id,
+        id: article.id.toString(),
         date: new Date(article.date),
         heading: article.heading,
         content: article.content,
         shortDescription: article.shortDescription,
         sourceUrl: article.sourceUrl,
         image: article.imageUrl,
-        source: ''
+        source: '',
+        author: article.author,
+        useLocalImageUrl: article.useLocalImageUrl
     };
 }

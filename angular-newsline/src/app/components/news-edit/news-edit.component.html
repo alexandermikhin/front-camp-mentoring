@@ -1,11 +1,11 @@
-<form class="nl-news-edit" (ngSubmit)="onSubmit()">
+<form class="nl-news-edit" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
     <div class="nl-news-edit__section">
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Heading</label>
             <input
                 class="nl-news-edit__input"
                 name="heading"
-                [(ngModel)]="model.heading"
+                formControlName="heading"
             />
         </div>
         <div class="nl-news-edit__field">
@@ -13,7 +13,7 @@
             <input
                 class="nl-news-edit__input"
                 name="shortDescription"
-                [(ngModel)]="model.shortDescription"
+                formControlName="shortDescription"
             />
         </div>
         <div class="nl-news-edit__field">
@@ -21,7 +21,7 @@
             <textarea
                 class="nl-news-edit__input"
                 name="content"
-                [(ngModel)]="model.content"
+                formControlName="content"
             ></textarea>
         </div>
     </div>
@@ -29,15 +29,25 @@
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Image</label>
             <div class="nl-news-edit__image-source">
-                <input type="radio" name="image" />
+                <input
+                    type="radio"
+                    name="useLocalUrl"
+                    formControlName="useLocalUrl"
+                    [value]="false"
+                />
                 <label>URL</label>
-                <input type="radio" name="image" />
+                <input
+                    type="radio"
+                    name="useLocalUrl"
+                    formControlName="useLocalUrl"
+                    [value]="true"
+                />
                 <label>File</label>
             </div>
             <input
                 class="nl-news-edit__input"
                 name="image"
-                [(ngModel)]="model.image"
+                formControlName="image"
             />
         </div>
         <div class="nl-news-edit__field">
@@ -47,7 +57,7 @@
                 class="nl-news-edit__input"
                 readonly
                 name="date"
-                [ngModel]="model.date | date: 'long'"
+                formControlName="date"
             />
         </div>
         <div class="nl-news-edit__field">
@@ -55,7 +65,7 @@
             <input
                 class="nl-news-edit__input"
                 name="author"
-                [(ngModel)]="model.author"
+                formControlName="author"
             />
         </div>
         <div class="nl-news-edit__field">
@@ -63,12 +73,22 @@
             <input
                 class="nl-news-edit__input"
                 name="sourceUrl"
-                [(ngModel)]="model.sourceUrl"
+                formControlName="sourceUrl"
             />
         </div>
         <div class="nl-news-edit-buttons">
-            <button class="nl-news-edit__button" type="submit">Save</button>
-            <button class="nl-news-edit__button" (click)="cancel()">
+            <button
+                class="nl-news-edit__button"
+                type="submit"
+                [disabled]="formGroup.invalid"
+            >
+                Save
+            </button>
+            <button
+                class="nl-news-edit__button"
+                type="button"
+                (click)="cancel()"
+            >
                 Cancel
             </button>
         </div>

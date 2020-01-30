@@ -1,5 +1,5 @@
 export interface LocalNewsModel {
-    id: string;
+    id: number;
     heading: string;
     shortDescription: string;
     content: string;
@@ -8,4 +8,5 @@ export interface LocalNewsModel {
     date: string;
     author: string;
     sourceUrl: string;
+    useLocalImageUrl?: boolean;
 }
