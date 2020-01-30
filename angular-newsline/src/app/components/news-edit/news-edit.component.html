@@ -92,5 +92,8 @@
                 Cancel
             </button>
         </div>
+        <div *ngIf="errorMessage" class="nl-news-edit__error-message">
+            {{ errorMessage }}
+        </div>
     </div>
 </form>

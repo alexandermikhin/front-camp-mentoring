@@ -24,9 +24,8 @@ class NewsFileService {
   async create(item) {
     const data = await this._getData();
     const newItem = {
+      ...item,
       id: parseInt(data.availableId),
-      date: item.date,
-      content: item.content
     };
 
     data.news.push(newItem);

@@ -5,7 +5,6 @@
       "heading": "Local news 0 heading",
       "shortDescription": "Local news 0 short description",
       "content": "Local news 0 content",
-      "isFile": false,
       "imageUrl": "http://localhost:3000/images/news-logo.png",
       "useLocalImageUrl": true,
       "date": "2020-01-28",
@@ -17,12 +16,22 @@
       "heading": "Local news 1 heading",
       "shortDescription": "Local news 1 short description",
       "content": "Local news 1 content",
-      "isFile": false,
       "imageUrl": "http://nl.co.app",
       "date": "2020-01-28",
       "author": "user",
       "sourceUrl": "local-news-1-heading"
+    },
+    {
+      "id": 2,
+      "heading": "Local news 4 rrrrheading",
+      "shortDescription": "Local news 4 short description",
+      "content": "yyy",
+      "imageUrl": "qqq",
+      "useLocalImageUrl": false,
+      "date": "2020-01-30T19:09:14.362Z",
+      "author": "admin",
+      "sourceUrl": "yyy"
     }
   ],
-  "availableId": 2
+  "availableId": 3
 }

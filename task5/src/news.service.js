@@ -66,8 +66,12 @@ class NewsService {
       return [false, "News content is absent or empty."];
     }
 
-    if (!item.title) {
-      return [false, "News title is absent or empty."];
+    if (!item.heading) {
+      return [false, "News heading is absent or empty."];
+    }
+
+    if (!item.sourceUrl) {
+      return [false, "News source URL is absent or empty."];
     }
 
     return [true, ''];

@@ -3,10 +3,9 @@ export interface LocalNewsModel {
     heading: string;
     shortDescription: string;
     content: string;
-    isFile: boolean;
-    imageUrl: string;
     date: string;
     author: string;
     sourceUrl: string;
+    imageUrl?: string;
     useLocalImageUrl?: boolean;
 }

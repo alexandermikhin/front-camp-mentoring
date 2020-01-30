@@ -1,10 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { getNewsItemFromLocal } from 'src/app/helpers/news-item-model-helpers';
-import { NewsItemModel } from 'src/app/models/news-item.model';
+import { LocalNewsModel } from 'src/app/models/data-models/local-news.model';
 import { User } from 'src/app/models/user.model';
 import { HeaderService } from 'src/app/services/header.service';
 import { LocalNewsService } from 'src/app/services/localnews.service';
@@ -17,6 +17,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NewsEditComponent implements OnInit, OnDestroy {
     formGroup: FormGroup;
+    errorMessage: string;
 
     private activeUser: User;
     private newsId: string;
@@ -43,17 +44,16 @@ export class NewsEditComponent implements OnInit, OnDestroy {
                 .getNewsById(this.newsId)
                 .pipe(take(1))
                 .subscribe(item => {
-                    const model = getNewsItemFromLocal(item);
-                    this.fillInForm(model);
+                    this.fillInForm(item);
                 });
         } else {
             this.fillInForm({
-                id: '',
+                id: -1,
                 heading: '',
-                date: new Date(),
+                date: new Date().toString(),
                 content: '',
                 shortDescription: '',
-                source: '',
+                sourceUrl: '',
                 author: (this.activeUser && this.activeUser.login) || ''
             });
         }
@@ -64,18 +64,31 @@ export class NewsEditComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
-        const model: NewsItemModel = {
-            id: this.newsId,
+        const model: LocalNewsModel = {
+            id: this.newsId !== null ? parseInt(this.newsId, 10) : -1,
             heading: this.formGroup.get('heading').value,
-            date: new Date(),
-            content: this.formGroup.get('content').value,
             shortDescription: this.formGroup.get('shortDescription').value,
-            source: this.formGroup.get('source').value,
-            author: this.formGroup.get('author').value
+            content: this.formGroup.get('content').value,
+            date: new Date().toISOString(),
+            author: this.formGroup.get('author').value,
+            sourceUrl: this.formGroup.get('sourceUrl').value,
+            imageUrl: this.formGroup.get('image').value,
+            useLocalImageUrl: this.formGroup.get('useLocalUrl').value
         };
 
-        this.localNewsService.editNews(model);
-        this.navigateHome();
+        if (model.id === -1) {
+            this.localNewsService.createNews(model).subscribe(
+                () => this.navigateHome(),
+                (errorResponse: HttpErrorResponse) =>
+                    this.processError(errorResponse)
+            );
+        } else {
+            this.localNewsService.editNews(model).subscribe(
+                () => this.navigateHome(),
+                (errorResponse: HttpErrorResponse) =>
+                    this.processError(errorResponse)
+            );
+        }
     }
 
     cancel() {
@@ -95,13 +108,13 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         });
     }
 
-    private fillInForm(model: NewsItemModel) {
+    private fillInForm(model: LocalNewsModel) {
         this.formGroup.setValue({
             heading: model.heading,
             shortDescription: model.shortDescription,
             content: model.content,
-            useLocalUrl: model.useLocalImageUrl,
-            image: model.image,
+            useLocalUrl: !!model.useLocalImageUrl,
+            image: model.imageUrl || '',
             date: model.date.toLocaleString(),
             author: model.author,
             sourceUrl: model.sourceUrl
@@ -110,5 +123,9 @@ export class NewsEditComponent implements OnInit, OnDestroy {
 
     private navigateHome() {
         this.router.navigate(['/']);
+    }
+
+    private processError(errorResponse: HttpErrorResponse) {
+        this.errorMessage = errorResponse.error;
     }
 }

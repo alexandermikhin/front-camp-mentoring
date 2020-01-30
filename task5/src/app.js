@@ -117,7 +117,7 @@ async function createNewsItem(req, res, next) {
 
   try {
     await newsService.add(newItem);
-    res.status(200).send("News add successful.");
+    res.status(200).send({ message: "News add successful." });
   } catch (err) {
     next(err);
   }
@@ -208,10 +208,14 @@ function errorHanlder(err, _req, res, _next) {
 function getItemFromBody(body) {
   return {
     id: body.id,
-    date: body.date,
+    heading: body.heading,
+    shortDescription: body.shortDescription,
     content: body.content,
-    title: body.title,
-    author: body.author
+    imageUrl: body.imageUrl,
+    useLocalImageUrl: body.useLocalImageUrl,
+    date: body.date,
+    author: body.author,
+    sourceUrl: body.sourceUrl
   };
 }
 
