@@ -6,7 +6,7 @@
       "shortDescription": "Local news 0 short description",
       "content": "Local news 0 content",
       "isFile": false,
-      "imageUrl": "http://localhost:3000/images/0.jpg",
+      "imageUrl": "http://localhost:3000/images/news-logo.png",
       "useLocalImageUrl": true,
       "date": "2020-01-28",
       "author": "admin",

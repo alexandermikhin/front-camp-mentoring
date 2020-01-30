@@ -31,15 +31,16 @@ const newsService = new NewsService(dataService);
 const userService = new UserService();
 const viewsPath = path.resolve(__dirname, "./views");
 
-app.use(cors());
-
-app.use(
-  session({
-    secret: "session-secret",
-    resave: false,
-    saveUninitialized: true
-  })
-);
+app
+  .use(cors())
+  .use("/images", express.static("images"))
+  .use(
+    session({
+      secret: "session-secret",
+      resave: false,
+      saveUninitialized: true
+    })
+  );
 
 app.set("views", viewsPath);
 app.set("view engine", "pug");
