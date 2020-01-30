@@ -1,0 +1,37 @@
+<div class="nl-login-popup-overflow"></div>
+<div class="nl-login-popup">
+    <header class="nl-login-popup__header">Login</header>
+    <form (ngSubmit)="onSubmit(name.value, password.value)">
+        <label class="nl-login-popup__label">Login</label>
+        <input #name name="login" class="nl-login-popup__input" />
+        <label class="nl-login-popup__label">Password</label>
+        <input
+            #password
+            name="password"
+            class="nl-login-popup__input"
+            type="password"
+        />
+        <div class="nl-login-popup__operations">
+            <button class="nl-login-popup__button" type="submit">
+                Log in
+            </button>
+            <button
+                class="nl-login-popup__button"
+                type="button"
+                (click)="onRegister(name.value, password.value)"
+            >
+                Register
+            </button>
+            <button
+                class="nl-login-popup__button"
+                type="reset"
+                (click)="onCancel()"
+            >
+                Cancel
+            </button>
+        </div>
+        <div *ngIf="errorMessage" class="nl-login-popup__error-message">
+            {{ errorMessage }}
+        </div>
+    </form>
+</div>

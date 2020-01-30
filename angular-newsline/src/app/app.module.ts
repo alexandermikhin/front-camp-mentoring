@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
+import { LoginPopupComponent } from './components/login-popup/login-popup.component';
 import { NewsDetailsComponent } from './components/news-details/news-details.component';
 import { NewsEditComponent } from './components/news-edit/news-edit.component';
 import { NewsListItemComponent } from './components/news-list-item/news-list-item.component';
@@ -18,33 +19,38 @@ import { HighlightPipe } from './pipes/highlight.pipe';
 import { SearchWithinPipe } from './pipes/search-within.pipe';
 import { HeaderService } from './services/header.service';
 import { LocalNewsService } from './services/localnews.service';
+import { LoginService } from './services/login.service';
 import { NewsApiService } from './services/newsapi.service';
 import { UserService } from './services/user.service';
 
 @NgModule({
     declarations: [
+        // Components
         AppComponent,
-        HeaderComponent,
         FooterComponent,
-        ToolbarComponent,
+        HeaderComponent,
+        LoginPopupComponent,
         NewsDetailsComponent,
         NewsEditComponent,
         NewsListComponent,
         NewsListItemComponent,
         PageNotFoundComponent,
-        SearchWithinPipe,
-        HighlightPipe
+        ToolbarComponent,
+        // Pipes
+        HighlightPipe,
+        SearchWithinPipe
     ],
-    entryComponents: [NewsListItemComponent],
+    entryComponents: [LoginPopupComponent, NewsListItemComponent],
     imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
     providers: [
-        UserService,
-        LocalNewsService,
-        NewsApiService,
-        HeaderService,
         AuthGuard,
         EditGuard,
-        SearchWithinPipe
+        HeaderService,
+        LocalNewsService,
+        LoginService,
+        NewsApiService,
+        SearchWithinPipe,
+        UserService
     ],
     bootstrap: [AppComponent]
 })
