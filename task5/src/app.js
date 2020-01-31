@@ -180,10 +180,10 @@ async function register(req, res, next) {
   res.status(200).send();
 }
 
-function logout(req, res, next) {
+function logout(req, res, _next) {
   console.log("Request: Logout");
   req.logout();
-  res.redirect("/");
+  res.send();
 }
 
 function errorLogHandler(err, _req, _res, next) {

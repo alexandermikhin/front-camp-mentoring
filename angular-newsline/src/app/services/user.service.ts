@@ -29,8 +29,12 @@ export class UserService {
             );
     }
 
-    logout() {
-        this.user.next(undefined);
+    logout(): Observable<any> {
+        return this.httpClient
+            .get(`${this.API_URL}/logout`)
+            .pipe(tap(() => {
+                this.user.next(undefined);
+            }));
     }
 
     register(login: string, password: string): Observable<any> {
