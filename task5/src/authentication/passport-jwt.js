@@ -12,6 +12,7 @@ passport.use(
       secretOrKey: config.authKey
     },
     async (jwt_payload, done) => {
+      console.log('Jwt strategy.');
       let user;
       try {
         user = await User.findOne({ login: jwt_payload.login }).exec();

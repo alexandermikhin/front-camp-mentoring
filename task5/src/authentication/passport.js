@@ -1,6 +1,8 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const User = require("../db/user.model");
+const UserFileService = require("../user-file.service");
+
+const userService = new UserFileService();
 
 passport.use(
   new LocalStrategy(
@@ -9,9 +11,10 @@ passport.use(
       passwordField: "password"
     },
     async (login, password, done) => {
+      console.log("Local strategy.");
       let user;
       try {
-        user = await User.findOne({ login }).exec();
+        user = await userService.get(login);
       } catch (e) {
         return done(e);
       }

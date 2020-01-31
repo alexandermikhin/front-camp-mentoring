@@ -17,14 +17,14 @@ export class LoginService {
         popupEl.addEventListener(
             'login',
             (event: CustomEvent<[string, string]>) => {
-                const result = this.userService.login(
-                    event.detail[0],
-                    event.detail[1]
-                );
-                popupEl.errorMessage = result[0] ? '' : result[1];
-                if (result[0]) {
-                    this.hidePopup(popupEl);
-                }
+                this.userService
+                    .login(event.detail[0], event.detail[1])
+                    .subscribe(
+                        () => this.hidePopup(popupEl),
+                        () =>
+                            (popupEl.errorMessage =
+                                'User or password is incorrect')
+                    );
             }
         );
 

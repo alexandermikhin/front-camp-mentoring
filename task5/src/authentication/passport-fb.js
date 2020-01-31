@@ -10,6 +10,7 @@ passport.use(
       callbackURL: "http://localhost:3000/login/facebook/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log("Facebook strategy.");
       if (!accessToken) {
         done("No access token");
       }

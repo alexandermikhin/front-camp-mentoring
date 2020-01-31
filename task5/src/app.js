@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const NewsService = require("./news.service");
-const UserService = require("./db/user.service");
 const logger = require("./logger");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
@@ -28,7 +27,7 @@ if (useDb) {
   connectToDb();
 }
 const newsService = new NewsService(dataService);
-const userService = new UserService();
+const userService = useDb ? buildUserDbService() : buildUserFileService();
 const viewsPath = path.resolve(__dirname, "./views");
 
 app
@@ -56,7 +55,7 @@ app.get("/register", (req, res, next) => {
 app.get("/login", (req, res, next) => {
   res.render("login");
 });
-app.use(express.urlencoded());
+app.use(express.json());
 app.post("/login", passport.authenticate("local"), login);
 app.get("/login/facebook", passport.authenticate("facebook"));
 app.get("/login/facebook/callback", passport.authenticate("facebook"), login);
@@ -166,9 +165,7 @@ async function login(req, res, _next) {
   console.log("Request: Login");
   const { user } = req;
   const token = generateAuthToken(user);
-  res
-    .header(config.headerKey, token)
-    .render("login", { user: user.login, authorised: true });
+  res.header(config.headerKey, token).send({ user: user.login, token });
 }
 
 async function register(req, res, next) {
@@ -232,6 +229,16 @@ function buildNewsDbService() {
 function buildNewsFileService() {
   const NewsFileService = require("./news-file.service");
   return new NewsFileService();
+}
+
+function buildUserDbService() {
+  const UserDbService = require("./db/user.service");
+  return new UserDbService();
+}
+
+function buildUserFileService() {
+  const UserFileService = require("./user-file.service");
+  return new UserFileService();
 }
 
 function connectToDb() {
