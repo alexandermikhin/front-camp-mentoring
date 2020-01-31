@@ -173,13 +173,11 @@ async function register(req, res, next) {
   const body = req.body;
   const user = await userService.get(body.login);
   if (user) {
-    res.render("register", { message: "User already exists." });
+    res.status(400).send("User already exists.");
     return;
   }
   await userService.create(body.login, body.password);
-  res.render("register", {
-    message: "User created. Press Back button to login."
-  });
+  res.status(200).send();
 }
 
 function logout(req, res, next) {

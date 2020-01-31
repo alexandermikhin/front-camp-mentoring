@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgElement, WithProperties } from '@angular/elements';
 import { LoginPopupComponent } from '../components/login-popup/login-popup.component';
@@ -16,29 +17,25 @@ export class LoginService {
 
         popupEl.addEventListener(
             'login',
-            (event: CustomEvent<[string, string]>) => {
-                this.userService
-                    .login(event.detail[0], event.detail[1])
-                    .subscribe(
-                        () => this.hidePopup(popupEl),
-                        () =>
-                            (popupEl.errorMessage =
-                                'User or password is incorrect')
-                    );
-            }
+            (event: CustomEvent<[string, string]>) =>
+                this.login(event.detail[0], event.detail[1], popupEl)
         );
 
         popupEl.addEventListener(
             'register',
             (event: CustomEvent<[string, string]>) => {
-                const result = this.userService.register(
-                    event.detail[0],
-                    event.detail[1]
-                );
-                popupEl.errorMessage = result[0] ? '' : result[1];
-                if (result[0]) {
-                    this.hidePopup(popupEl);
-                }
+                this.userService
+                    .register(event.detail[0], event.detail[1])
+                    .subscribe(
+                        () =>
+                            this.login(
+                                event.detail[0],
+                                event.detail[1],
+                                popupEl
+                            ),
+                        (response: HttpErrorResponse) =>
+                            (popupEl.errorMessage = response.error)
+                    );
             }
         );
 
@@ -51,5 +48,12 @@ export class LoginService {
 
     private hidePopup(element: PopupElement) {
         document.body.removeChild(element);
+    }
+
+    private login(login: string, password: string, popupEl: PopupElement) {
+        this.userService.login(login, password).subscribe(
+            () => this.hidePopup(popupEl),
+            () => (popupEl.errorMessage = 'User or password is incorrect')
+        );
     }
 }

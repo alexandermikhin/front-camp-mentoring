@@ -9,7 +9,6 @@ import { User } from '../models/user.model';
 export class UserService {
     private user = new BehaviorSubject<User | undefined>(undefined);
     private readonly API_URL = 'http://localhost:3000';
-    private users: User[] = [{ login: 'admin' }];
 
     constructor(private httpClient: HttpClient) {}
 
@@ -34,12 +33,10 @@ export class UserService {
         this.user.next(undefined);
     }
 
-    register(login: string, password: string): [boolean, string] {
-        const user = this.users.find(u => u.login === login);
-        if (user) {
-            return [false, 'User already exists'];
-        }
-
-        return [true, 'User added'];
+    register(login: string, password: string): Observable<any> {
+        return this.httpClient.post(`${this.API_URL}/register`, {
+            login,
+            password
+        });
     }
 }
