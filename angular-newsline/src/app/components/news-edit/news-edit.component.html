@@ -31,24 +31,42 @@
             <div class="nl-news-edit__image-source">
                 <input
                     type="radio"
-                    name="useLocalUrl"
-                    formControlName="useLocalUrl"
+                    name="useImageData"
+                    formControlName="useImageData"
                     [value]="false"
                 />
                 <label>URL</label>
                 <input
                     type="radio"
-                    name="useLocalUrl"
-                    formControlName="useLocalUrl"
+                    name="useImageData"
+                    formControlName="useImageData"
                     [value]="true"
                 />
                 <label>File</label>
             </div>
-            <input
-                class="nl-news-edit__input"
-                name="image"
-                formControlName="image"
-            />
+            <ng-container *ngIf="!formGroup.get('useImageData').value">
+                <input
+                    class="nl-news-edit__input"
+                    name="image"
+                    formControlName="imageUrl"
+                />
+                <img
+                    class="nl-news-edit__image-preview"
+                    [src]="formGroup.get('imageUrl').value"
+                />
+            </ng-container>
+            <ng-container *ngIf="formGroup.get('useImageData').value">
+                <input
+                    class="nl-news-edit__input"
+                    name="file"
+                    type="file"
+                    (change)="onFileChange($event)"
+                />
+                <img
+                    class="nl-news-edit__image-preview"
+                    [src]="formGroup.get('imageData').value"
+                />
+            </ng-container>
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Date</label>

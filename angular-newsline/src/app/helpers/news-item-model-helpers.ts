@@ -22,9 +22,8 @@ export function getNewsItemFromLocal(article: LocalNewsModel): NewsItemModel {
         content: article.content,
         shortDescription: article.shortDescription,
         sourceUrl: article.sourceUrl,
-        image: article.imageUrl,
+        image: article.useImageData ? article.imageData : article.imageUrl,
         source: '',
-        author: article.author,
-        useLocalImageUrl: article.useLocalImageUrl
+        author: article.author
     };
 }

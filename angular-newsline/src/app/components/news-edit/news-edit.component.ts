@@ -72,8 +72,9 @@ export class NewsEditComponent implements OnInit, OnDestroy {
             date: new Date().toISOString(),
             author: this.formGroup.get('author').value,
             sourceUrl: this.formGroup.get('sourceUrl').value,
-            imageUrl: this.formGroup.get('image').value,
-            useLocalImageUrl: this.formGroup.get('useLocalUrl').value
+            imageUrl: this.formGroup.get('imageUrl').value,
+            imageData: this.formGroup.get('imageData').value,
+            useImageData: this.formGroup.get('useImageData').value
         };
 
         if (model.id === -1) {
@@ -91,6 +92,21 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         }
     }
 
+    onFileChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        if (!target.files || !target.files[0]) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (progressEvent: ProgressEvent) => {
+            const { result } = progressEvent.target as FileReader;
+            this.formGroup.get('imageData').setValue(result);
+        };
+
+        reader.readAsDataURL(target.files[0]);
+    }
+
     cancel() {
         this.navigateHome();
     }
@@ -100,8 +116,9 @@ export class NewsEditComponent implements OnInit, OnDestroy {
             heading: new FormControl('', [Validators.required]),
             shortDescription: new FormControl(),
             content: new FormControl(),
-            useLocalUrl: new FormControl(),
-            image: new FormControl(),
+            imageUrl: new FormControl(),
+            imageData: new FormControl(),
+            useImageData: new FormControl(),
             date: new FormControl(),
             author: new FormControl(),
             sourceUrl: new FormControl('', [Validators.required])
@@ -113,8 +130,9 @@ export class NewsEditComponent implements OnInit, OnDestroy {
             heading: model.heading,
             shortDescription: model.shortDescription,
             content: model.content,
-            useLocalUrl: !!model.useLocalImageUrl,
-            image: model.imageUrl || '',
+            imageUrl: model.imageUrl || '',
+            imageData: model.imageData || '',
+            useImageData: !!model.useImageData,
             date: model.date.toLocaleString(),
             author: model.author,
             sourceUrl: model.sourceUrl

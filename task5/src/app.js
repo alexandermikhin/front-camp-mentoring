@@ -207,7 +207,8 @@ function getItemFromBody(body) {
     shortDescription: body.shortDescription,
     content: body.content,
     imageUrl: body.imageUrl,
-    useLocalImageUrl: body.useLocalImageUrl,
+    imageData: body.imageData,
+    useImageData: body.useImageData,
     date: body.date,
     author: body.author,
     sourceUrl: body.sourceUrl

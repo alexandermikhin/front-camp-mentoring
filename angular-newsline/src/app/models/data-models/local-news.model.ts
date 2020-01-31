@@ -7,5 +7,6 @@ export interface LocalNewsModel {
     author: string;
     sourceUrl: string;
     imageUrl?: string;
-    useLocalImageUrl?: boolean;
+    imageData?: string;
+    useImageData?: boolean;
 }

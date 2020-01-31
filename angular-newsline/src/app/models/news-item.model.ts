@@ -6,9 +6,7 @@ export interface NewsItemModel {
     date: Date;
     source: string;
     image?: string;
-    useLocalImageUrl?: boolean;
     author?: string;
     sourceUrl?: string;
     isEditable?: boolean;
-    localUrl?: string;
 }
