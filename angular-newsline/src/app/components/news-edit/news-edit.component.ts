@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,8 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
     selector: 'nl-news-edit',
     templateUrl: './news-edit.component.html',
-    styleUrls: ['./news-edit.component.scss']
+    styleUrls: ['./news-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsEditComponent implements OnInit, OnDestroy {
     formGroup: FormGroup;
@@ -28,7 +29,8 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private headerService: HeaderService
+        private headerService: HeaderService,
+        private cdr: ChangeDetectorRef
     ) {}
 
     ngOnInit() {
@@ -102,6 +104,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         reader.onload = (progressEvent: ProgressEvent) => {
             const { result } = progressEvent.target as FileReader;
             this.formGroup.get('imageData').setValue(result);
+            this.cdr.detectChanges();
         };
 
         reader.readAsDataURL(target.files[0]);
@@ -137,6 +140,8 @@ export class NewsEditComponent implements OnInit, OnDestroy {
             author: model.author,
             sourceUrl: model.sourceUrl
         });
+
+        this.cdr.detectChanges();
     }
 
     private navigateHome() {
