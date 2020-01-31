@@ -1,8 +1,10 @@
 const passport = require("passport");
 const passportJwt = require("passport-jwt");
+const UserFileService = require("../user-file.service");
+
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
-const User = require("../db/user.model");
+const userService = new UserFileService();
 const config = require("../config");
 
 passport.use(
@@ -12,10 +14,10 @@ passport.use(
       secretOrKey: config.authKey
     },
     async (jwt_payload, done) => {
-      console.log('Jwt strategy.');
+      console.log("Jwt strategy.");
       let user;
       try {
-        user = await User.findOne({ login: jwt_payload.login }).exec();
+        user = await userService.get(jwt_payload.login);
       } catch (e) {
         return done(e);
       }

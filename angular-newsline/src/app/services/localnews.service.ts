@@ -1,14 +1,18 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LocalNewsModel } from '../models/data-models/local-news.model';
+import { UserService } from './user.service';
 
 @Injectable()
 export class LocalNewsService {
     private readonly API_URL = 'http://localhost:3000';
 
-    constructor(private httpClient: HttpClient) {}
+    constructor(
+        private httpClient: HttpClient,
+        private userServices: UserService
+    ) {}
 
     getNews(
         q: string,
@@ -34,7 +38,10 @@ export class LocalNewsService {
     }
 
     deleteNews(id: string): Observable<any> {
-        return this.httpClient.delete(`${this.API_URL}/news/${id}`);
+        const headers = this.getAuthHeaders();
+        return this.httpClient.delete(`${this.API_URL}/news/${id}`, {
+            headers
+        });
     }
 
     createNews(item: LocalNewsModel): Observable<any> {
@@ -42,7 +49,11 @@ export class LocalNewsService {
     }
 
     editNews(item: LocalNewsModel): Observable<any> {
-        return this.httpClient.put(`${this.API_URL}/news/${item.id}`, item);
+        const headers = this.getAuthHeaders();
+
+        return this.httpClient.put(`${this.API_URL}/news/${item.id}`, item, {
+            headers
+        });
     }
 
     private getFilteredItems(
@@ -66,5 +77,9 @@ export class LocalNewsService {
         const startIndex = (page - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         return filteredNews.slice(startIndex, endIndex);
+    }
+
+    private getAuthHeaders(): HttpHeaders {
+        return new HttpHeaders({ 'x-auth-token': this.userServices.authToken });
     }
 }
