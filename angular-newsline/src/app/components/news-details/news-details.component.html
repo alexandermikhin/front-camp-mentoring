@@ -19,7 +19,12 @@
             *ngIf="model.isEditable"
             class="nl-details__section nl-details-operations"
         >
-            <button class="nl-details-operations__button">Edit</button>
+            <button
+                class="nl-details-operations__button"
+                (click)="onEditClick()"
+            >
+                Edit
+            </button>
             <button
                 class="nl-details-operations__button"
                 (click)="onDeleteClick()"

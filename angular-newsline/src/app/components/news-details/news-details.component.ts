@@ -1,84 +1,21 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { getNewsItemFromLocal } from 'src/app/helpers/news-item-model-helpers';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NewsItemModel } from 'src/app/models/news-item.model';
-import { User } from 'src/app/models/user.model';
-import { HeaderService } from 'src/app/services/header.service';
-import { LocalNewsService } from 'src/app/services/localnews.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 'nl-news-details',
     templateUrl: './news-details.component.html',
     styleUrls: ['./news-details.component.scss']
 })
-export class NewsDetailsComponent implements OnInit, OnDestroy {
-    model: NewsItemModel | undefined;
-
-    private subscription = new Subscription();
-    private activeUser: User;
-    private newsId: string;
-
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private localNewsService: LocalNewsService,
-        private userService: UserService,
-        private headerService: HeaderService
-    ) {}
-
-    ngOnInit() {
-        this.subscription.add(
-            this.route.paramMap.subscribe(param => {
-                this.newsId = param.get('id');
-                this.updateNewsModel();
-            })
-        );
-
-        this.subscription.add(
-            this.userService.activeUser.subscribe(u => {
-                this.activeUser = u;
-                this.setRights(this.model);
-            })
-        );
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
+export class NewsDetailsComponent {
+    @Input() model: NewsItemModel | undefined;
+    @Output() delete = new EventEmitter<string>();
+    @Output() edit = new EventEmitter<string>();
 
     onDeleteClick() {
-        this.localNewsService.deleteNews(this.model.id);
-        this.router.navigate(['/']);
+        this.delete.emit(this.model.id);
     }
 
-    private updateNewsModel() {
-        this.localNewsService
-            .getNews({ sourceUrl: this.newsId })
-            .pipe(take(1))
-            .subscribe(items => {
-                this.model =
-                    items && items[0]
-                        ? getNewsItemFromLocal(items[0])
-                        : undefined;
-
-                this.setRights(this.model);
-                this.updateHeader();
-            });
-    }
-
-    private setRights(item: NewsItemModel | undefined) {
-        if (!item) {
-            return;
-        }
-
-        item.isEditable =
-            this.activeUser && this.activeUser.login === item.author;
-    }
-
-    private updateHeader() {
-        this.headerService.setHeader(this.model ? this.model.heading : '');
+    onEditClick() {
+        this.edit.emit(this.model.id);
     }
 }

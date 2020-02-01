@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LoginPopupComponent } from './components/login-popup/login-popup.component';
+import { NewsDetailsContainerComponent } from './components/news-details-container/news-details-container.component';
 import { NewsDetailsComponent } from './components/news-details/news-details.component';
 import { NewsEditComponent } from './components/news-edit/news-edit.component';
 import { NewsListItemComponent } from './components/news-list-item/news-list-item.component';
@@ -31,6 +32,7 @@ import { UserService } from './services/user.service';
         HeaderComponent,
         LoginPopupComponent,
         NewsDetailsComponent,
+        NewsDetailsContainerComponent,
         NewsEditComponent,
         NewsListComponent,
         NewsListItemComponent,
