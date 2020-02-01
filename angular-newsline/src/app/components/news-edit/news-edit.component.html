@@ -1,7 +1,7 @@
 <form class="nl-news-edit" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
     <div class="nl-news-edit__section">
         <div class="nl-news-edit__field">
-            <label class="nl-news-edit__label">Heading</label>
+            <label class="nl-news-edit__label nl-label_required">Heading</label>
             <input
                 class="nl-news-edit__input"
                 name="heading"
@@ -87,7 +87,7 @@
             />
         </div>
         <div class="nl-news-edit__field">
-            <label class="nl-news-edit__label">Source URL</label>
+            <label class="nl-news-edit__label nl-label_required">Source URL</label>
             <input
                 class="nl-news-edit__input"
                 name="sourceUrl"
