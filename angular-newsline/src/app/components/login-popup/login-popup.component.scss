@@ -9,7 +9,7 @@
 
 .nl-login-popup {
     background: white;
-    width: 50%;
+    width: 360px;
     margin-left: auto;
     margin-right: auto;
     top: 100px;
@@ -28,6 +28,28 @@
     border-bottom: 1px solid lightgray;
 }
 
+.nl-login-popup__content {
+    padding: 6px;
+}
+
+.nl-login-popup__form {
+    margin: 0 auto;
+}
+
 .nl-login-popup__label {
     display: block;
+}
+
+.nl-login-popup__input {
+    width: 100%;
+}
+
+.nl-login-form__field-set {
+    margin-top: 12px;
+}
+
+.nl-login-popup__operations {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
 }
