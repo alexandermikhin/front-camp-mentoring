@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LocalNewsModel } from '../models/data-models/local-news.model';
-import { LocalNewsRequestModel } from '../models/localnews-request.model';
+import { LocalNewsModel, LocalNewsRequestModel } from '../models';
 import { UserService } from './user.service';
 
 @Injectable()

@@ -1,14 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { LocalNewsModel } from 'src/app/models/data-models/local-news.model';
-import { User } from 'src/app/models/user.model';
-import { HeaderService } from 'src/app/services/header.service';
-import { LocalNewsService } from 'src/app/services/localnews.service';
-import { UserService } from 'src/app/services/user.service';
+import { LocalNewsModel, User } from 'src/app/models';
+import { HeaderService, LocalNewsService, UserService } from 'src/app/services';
 
 @Component({
     selector: 'nl-news-edit',

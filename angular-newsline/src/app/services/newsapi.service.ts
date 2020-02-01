@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NewsApiRequestModel } from '../models/newsapi-request.model';
-import { NewsApiResponseModel } from '../models/newsapi-response.model';
-import { NewsApiSourcesModel } from '../models/newsapi-sources.model';
+import {
+    NewsApiRequestModel,
+    NewsApiResponseModel,
+    NewsApiSourcesModel
+} from '../models';
 
 @Injectable()
 export class NewsApiService {

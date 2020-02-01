@@ -14,18 +14,22 @@ import {
     getNewsItemFromLocal,
     getNewsItemModel
 } from 'src/app/helpers/news-item-model-helpers';
-import { LocalNewsModel } from 'src/app/models/data-models/local-news.model';
-import { FilterModel } from 'src/app/models/filter.model';
-import { NewsItemModel } from 'src/app/models/news-item.model';
-import { NewsApiArticleModel } from 'src/app/models/newsapi-response.model';
-import { NewsApiSourceModel } from 'src/app/models/newsapi-sources.model';
-import { User } from 'src/app/models/user.model';
-import { SourceModel } from 'src/app/models/view-models/source.model';
-import { SearchWithinPipe } from 'src/app/pipes/search-within.pipe';
-import { HeaderService } from 'src/app/services/header.service';
-import { LocalNewsService } from 'src/app/services/localnews.service';
-import { NewsApiService } from 'src/app/services/newsapi.service';
-import { UserService } from 'src/app/services/user.service';
+import {
+    FilterModel,
+    LocalNewsModel,
+    NewsApiArticleModel,
+    NewsApiSourceModel,
+    NewsItemModel,
+    SourceModel,
+    User
+} from 'src/app/models';
+import { SearchWithinPipe } from 'src/app/pipes';
+import {
+    HeaderService,
+    LocalNewsService,
+    NewsApiService,
+    UserService
+} from 'src/app/services';
 import { NewsListItemComponent } from '../news-list-item/news-list-item.component';
 
 @Component({

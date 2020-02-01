@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { LoginResponseModel } from '../models/login-response.model';
-import { User } from '../models/user.model';
+import { LoginResponseModel, User } from '../models';
 
 @Injectable()
 export class UserService {

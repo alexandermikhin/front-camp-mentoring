@@ -1,12 +1,5 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    Output,
-    OnChanges
-} from '@angular/core';
-import { FilterModel } from 'src/app/models/filter.model';
-import { SourceModel } from 'src/app/models/view-models/source.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FilterModel, SourceModel } from 'src/app/models';
 
 @Component({
     selector: 'nl-toolbar',

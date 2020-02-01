@@ -1,6 +1,4 @@
-import { LocalNewsModel } from '../models/data-models/local-news.model';
-import { NewsItemModel } from '../models/news-item.model';
-import { NewsApiArticleModel } from '../models/newsapi-response.model';
+import { LocalNewsModel, NewsApiArticleModel, NewsItemModel } from '../models';
 
 export function getNewsItemModel(article: NewsApiArticleModel): NewsItemModel {
     return {

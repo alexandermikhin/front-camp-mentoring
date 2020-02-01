@@ -3,11 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { getNewsItemFromLocal } from 'src/app/helpers/news-item-model-helpers';
-import { NewsItemModel } from 'src/app/models/news-item.model';
-import { User } from 'src/app/models/user.model';
-import { HeaderService } from 'src/app/services/header.service';
-import { LocalNewsService } from 'src/app/services/localnews.service';
-import { UserService } from 'src/app/services/user.service';
+import { NewsItemModel, User } from 'src/app/models';
+import { HeaderService, LocalNewsService, UserService } from 'src/app/services';
 
 @Component({
     selector: 'nl-news-details-container',
