@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { zip } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { LocalNewsService } from '../services/localnews.service';
-import { UserService } from '../services/user.service';
+import { LocalNewsService, UserService } from '../services';
 
 @Injectable()
 export class EditGuard implements CanActivate {

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NewsDetailsContainerComponent } from './components/news-details-container/news-details-container.component';
-import { NewsEditComponent } from './components/news-edit/news-edit.component';
-import { NewsListComponent } from './components/news-list/news-list.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { AuthGuard } from './guards/auth.guard';
-import { EditGuard } from './guards/edit.guard';
+import {
+    NewsDetailsContainerComponent,
+    NewsEditComponent,
+    NewsListComponent,
+    PageNotFoundComponent
+} from './components';
+import { AuthGuard, EditGuard } from './guards';
 
 const routes: Routes = [
     { path: '', component: NewsListComponent },
