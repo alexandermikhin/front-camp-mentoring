@@ -1,4 +1,4 @@
-<div class="nl-news-list">
+<div class="nl-news-list" [hidden]="activeModel">
     <nl-toolbar
         [sources]="sources"
         [selectedSourceId]="selectedSourceId"
@@ -18,3 +18,10 @@
         </button>
     </section>
 </div>
+<nl-news-details
+    *ngIf="activeModel"
+    [model]="activeModel"
+    (edit)="onEditNews($event)"
+    (delete)="onDeleteNews($event)"
+    (back)="onDetailsBack()"
+></nl-news-details>

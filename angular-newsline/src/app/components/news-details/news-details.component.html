@@ -10,6 +10,13 @@
         <div class="nl-details__section nl-details-content">
             <h2 class="nl-details__news-title">{{ model.heading }}</h2>
             <div class="nl-details__news-text">{{ model.content }}</div>
+            <div *ngIf="!model.isLocalNews">
+                <a [href]="model.sourceUrl" target="_blank">Read from source</a>
+                <button (click)="onBackClick()">Back to list</button>
+            </div>
+            <div *ngIf="model.isLocalNews">
+                <a routerLink="/">Back</a>
+            </div>
             <div class="nl-details__news-time">
                 {{ model.date | date: 'medium' }}
             </div>

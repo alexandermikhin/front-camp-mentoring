@@ -27,6 +27,14 @@
                 >Read more...</a
             >
         </ng-container>
+        <ng-container *ngIf="!model.isLocalNews">
+            <button
+                class="nl-news-list-item__more-link"
+                (click)="onExpandClick()"
+            >
+                See details...
+            </button>
+        </ng-container>
     </div>
     <div
         *ngIf="model.isEditable"

@@ -9,7 +9,8 @@ export function getNewsItemModel(article: NewsApiArticleModel): NewsItemModel {
         heading: article.title,
         id: '',
         shortDescription: article.description || '',
-        source: article.url,
+        sourceUrl: article.url,
+        source: article.source && article.source.name,
         image: article.urlToImage
     };
 }

@@ -11,7 +11,7 @@ export class NewsListItemComponent {
     @Input() searchWithin: string;
     @Output() editNews = new EventEmitter<string>();
     @Output() deleteNews = new EventEmitter<string>();
-    @Output() expandNews = new EventEmitter();
+    @Output() expandNews = new EventEmitter<NewsItemModel>();
 
     editNewsClick(id: string) {
         this.editNews.emit(id);
@@ -21,7 +21,7 @@ export class NewsListItemComponent {
         this.deleteNews.emit(id);
     }
 
-    expandNewsItem() {
-        this.expandNews.emit();
+    onExpandClick() {
+        this.expandNews.emit(this.model);
     }
 }

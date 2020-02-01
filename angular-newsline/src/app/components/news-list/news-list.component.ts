@@ -43,6 +43,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     sources: SourceModel[];
     selectedSourceId: string;
     canAddNews: boolean;
+    activeModel: NewsItemModel;
 
     private readonly initialStartPage = 1;
     private startPage = 1;
@@ -121,6 +122,16 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
     onEditNews(id?: string) {
         this.router.navigate(['/edit', id || '']);
+    }
+
+    onExpandNews(model: NewsItemModel) {
+        this.activeModel = model;
+        this.headerService.setHeader(model.heading);
+    }
+
+    onDetailsBack() {
+        this.activeModel = undefined;
+        this.updateHeader();
     }
 
     onSearchWithinApply(value: string) {
@@ -214,6 +225,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
             instance.editNews.subscribe((event: string) =>
                 this.onEditNews(event)
             );
+            instance.expandNews.subscribe((event: NewsItemModel) =>
+                this.onExpandNews(event)
+            );
+
             componentRef.onDestroy(() => {
                 instance.deleteNews.unsubscribe();
                 instance.editNews.unsubscribe();

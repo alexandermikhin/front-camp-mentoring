@@ -10,6 +10,7 @@ export class NewsDetailsComponent {
     @Input() model: NewsItemModel | undefined;
     @Output() delete = new EventEmitter<string>();
     @Output() edit = new EventEmitter<string>();
+    @Output() back = new EventEmitter();
 
     onDeleteClick() {
         this.delete.emit(this.model.id);
@@ -17,5 +18,9 @@ export class NewsDetailsComponent {
 
     onEditClick() {
         this.edit.emit(this.model.id);
+    }
+
+    onBackClick() {
+        this.back.emit();
     }
 }
