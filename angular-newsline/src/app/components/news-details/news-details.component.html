@@ -12,7 +12,7 @@
             <div class="nl-details__news-text">{{ model.content }}</div>
             <div *ngIf="!model.isLocalNews">
                 <a [href]="model.sourceUrl" target="_blank">Read from source</a>
-                <button (click)="onBackClick()">Back to list</button>
+                <button class="nl-button" (click)="onBackClick()">Back to list</button>
             </div>
             <div *ngIf="model.isLocalNews">
                 <a routerLink="/">Back</a>
@@ -27,13 +27,13 @@
             class="nl-details__section nl-details-operations"
         >
             <button
-                class="nl-details-operations__button"
+                class="nl-details-operations__button nl-button"
                 (click)="onEditClick()"
             >
                 Edit
             </button>
             <button
-                class="nl-details-operations__button"
+                class="nl-details-operations__button nl-button"
                 (click)="onDeleteClick()"
             >
                 Delete

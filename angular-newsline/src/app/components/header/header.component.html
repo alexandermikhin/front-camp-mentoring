@@ -8,12 +8,12 @@
         <div class="nl-top-bar__login-info">
             <div *ngIf="userName">
                 <span class="nl-top-bar__login">{{ userName }}</span>
-                <button class="nl-top-bar__login-button" (click)="logout()">
+                <button class="nl-top-bar__login-button nl-button" (click)="logout()">
                     Log out
                 </button>
             </div>
             <div *ngIf="!userName">
-                <button class="nl-top-bar__login-button" (click)="showLoginPopup()">
+                <button class="nl-top-bar__login-button nl-button" (click)="showLoginPopup()">
                     Log in
                 </button>
             </div>

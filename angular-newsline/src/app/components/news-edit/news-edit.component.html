@@ -3,7 +3,7 @@
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label nl-label_required">Heading</label>
             <input
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="heading"
                 formControlName="heading"
             />
@@ -11,7 +11,7 @@
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Short description</label>
             <input
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="shortDescription"
                 formControlName="shortDescription"
             />
@@ -19,7 +19,7 @@
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Content</label>
             <textarea
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="content"
                 formControlName="content"
             ></textarea>
@@ -46,7 +46,7 @@
             </div>
             <ng-container *ngIf="!formGroup.get('useImageData').value">
                 <input
-                    class="nl-news-edit__input"
+                    class="nl-news-edit__input nl-input"
                     name="image"
                     formControlName="imageUrl"
                 />
@@ -57,7 +57,7 @@
             </ng-container>
             <ng-container *ngIf="formGroup.get('useImageData').value">
                 <input
-                    class="nl-news-edit__input"
+                    class="nl-news-edit__input nl-input"
                     name="file"
                     type="file"
                     (change)="onFileChange($event)"
@@ -72,7 +72,7 @@
             <label class="nl-news-edit__label">Date</label>
             <input
                 type="datetime"
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 readonly
                 name="date"
                 formControlName="date"
@@ -81,7 +81,7 @@
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Author</label>
             <input
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="author"
                 formControlName="author"
             />
@@ -89,21 +89,21 @@
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label nl-label_required">Source URL</label>
             <input
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="sourceUrl"
                 formControlName="sourceUrl"
             />
         </div>
         <div class="nl-news-edit-buttons">
             <button
-                class="nl-news-edit__button"
+                class="nl-news-edit__button nl-button nl-button_large"
                 type="submit"
                 [disabled]="formGroup.invalid"
             >
                 Save
             </button>
             <button
-                class="nl-news-edit__button"
+                class="nl-news-edit__button nl-button nl-button_large"
                 type="button"
                 (click)="cancel()"
             >

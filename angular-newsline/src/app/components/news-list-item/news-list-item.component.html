@@ -29,7 +29,7 @@
         </ng-container>
         <ng-container *ngIf="!model.isLocalNews">
             <button
-                class="nl-news-list-item__more-link"
+                class="nl-button"
                 (click)="onExpandClick()"
             >
                 See details...
@@ -41,13 +41,13 @@
         class="nl-news-list-item__section nl-news-list-item-operations"
     >
         <button
-            class="nl-news-list-item-operations__button"
+            class="nl-news-list-item-operations__button nl-button"
             (click)="editNewsClick(model.id)"
         >
             Edit
         </button>
         <button
-            class="nl-news-list-item-operations__button"
+            class="nl-news-list-item-operations__button nl-button"
             (click)="deleteNewsClick(model.id)"
         >
             Delete
