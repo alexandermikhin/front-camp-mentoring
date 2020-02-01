@@ -11,8 +11,8 @@ class NewsService {
     return this._dataService;
   }
 
-  async getAll() {
-    return this._service.getAll();
+  async getAll(query) {
+    return this._service.getAll(query);
   }
 
   async getById(id) {

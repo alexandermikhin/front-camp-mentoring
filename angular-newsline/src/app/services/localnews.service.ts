@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { LocalNewsModel } from '../models/data-models/local-news.model';
+import { LocalNewsRequestModel } from '../models/localnews-request.model';
 import { UserService } from './user.service';
 
 @Injectable()
@@ -14,21 +14,10 @@ export class LocalNewsService {
         private userServices: UserService
     ) {}
 
-    getNews(
-        q: string,
-        author: string | undefined,
-        page: number,
-        pageSize: number = 5
-    ): Observable<LocalNewsModel[]> {
-        const url = `${this.API_URL}/news`;
+    getNews(request: LocalNewsRequestModel): Observable<LocalNewsModel[]> {
+        const url = this.getNewsUrl(request);
 
-        return this.httpClient
-            .get<LocalNewsModel[]>(url)
-            .pipe(
-                map(items =>
-                    this.getFilteredItems(items, q, author, page, pageSize)
-                )
-            );
+        return this.httpClient.get<LocalNewsModel[]>(url);
     }
 
     getNewsById(id: string): Observable<LocalNewsModel> {
@@ -56,30 +45,26 @@ export class LocalNewsService {
         });
     }
 
-    private getFilteredItems(
-        items: LocalNewsModel[],
-        q: string,
-        author: string | undefined,
-        page: number,
-        pageSize: number
-    ): LocalNewsModel[] {
-        let filteredNews =
-            author !== undefined
-                ? items.filter(i => i.author === author)
-                : items;
-        filteredNews = filteredNews.filter(
-            i =>
-                (i.heading && i.heading.includes(q)) ||
-                (i.shortDescription && i.shortDescription.includes(q)) ||
-                (i.content && i.content.includes(q))
-        );
-
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        return filteredNews.slice(startIndex, endIndex);
-    }
-
     private getAuthHeaders(): HttpHeaders {
         return new HttpHeaders({ 'x-auth-token': this.userServices.authToken });
+    }
+
+    private getNewsUrl(queryParams: LocalNewsRequestModel): string {
+        let url = `${this.API_URL}/news`;
+
+        queryParams.pageSize = queryParams.pageSize || 5;
+        const queryList: string[] = [];
+        for (const key in queryParams) {
+            if (queryParams.hasOwnProperty(key) && queryParams[key]) {
+                queryList.push(`${key}=${queryParams[key]}`);
+            }
+        }
+
+        const query = queryList.join('&');
+        if (query) {
+            url += `?${query}`;
+        }
+
+        return url;
     }
 }

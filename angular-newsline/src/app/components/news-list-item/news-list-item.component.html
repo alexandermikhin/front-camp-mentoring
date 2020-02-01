@@ -20,9 +20,13 @@
             class="nl-news-list-item__news-text"
             [innerHTML]="model.shortDescription | highlight: searchWithin"
         ></div>
-        <a [routerLink]="model.localUrl" class="nl-news-list-item__more-link"
-            >Read more...</a
-        >
+        <ng-container *ngIf="model.isLocalNews">
+            <a
+                [routerLink]="'/details/' + model.sourceUrl"
+                class="nl-news-list-item__more-link"
+                >Read more...</a
+            >
+        </ng-container>
     </div>
     <div
         *ngIf="model.isEditable"

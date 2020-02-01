@@ -9,4 +9,5 @@ export interface NewsItemModel {
     author?: string;
     sourceUrl?: string;
     isEditable?: boolean;
+    isLocalNews?: boolean;
 }

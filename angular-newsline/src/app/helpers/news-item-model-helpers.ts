@@ -24,6 +24,7 @@ export function getNewsItemFromLocal(article: LocalNewsModel): NewsItemModel {
         sourceUrl: article.sourceUrl,
         image: article.useImageData ? article.imageData : article.imageUrl,
         source: '',
-        author: article.author
+        author: article.author,
+        isLocalNews: true
     };
 }

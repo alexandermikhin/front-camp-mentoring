@@ -80,10 +80,10 @@ function commonMiddleware(req, _res, next) {
   next();
 }
 
-async function getNews(_req, res, next) {
+async function getNews(req, res, next) {
   console.log("Request: Get all news.");
   try {
-    const news = await newsService.getAll();
+    const news = await newsService.getAll(req.query);
     res.send(news);
   } catch (e) {
     next(e);

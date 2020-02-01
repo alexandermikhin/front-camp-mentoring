@@ -19,7 +19,6 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
 
     private subscription = new Subscription();
     private activeUser: User;
-    private source: string;
     private newsId: string;
 
     constructor(
@@ -32,9 +31,8 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscription.add(
-            this.route.url.subscribe(url => {
-                this.source = url[0].path;
-                this.newsId = url[1].path;
+            this.route.paramMap.subscribe(param => {
+                this.newsId = param.get('id');
                 this.updateNewsModel();
             })
         );
@@ -57,23 +55,18 @@ export class NewsDetailsComponent implements OnInit, OnDestroy {
     }
 
     private updateNewsModel() {
-        switch (this.source) {
-            case 'local':
-                this.localNewsService
-                    .getNewsById(this.newsId)
-                    .pipe(take(1))
-                    .subscribe(item => {
-                        const model = getNewsItemFromLocal(item);
-                        this.setRights(model);
-                        this.model = model;
-                        this.updateHeader();
-                    });
+        this.localNewsService
+            .getNews({ sourceUrl: this.newsId })
+            .pipe(take(1))
+            .subscribe(items => {
+                this.model =
+                    items && items[0]
+                        ? getNewsItemFromLocal(items[0])
+                        : undefined;
 
-                break;
-            default:
-                this.model = undefined;
-                break;
-        }
+                this.setRights(this.model);
+                this.updateHeader();
+            });
     }
 
     private setRights(item: NewsItemModel | undefined) {

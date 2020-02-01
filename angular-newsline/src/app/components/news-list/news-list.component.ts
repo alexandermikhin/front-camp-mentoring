@@ -163,7 +163,12 @@ export class NewsListComponent implements OnInit, OnDestroy {
             : undefined;
 
         this.localNewsService
-            .getNews(this.q, author, this.startPage, this.pageSize)
+            .getNews({
+                q: this.q,
+                author,
+                page: this.startPage,
+                pageSize: this.pageSize
+            })
             .pipe(take(1))
             .subscribe(response => {
                 this.localArticles = append

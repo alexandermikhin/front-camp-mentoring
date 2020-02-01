@@ -9,8 +9,7 @@ import { EditGuard } from './guards/edit.guard';
 
 const routes: Routes = [
     { path: '', component: NewsListComponent },
-    { path: 'local/:id', component: NewsDetailsComponent },
-    { path: 'newsapi/:id', component: NewsDetailsComponent },
+    { path: 'details/:id', component: NewsDetailsComponent },
     { path: 'create', component: NewsEditComponent, canActivate: [AuthGuard] },
     {
         path: 'edit/:id',
