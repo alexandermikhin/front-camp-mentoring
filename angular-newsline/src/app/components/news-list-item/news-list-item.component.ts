@@ -24,4 +24,9 @@ export class NewsListItemComponent {
     onExpandClick() {
         this.expandNews.emit(this.model);
     }
+
+    onImageError(event: Event) {
+      const target = event.target as HTMLImageElement;
+      target.src = '/assets/no-image.png';
+    }
 }

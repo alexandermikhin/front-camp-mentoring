@@ -2,6 +2,7 @@
     <div class="nl-news-list-item__section">
         <img
             [src]="model.image"
+            (error)="onImageError($event)"
             alt="News photo"
             class="nl-news-list-item__image"
         />
