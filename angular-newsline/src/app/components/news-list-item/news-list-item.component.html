@@ -1,4 +1,4 @@
-<div class="nl-news-list-item">
+<div *ngIf="model" class="nl-news-list-item">
     <div class="nl-news-list-item__section">
         <img
             [src]="model.image"
@@ -29,10 +29,7 @@
             >
         </ng-container>
         <ng-container *ngIf="!model.isLocalNews">
-            <button
-                class="nl-button"
-                (click)="onExpandClick()"
-            >
+            <button class="nl-button" (click)="onExpandClick()">
                 See details...
             </button>
         </ng-container>
