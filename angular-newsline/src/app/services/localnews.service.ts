@@ -10,7 +10,7 @@ export class LocalNewsService {
 
     constructor(
         private httpClient: HttpClient,
-        private userServices: UserService
+        private userService: UserService
     ) {}
 
     getNews(request: LocalNewsRequestModel): Observable<LocalNewsModel[]> {
@@ -45,7 +45,7 @@ export class LocalNewsService {
     }
 
     private getAuthHeaders(): HttpHeaders {
-        return new HttpHeaders({ 'x-auth-token': this.userServices.authToken });
+        return new HttpHeaders({ 'x-auth-token': this.userService.authToken });
     }
 
     private getNewsUrl(queryParams: LocalNewsRequestModel): string {
