@@ -68,6 +68,23 @@ describe('NewsListItemComponent', () => {
         expect(component.expandNews.emit).toHaveBeenCalledWith(component.model);
     });
 
+    it('should replace image url with no-image if there is error', () => {
+        component.model = {
+            ...createModel(),
+            image: 'image-url'
+        };
+
+        spyOn(component, 'onImageError');
+        const event = new ErrorEvent('error');
+
+        fixture.detectChanges();
+        const imageDebugEl = fixture.debugElement.query(
+            By.css('.nl-news-list-item__image')
+        );
+        imageDebugEl.triggerEventHandler('error', event);
+        expect(component.onImageError).toHaveBeenCalled();
+    });
+
     function createModel(): NewsItemModel {
         return {
             id: 'news-id',
