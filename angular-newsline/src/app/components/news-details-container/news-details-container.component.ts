@@ -14,7 +14,7 @@ export class NewsDetailsContainerComponent implements OnInit, OnDestroy {
     model: NewsItemModel | undefined;
 
     private subscription = new Subscription();
-    private activeUser: User;
+    private activeUser: User | undefined;
     private newsId: string;
 
     constructor(
@@ -28,7 +28,7 @@ export class NewsDetailsContainerComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.subscription.add(
             this.route.paramMap.subscribe(param => {
-                this.newsId = param.get('id');
+                this.newsId = param.get('id') || '';
                 this.updateNewsModel();
             })
         );

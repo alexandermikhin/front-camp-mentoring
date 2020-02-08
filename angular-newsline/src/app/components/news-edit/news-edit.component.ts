@@ -23,7 +23,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
     formGroup: FormGroup;
     errorMessage: string;
 
-    private activeUser: User;
+    private activeUser: User | undefined;
     private newsId: string;
     private subscription = new Subscription();
 
@@ -42,7 +42,7 @@ export class NewsEditComponent implements OnInit, OnDestroy {
             this.userService.activeUser.subscribe(u => (this.activeUser = u))
         );
 
-        this.newsId = this.route.snapshot.paramMap.get('id');
+        this.newsId = this.route.snapshot.paramMap.get('id') || '';
         this.headerService.setHeader(this.newsId ? 'Edit' : 'Create');
         if (this.newsId) {
             this.localNewsService
@@ -71,15 +71,15 @@ export class NewsEditComponent implements OnInit, OnDestroy {
     onSubmit() {
         const model: LocalNewsModel = {
             id: this.newsId !== null ? parseInt(this.newsId, 10) : -1,
-            heading: this.formGroup.get('heading').value,
-            shortDescription: this.formGroup.get('shortDescription').value,
-            content: this.formGroup.get('content').value,
+            heading: this.getControlValue('heading', ''),
+            shortDescription: this.getControlValue('shortDescription', ''),
+            content: this.getControlValue('content', ''),
             date: new Date().toISOString(),
-            author: this.formGroup.get('author').value,
-            sourceUrl: this.formGroup.get('sourceUrl').value,
-            imageUrl: this.formGroup.get('imageUrl').value,
-            imageData: this.formGroup.get('imageData').value,
-            useImageData: this.formGroup.get('useImageData').value
+            author: this.getControlValue('author', ''),
+            sourceUrl: this.getControlValue('sourceUrl', ''),
+            imageUrl: this.getControlValue('imageUrl'),
+            imageData: this.getControlValue('imageData'),
+            useImageData: this.getControlValue('useImageData')
         };
 
         if (model.id === -1) {
@@ -106,7 +106,11 @@ export class NewsEditComponent implements OnInit, OnDestroy {
         const reader = new FileReader();
         reader.onload = (progressEvent: ProgressEvent) => {
             const { result } = progressEvent.target as FileReader;
-            this.formGroup.get('imageData').setValue(result);
+            const control = this.formGroup.get('imageData');
+            if (control) {
+                control.setValue(result);
+            }
+
             this.cdr.detectChanges();
         };
 
@@ -115,6 +119,11 @@ export class NewsEditComponent implements OnInit, OnDestroy {
 
     cancel() {
         this.navigateHome();
+    }
+
+    getControlValue<T>(name: string, defaultValue?: T): T {
+        const control = this.formGroup.get(name);
+        return control ? control.value : defaultValue;
     }
 
     private buildForm() {
