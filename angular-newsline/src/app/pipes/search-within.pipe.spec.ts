@@ -19,7 +19,7 @@ describe('SearchWithinPipe', () => {
 
         const expectedIds: string[] = [getId(0), getId(2), getId(3), getId(4)];
 
-        const result = pipe.transform(items, 'head');
+        const result = pipe.transform(items, 'head') || [];
         const resultIds = result.map(i => i.id);
         expect(resultIds).toEqual(expectedIds);
     });
@@ -35,7 +35,7 @@ describe('SearchWithinPipe', () => {
 
         const expectedIds: string[] = [getId(0), getId(2), getId(3), getId(4)];
 
-        const result = pipe.transform(items, 'desc');
+        const result = pipe.transform(items, 'desc') || [];
         const resultIds = result.map(i => i.id);
         expect(resultIds).toEqual(expectedIds);
     });
@@ -57,7 +57,7 @@ describe('SearchWithinPipe', () => {
             getId(4)
         ];
 
-        const result = pipe.transform(items, '');
+        const result = pipe.transform(items, '') || [];
         const resultIds = result.map(i => i.id);
         expect(resultIds).toEqual(expectedIds);
     });
