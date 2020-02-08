@@ -79,6 +79,66 @@ describe('LocalNewsService', () => {
         request.flush(expectedResponse);
     });
 
+    it('should delete news item by id', () => {
+        const newsId = 20;
+        const expectedResponse: LocalNewsModel = getLocalNewsModel(newsId);
+
+        service.deleteNews(newsId.toString()).subscribe(response => {
+            expect(response).toEqual(expectedResponse);
+        });
+
+        const testRequest = httpTestingController.expectOne(
+            'http://localhost:3000/news/20'
+        );
+
+        const { request } = testRequest;
+
+        expect(request.method).toEqual('DELETE');
+        expect(request.headers.has('x-auth-token')).toBeTruthy();
+        expect(request.headers.get('x-auth-token')).toBe('token');
+        testRequest.flush(expectedResponse);
+    });
+
+    it('should create news item', () => {
+        const expectedResponse = 'ok';
+        const newsItemToCreate = getLocalNewsModel(1);
+
+        service.createNews(newsItemToCreate).subscribe(response => {
+            expect(response).toEqual(expectedResponse);
+        });
+
+        const testRequest = httpTestingController.expectOne(
+            'http://localhost:3000/news'
+        );
+
+        const { request } = testRequest;
+
+        expect(request.method).toEqual('POST');
+        expect(request.body).toEqual(newsItemToCreate);
+        testRequest.flush(expectedResponse);
+    });
+
+    it('should edit news item', () => {
+        const expectedResponse = 'ok';
+        const newsItemToEdit = getLocalNewsModel(1);
+
+        service.editNews(newsItemToEdit).subscribe(response => {
+            expect(response).toEqual(expectedResponse);
+        });
+
+        const testRequest = httpTestingController.expectOne(
+            'http://localhost:3000/news/1'
+        );
+
+        const { request } = testRequest;
+
+        expect(request.method).toEqual('PUT');
+        expect(request.body).toEqual(newsItemToEdit);
+        expect(request.headers.has('x-auth-token')).toBeTruthy();
+        expect(request.headers.get('x-auth-token')).toBe('token');
+        testRequest.flush(expectedResponse);
+    });
+
     function getLocalNewsModel(id: number): LocalNewsModel {
         return {
             id,
