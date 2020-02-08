@@ -8,24 +8,24 @@ import { HeaderComponent } from './header.component';
 describe('HeaderComponent', () => {
     let component: HeaderComponent;
     let fixture: ComponentFixture<HeaderComponent>;
-    let userService: {
+    let userServiceStub: {
         activeUser: Subject<User>;
         logout: () => Observable<null>;
     };
     let loginService: jasmine.SpyObj<LoginService>;
-    let headerService: {
+    let headerServiceStub: {
         activeHeader: Subject<string>;
     };
 
     beforeEach(() => {
-        userService = {
+        userServiceStub = {
             activeUser: new Subject(),
             logout: () => of(null)
         };
         loginService = jasmine.createSpyObj<LoginService>('LoginService', [
             'showPopup'
         ]);
-        headerService = {
+        headerServiceStub = {
             activeHeader: new Subject()
         };
     });
@@ -34,9 +34,9 @@ describe('HeaderComponent', () => {
         TestBed.configureTestingModule({
             declarations: [HeaderComponent],
             providers: [
-                { provide: UserService, useValue: userService },
+                { provide: UserService, useValue: userServiceStub },
                 { provide: LoginService, useValue: loginService },
-                { provide: HeaderService, useValue: headerService }
+                { provide: HeaderService, useValue: headerServiceStub }
             ]
         })
     );
@@ -54,7 +54,7 @@ describe('HeaderComponent', () => {
     it('should display logged in user name', () => {
         fixture.detectChanges();
         const user: User = { login: 'user-name' };
-        userService.activeUser.next(user);
+        userServiceStub.activeUser.next(user);
         fixture.detectChanges();
         const loginDebugEl = fixture.debugElement.query(
             By.css('.nl-top-bar__login')
@@ -67,7 +67,7 @@ describe('HeaderComponent', () => {
     it('should display active header', () => {
         fixture.detectChanges();
         const header = 'app-header';
-        headerService.activeHeader.next(header);
+        headerServiceStub.activeHeader.next(header);
         fixture.detectChanges();
         const headerDebugEl = fixture.debugElement.query(
             By.css('.nl-header__header')
@@ -75,5 +75,28 @@ describe('HeaderComponent', () => {
 
         const headerElement: HTMLSpanElement = headerDebugEl.nativeElement;
         expect(headerElement.innerText).toEqual(header);
+    });
+
+    it('should call to show login popup on login click', () => {
+        fixture.detectChanges();
+        const loginButtonDebugEl = fixture.debugElement.query(
+            By.css('.nl-top-bar__login-button')
+        );
+        loginButtonDebugEl.triggerEventHandler('click', null);
+        expect(loginService.showPopup).toHaveBeenCalled();
+    });
+
+    it('show trigger logout on logout click', () => {
+        const userService: UserService = TestBed.get(UserService);
+        spyOn(userService, 'logout').and.callThrough();
+        fixture.detectChanges();
+        const user: User = { login: 'user' };
+        userServiceStub.activeUser.next(user);
+        fixture.detectChanges();
+        const logoutButtonDebugEl = fixture.debugElement.query(
+            By.css('.nl-top-bar__login-button')
+        );
+        logoutButtonDebugEl.triggerEventHandler('click', null);
+        expect(userService.logout).toHaveBeenCalled();
     });
 });
