@@ -88,6 +88,24 @@ describe('NewsDetailsContainerComponent', () => {
         }
     });
 
+    it('should pass source url as a parameter to the local news service', () => {
+        setupLocalNewsServiceReturnValue(getNewsItems());
+        setupActivatedRouteReturnValue('news-source-url');
+        fixture.detectChanges();
+        expect(localNewsServiceSpyObj.getNews).toHaveBeenCalledWith({
+            sourceUrl: 'news-source-url'
+        });
+    });
+
+    it('should udpate header with news item heading', () => {
+        setupLocalNewsServiceReturnValue(getNewsItems());
+        setupActivatedRouteReturnValue('news-source-url');
+        fixture.detectChanges();
+        expect(headerServiceSpyObj.setHeader).toHaveBeenCalledWith(
+            'news-item-heading'
+        );
+    });
+
     function setupLocalNewsServiceReturnValue(items: LocalNewsModel[]) {
         localNewsServiceSpyObj.getNews.and.returnValue(of(items));
     }
