@@ -130,11 +130,24 @@ describe('NewsDetailsContainerComponent', () => {
         expect(router.navigate).toHaveBeenCalledWith(['/edit', 'news-id']);
     });
 
+    it('should handle empty values right', () => {
+        setupLocalNewsServiceReturnValue([]);
+        setupActivatedRouteReturnValue(null);
+        fixture.detectChanges();
+        expect(localNewsServiceSpyObj.getNews).toHaveBeenCalledWith({
+            sourceUrl: undefined
+        });
+        expect(component.model).toBeUndefined();
+        expect(headerServiceSpyObj.setHeader).toHaveBeenCalledWith('');
+    });
+
     function setupLocalNewsServiceReturnValue(items: LocalNewsModel[]) {
         localNewsServiceSpyObj.getNews.and.returnValue(of(items));
     }
 
-    function setupActivatedRouteReturnValue(newsId: string): jasmine.Spy {
+    function setupActivatedRouteReturnValue(
+        newsId: string | null
+    ): jasmine.Spy {
         return spyOnProperty(activatedRoute, 'paramMap').and.returnValue(
             of(new Map([['id', newsId]]))
         );
