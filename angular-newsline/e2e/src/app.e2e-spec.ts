@@ -1,7 +1,7 @@
-import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
+import { AppPage } from './app.po';
 
-describe('workspace-project App', () => {
+describe('Newsline', () => {
     let page: AppPage;
 
     beforeEach(() => {
@@ -11,6 +11,11 @@ describe('workspace-project App', () => {
     it('should display app title', () => {
         page.navigateTo();
         expect(page.getTitleText()).toEqual('NL');
+    });
+
+    it('should display news page', () => {
+        page.navigateTo('local-news-0-heading');
+        expect(page.getNewsHeader()).not.toEqual('All');
     });
 
     afterEach(async () => {
