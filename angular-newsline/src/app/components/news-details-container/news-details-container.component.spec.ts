@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { LocalNewsModel, User } from 'src/app/models';
@@ -17,6 +18,7 @@ describe('NewsDetailsContainerComponent', () => {
     let localNewsServiceSpyObj: jasmine.SpyObj<LocalNewsService>;
     let activatedRoute: ActivatedRoute;
     let userService: UserService;
+    let router: Router;
 
     beforeEach(() => {
         userServiceStub = {
@@ -54,6 +56,7 @@ describe('NewsDetailsContainerComponent', () => {
         fixture = TestBed.createComponent(NewsDetailsContainerComponent);
         component = fixture.componentInstance;
         userService = TestBed.get(UserService);
+        router = TestBed.get(Router);
     });
 
     it('should create component', () => {
@@ -104,6 +107,27 @@ describe('NewsDetailsContainerComponent', () => {
         expect(headerServiceSpyObj.setHeader).toHaveBeenCalledWith(
             'news-item-heading'
         );
+    });
+
+    it('should call deleteNews and navigate home on news delete', () => {
+        spyOn(router, 'navigate');
+        const newsDetailsDebugEl = fixture.debugElement.query(
+            By.css('nl-news-details')
+        );
+        newsDetailsDebugEl.triggerEventHandler('delete', 'news-id');
+        expect(localNewsServiceSpyObj.deleteNews).toHaveBeenCalledWith(
+            'news-id'
+        );
+        expect(router.navigate).toHaveBeenCalledWith(['/']);
+    });
+
+    it('should navigate to edit page on news edit', () => {
+        spyOn(router, 'navigate');
+        const newsDetailsDebugEl = fixture.debugElement.query(
+            By.css('nl-news-details')
+        );
+        newsDetailsDebugEl.triggerEventHandler('edit', 'news-id');
+        expect(router.navigate).toHaveBeenCalledWith(['/edit', 'news-id']);
     });
 
     function setupLocalNewsServiceReturnValue(items: LocalNewsModel[]) {
