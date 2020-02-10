@@ -3,7 +3,7 @@ import {
     HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { NewsApiResponseModel } from '../models';
+import { NewsApiResponseModel, NewsApiSourcesModel } from '../models';
 import { NewsApiConfig, NewsApiInjectionToken } from './newsapi.config';
 import { NewsApiService } from './newsapi.service';
 
@@ -52,6 +52,25 @@ describe('NewsApiService', () => {
         const testRequest = httpTestingController.expectOne(
             `${config.apiUrl}/top-headlines?apiKey=${config.apiKey}&q=q&page=1&pageSize=10&sources=source`
         );
+        const { request } = testRequest;
+        expect(request.method).toBe('GET');
+        testRequest.flush(expectedResponse);
+    });
+
+    it('shoule get sources', () => {
+        const expectedResponse: NewsApiSourcesModel = {
+            status: 'ok',
+            sources: []
+        };
+
+        service.getSources().subscribe(response => {
+            expect(response).toEqual(expectedResponse);
+        });
+
+        const testRequest = httpTestingController.expectOne(
+            `${config.apiUrl}/sources?apiKey=${config.apiKey}`
+        );
+
         const { request } = testRequest;
         expect(request.method).toBe('GET');
         testRequest.flush(expectedResponse);
