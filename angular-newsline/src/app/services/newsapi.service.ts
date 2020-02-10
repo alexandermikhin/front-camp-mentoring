@@ -1,18 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
     NewsApiRequestModel,
     NewsApiResponseModel,
     NewsApiSourcesModel
 } from '../models';
+import { NewsApiConfig, NewsApiInjectionToken } from './newsapi.config';
 
 @Injectable()
 export class NewsApiService {
-    private readonly API_KEY = 'D7d93d013b914df292f2f135562b7514';
-    private readonly API_URL = 'https://newsapi.org/v2';
-
-    constructor(private httpClient: HttpClient) {}
+    constructor(
+        @Inject(NewsApiInjectionToken)
+        private readonly newsApiConfig: NewsApiConfig,
+        private httpClient: HttpClient
+    ) {}
 
     getNews(
         q: string,
@@ -21,7 +23,7 @@ export class NewsApiService {
         pageSize: number = 5
     ): Observable<NewsApiResponseModel> {
         const url = this.getNewsUrl({
-            apiKey: this.API_KEY,
+            apiKey: this.newsApiConfig.apiKey,
             q,
             page,
             pageSize,
@@ -32,13 +34,13 @@ export class NewsApiService {
     }
 
     getSources(): Observable<NewsApiSourcesModel> {
-        const url = `${this.API_URL}/sources?apiKey=${this.API_KEY}`;
+        const url = `${this.newsApiConfig.apiUrl}/sources?apiKey=${this.newsApiConfig.apiKey}`;
 
         return this.httpClient.get<NewsApiSourcesModel>(url);
     }
 
     private getNewsUrl(params: NewsApiRequestModel): string {
-        const url = `${this.API_URL}/top-headlines`;
+        const url = `${this.newsApiConfig.apiUrl}/top-headlines`;
         const queryParams: NewsApiRequestModel = { ...params };
         if (
             !queryParams.category &&

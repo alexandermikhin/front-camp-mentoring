@@ -22,6 +22,7 @@ import {
     HeaderService,
     LocalNewsService,
     LoginService,
+    NewsApiConfigProvider,
     NewsApiService,
     UserService
 } from './services';
@@ -58,6 +59,7 @@ import {
         HeaderService,
         LocalNewsService,
         LoginService,
+        NewsApiConfigProvider,
         NewsApiService,
         SearchWithinPipe,
         UserService
