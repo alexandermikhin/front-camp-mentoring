@@ -1,5 +1,5 @@
 .header {
-  height: 400px;
+  min-height: 400px;
   background-color: #232323;
   padding-top: 20px;
 }
@@ -17,7 +17,7 @@
 
 .app-search {
   float: right;
-  cursor: pointer;
+  color: inherit;
 }
 
 .app-title__company {

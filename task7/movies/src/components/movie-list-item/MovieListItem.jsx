@@ -1,17 +1,18 @@
-import React from "react";
+// @flow
+import * as React from "react";
 import "./MovieListItem.css";
-import {MovieItemContext} from "../../context/MovieItemContext";
+import { MovieItemContext } from "../../context/MovieItemContext";
+import { Link } from "react-router-dom";
 
-export default class MoviListItem extends React.Component {
-  static contextType = MovieItemContext
-  getDetails = event => {
-    this.context.openMovieDetails(this.props.movie.id);
-    window.scrollTo(0, 0);
-    event.preventDefault();
-  };
+type Props = {
+  movie: Object
+}
 
-  filterByCategory = event => {
-    this.context.filterByCategory(this.props.movie.category);
+export default class MoviListItem extends React.Component<Props> {
+  static contextType = MovieItemContext;
+
+  filterByCategory = (category: string, event: SyntheticEvent<HTMLButtonElement>) => {
+    this.context.filterByCategory(category);
     window.scrollTo(0, 0);
     event.preventDefault();
   };
@@ -20,24 +21,46 @@ export default class MoviListItem extends React.Component {
     return (
       <div className="search-results-movies__item movie-item">
         <div className="movie-item__image">
-          <img alt="Movie item" src={this.props.movie.imgUrl} />
+          <img alt="Movie item" src={this.props.movie.poster_path} />
         </div>
         <div className="movie-item__details">
           <div>
             <h4 className="movie-item__title">
-              <button onClick={this.getDetails}>
+              <Link
+                className="movie-item__title-button"
+                to={`/film/${this.props.movie.id}`}
+              >
                 {this.props.movie.title}
-              </button>
+              </Link>
             </h4>
-            <span className="movie-item__year">{this.props.movie.year}</span>
+            <span className="movie-item__year">
+              {this.getYear(this.props.movie.release_date)}
+            </span>
           </div>
           <div className="movie-item__category">
-            <button onClick={this.filterByCategory}>
-              {this.props.movie.category}
-            </button>
+            {this.props.movie.genres.map((genre, index) => (
+              <React.Fragment key={genre}>
+                <button onClick={this.filterByCategory.bind(this, genre)}>
+                  {genre}
+                </button>
+                {index !== this.props.movie.genres.length - 1 && (
+                  <span>, </span>
+                )}
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </div>
     );
+  }
+
+  getYear(date: string) {
+    let dateStr = "";
+    if (Date.parse(date)) {
+      const parsedDate = new Date(date);
+      dateStr = parsedDate.getFullYear().toString();
+    }
+
+    return dateStr;
   }
 }

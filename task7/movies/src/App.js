@@ -1,65 +1,51 @@
+// @flow
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { connect } from "react-redux";
+import { Link, Route, Switch } from "react-router-dom";
 import "./App.css";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SearchResults from "./components/search-results/SearchResults";
 import Search from "./components/search/Search";
 import { MovieItemContext } from "./context/MovieItemContext";
-import { Subject } from "./core/subject";
-import movies from "./data/movies";
+import * as act from "./redux/actions";
+import { fetchMovies } from "./redux/fetch-movies";
+import { store } from "./redux/store";
+import type { Movie } from "./models/movie.type";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedMovie: null,
-      foundMovies: []
-    };
+type Props = {
+  handleCategoryClick(category: string): Promise<void>,
+  handleInitialLoad(): void,
+  selectedMovie: Movie,
+  match: any,
+  foundMovies: Movie[]
+};
 
-    this.movieItemContextValue = {
-      openMovieDetails: this.handleDetailsClick,
-      filterByCategory: this.handleCategoryClick
-    };
-
-    this.searchSubject = new Subject();
-  }
+class App extends React.Component<Props> {
+  movieItemContextValue = {
+    filterByCategory: this.handleCategoryClick
+  };
 
   componentDidMount() {
-    this.movies = movies;
-    this.setState({ foundMovies: this.movies });
+    this.openSearch();
   }
 
-  handleSearch = (phrase, field) => {
-    this.setState({ foundMovies: this._filterMovies(phrase, field) });
+  handleMovieLoad = action => {
+    const movie = action.payload;
+    store.dispatch(
+      fetchMovies({ search: movie.genres[0], searchBy: "genres" })
+    );
   };
 
-  handleDetailsClick = id => {
-    const movie = this.movies.find(m => m.id === id);
-    if (movie) {
-      const foundMovies = this._filterMovies(movie.category, "genre");
-      this.setState({
-        selectedMovie: movie,
-        foundMovies
-      });
-    }
-  };
-
-  handleCategoryClick = category => {
-    const foundMovies = this._filterMovies(category, "genre");
-    this.setState({
-      selectedMovie: null,
-      foundMovies
-    });
-
-    this.searchSubject.setValue({ searchPhrase: category, searchBy: "genre" });
+  handleCategoryClick = async (category: string) => {
+    this.props.handleCategoryClick(category);
+    store.dispatch(fetchMovies({ search: category, searchBy: "genres" }));
   };
 
   openSearch = () => {
-    this.setState({
-      selectedMovie: null,
-      foundMovies: this.movies
-    });
+    this.props.handleInitialLoad();
+    store.dispatch(fetchMovies());
   };
 
   render() {
@@ -70,23 +56,32 @@ class App extends React.Component {
             <span className="app-title">
               <span className="app-title__company">netflix</span>roulette
             </span>
-            {this.state.selectedMovie && (
-              <span className="app-search" onClick={this.openSearch}>
+            {this.props.selectedMovie && (
+              <Link className="app-search" to="/" onClick={this.openSearch}>
                 <FontAwesomeIcon icon={faSearch} />
-              </span>
+              </Link>
             )}
           </div>
-          {this.state.selectedMovie ? (
-            <MovieDetails movie={this.state.selectedMovie} />
-          ) : (
-            <Search onSearch={this.handleSearch} search$={this.searchSubject} />
-          )}
+          <Switch>
+            <Route
+              path="/film/:id"
+              children={
+                <MovieDetails
+                  id={this.props.match.params.id}
+                  movieLoaded={this.handleMovieLoad}
+                />
+              }
+            />
+            <Route
+              path="/search/:query"
+              children={<Search query={this.props.match.params.query} />}
+            />
+            <Route component={Search} />
+          </Switch>
         </header>
         <MovieItemContext.Provider value={this.movieItemContextValue}>
           <SearchResults
-            toolbarOptions={this.getToolbarOptions()}
-            movies={this.state.foundMovies}
-            onDetailsClick={this.handleDetailsClick}
+            movies={this.props.foundMovies}
             onCategoryClick={this.handleCategoryClick}
           />
         </MovieItemContext.Provider>
@@ -98,44 +93,25 @@ class App extends React.Component {
       </div>
     );
   }
-
-  getToolbarOptions() {
-    return {
-      showSwitcher: !this.state.selectedMovie,
-      message: this._getToolbarMesage()
-    };
-  }
-
-  _getToolbarMesage() {
-    if (this.state.selectedMovie) {
-      return `Films by ${this.state.selectedMovie.category}`;
-    }
-
-    const movieCount = this.state.foundMovies.length;
-    return movieCount
-      ? `${movieCount} movie${movieCount > 1 && "s"} found`
-      : "";
-  }
-
-  _filterMovies(phrase, field) {
-    if (!phrase) {
-      return this.movies;
-    }
-
-    let movies;
-    switch (field) {
-      case "title":
-        movies = this.movies.filter(m => m.title.includes(phrase));
-        break;
-      case "genre":
-        movies = this.movies.filter(m => m.category.includes(phrase));
-        break;
-      default:
-        movies = this.movies;
-    }
-
-    return movies;
-  }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  searchBy: state.searchBy,
+  searchPhrase: state.searchPhrase,
+  foundMovies: state.foundMovies,
+  selectedMovie: state.selectedMovie
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleCategoryClick: (category: string) => {
+    dispatch(act.searchByChange("genres"));
+    dispatch(act.searchPhraseChange(category));
+    dispatch(act.getMovieSuccess(null));
+  },
+
+  handleInitialLoad: () => {
+    dispatch(act.getMovieSuccess(null));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

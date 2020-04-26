@@ -1,8 +1,14 @@
+// @flow
 import React from "react";
 import MovieListItem from "../movie-list-item/MovieListItem";
 import "./MovieList.css";
+import type { Movie } from '../../models/movie.type';
 
-export default class MovieList extends React.Component {
+type Props = {
+  movies: Movie[]
+}
+
+export default class MovieList extends React.Component<Props> {
   render() {
     return (
       <div className="search-results-movies">
