@@ -1,0 +1,27 @@
+.fcm-sidebar-menu {
+  padding-left: 0;
+  margin: 0;
+}
+
+.fcm-sidebar-menu__item {
+  list-style-type: none;
+}
+
+.fcm-sidebar-menu__link {
+  display: block;
+  height: 36px;
+  line-height: 36px;
+  text-decoration: none;
+  padding: 0 6px;
+  color: white;
+
+  &:hover {
+    background-color: lightgray;
+    color: black;
+  }
+
+  &.active {
+    background-color: lightgray;
+    color: black;
+  }
+}

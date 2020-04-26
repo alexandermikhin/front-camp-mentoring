@@ -1,0 +1,15 @@
+.fcm-header {
+  height: 84px;
+  border-bottom: 3px solid;
+  display: flex;
+  align-items: center;
+}
+
+.fcm-main {
+  height: calc(100vh - 86px - 53px);
+}
+
+.fcm-footer {
+  height: 50px;
+  border-top: 3px solid;
+}
