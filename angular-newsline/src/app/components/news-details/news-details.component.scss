@@ -1,0 +1,55 @@
+.nl-details {
+    padding: 6px;
+    border: 1px solid;
+    margin: 12px auto;
+    width: 800px;
+}
+
+.nl-details__section {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.nl-details__image {
+    width: 120px;
+    height: 120px;
+    display: inline-block;
+    border: 1px solid;
+}
+
+.nl-details-content {
+    padding: 0 6px;
+    width: 420px;
+}
+
+.nl-details__news-title {
+    margin: 0;
+}
+
+.nl-details__news-text {
+    font-size: 14px;
+}
+
+.nl-details__news-time {
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+.nl-details__news-author {
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+.nl-details-operations {
+    width: 54px;
+    float: right;
+}
+
+.nl-details-operations__button {
+    width: 100%;
+    border: 1px solid;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 3px;
+    margin-bottom: 6px;
+}

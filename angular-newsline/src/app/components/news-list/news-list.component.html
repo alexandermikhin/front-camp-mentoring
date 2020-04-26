@@ -1,0 +1,28 @@
+<div class="nl-news-list">
+    <nl-toolbar
+        [sources]="sources"
+        [selectedSource]="selectedSource"
+        [q]="q"
+        [userNewsOnly]="userNewsOnly"
+        [canAddNews]="canAddNews"
+        (filterApplied)="filterAppliedHandler($event)"
+        (addNewsItemClicked)="onAddNews()"
+    >
+    </nl-toolbar>
+    <section class="nl-news-list-items">
+        <div
+            *ngFor="let newsItem of displayedNews"
+            class="nl-news-list-items__item"
+        >
+            <nl-news-list-item
+                [model]="newsItem"
+                (deleteNews)="onDeleteNews($event)"
+                (editNews)="onEditNews($event)"
+            >
+            </nl-news-list-item>
+        </div>
+        <button class="nl-news-list__load-more" (click)="loadMoreClick()">
+            Load More
+        </button>
+    </section>
+</div>
