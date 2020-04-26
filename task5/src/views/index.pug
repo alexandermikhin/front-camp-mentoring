@@ -1,0 +1,20 @@
+html
+  head
+    title Authentication demo
+  body
+    h1 Authentication demo
+    if !user
+      div
+        h2 Facebook authentication
+        a(href='/login/facebook') Login with facebook
+      div
+        h2 Form authentication
+        div
+          a(href='/login') Login with form
+        div
+          a(href="/register") Register
+    else
+      div Hello,
+        span= user
+      div
+        a(href='/logout') Logout

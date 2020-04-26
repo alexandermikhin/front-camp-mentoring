@@ -1,24 +1,76 @@
 const express = require("express");
 const path = require("path");
+const mongoose = require("mongoose");
 const NewsService = require("./news.service");
-const NewsFileService = require("./news-file.service");
+const NewsDbService = require("./db/news-db.service");
+const UserService = require("./db/user.service");
 const logger = require("./logger");
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+const session = require("express-session");
+const config = require("./config");
+require("./authentication/passport");
+require("./authentication/passport-jwt");
+require("./authentication/passport-fb");
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 const app = express();
-const dataService = new NewsFileService();
+const dataService = new NewsDbService();
 const newsService = new NewsService(dataService);
+const userService = new UserService();
 const viewsPath = path.resolve(__dirname, "./views");
+
+const url = "mongodb://localhost:27017";
+const dbName = "news";
+mongoose.connect(`${url}/${dbName}`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+});
+
+app.use(
+  session({
+    secret: "session-secret",
+    resave: false,
+    saveUninitialized: true
+  })
+);
 
 app.set("views", viewsPath);
 app.set("view engine", "pug");
-
+app.use(passport.initialize());
+app.use(passport.session());
+app.get("/", (req, res, next) => {
+  const user = req.session && req.session.passport && req.session.passport.user;
+  res.render("index", { user: (user && user.login) || "" });
+});
+app.get("/register", (req, res, next) => {
+  res.render("register");
+});
+app.get("/login", (req, res, next) => {
+  res.render("login");
+});
+app.use(express.urlencoded());
+app.post("/login", passport.authenticate("local"), login);
+app.get("/login/facebook", passport.authenticate("facebook"));
+app.get("/login/facebook/callback", passport.authenticate("facebook"), login);
+app.post("/register", register);
+app.get("/logout", logout);
 app.use(commonMiddleware);
+app.use(express.json());
 app.get("/news", getNews);
 app.get("/news/:id", getNewsById);
 app.use(express.json());
 app.post("/news", createNewsItem);
-app.delete("/news/:id", deleteNewsItem);
-app.put("/news/:id", updateNewsItem);
+app.delete("/news/:id", passport.authenticate("jwt"), deleteNewsItem);
+app.put("/news/:id", passport.authenticate("jwt"), updateNewsItem);
 app.all("*", otherMethodsHandler);
 app.use(errorLogHandler);
 app.use(errorHanlder);
@@ -57,13 +109,7 @@ async function getNewsById(req, res, next) {
 
 async function createNewsItem(req, res, next) {
   console.log("Request: Create news item.");
-  const body = req.body;
-  const newItem = {
-    id: -1,
-    date: body.date,
-    content: body.content
-  };
-
+  const newItem = getItemFromBody(req.body);
   const validationResult = newsService.isValid(newItem);
   if (!validationResult[0]) {
     res.status(400).send(validationResult[1]);
@@ -92,12 +138,7 @@ async function deleteNewsItem(req, res, next) {
 async function updateNewsItem(req, res, next) {
   console.log("Request: Update news item.");
   const id = parseInt(req.params.id);
-  const body = req.body;
-  const updatedItem = {
-    id,
-    date: body.date,
-    content: body.content
-  };
+  const updatedItem = getItemFromBody(req.body);
 
   const validationResult = newsService.isValid(updatedItem);
   if (!validationResult[0]) {
@@ -106,7 +147,7 @@ async function updateNewsItem(req, res, next) {
   }
 
   try {
-    await newsService.update(updatedItem);
+    await newsService.update(id, updatedItem);
     res.status(200).send();
   } catch (e) {
     next(e);
@@ -122,6 +163,35 @@ async function otherMethodsHandler(_req, res, next) {
   }
 }
 
+async function login(req, res, _next) {
+  console.log("Request: Login");
+  const { user } = req;
+  const token = generateAuthToken(user);
+  res
+    .header(config.headerKey, token)
+    .render("login", { user: user.login, authorised: true });
+}
+
+async function register(req, res, next) {
+  console.log("Request: Register");
+  const body = req.body;
+  const user = await userService.get(body.login);
+  if (user) {
+    res.render("register", { message: "User already exists." });
+    return;
+  }
+  await userService.create(body.login, body.password);
+  res.render("register", {
+    message: "User created. Press Back button to login."
+  });
+}
+
+function logout(req, res, next) {
+  console.log("Request: Logout");
+  req.logout();
+  res.redirect("/");
+}
+
 function errorLogHandler(err, _req, _res, next) {
   if (err) {
     logger.log("error", "Application error: ", err);
@@ -134,4 +204,19 @@ function errorHanlder(err, _req, res, _next) {
     res.status(500);
     res.render("error", { message: err.message });
   }
+}
+
+function getItemFromBody(body) {
+  return {
+    id: body.id,
+    date: body.date,
+    content: body.content,
+    title: body.title,
+    author: body.author
+  };
+}
+
+function generateAuthToken(user) {
+  const token = jwt.sign({ login: user.login }, "authorization-key");
+  return token;
 }
