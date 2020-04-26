@@ -1,0 +1,15 @@
+.search-results-movies {
+  background-color: #232323;
+  color: #ffffff;
+  min-height: calc(100vh - 70px - 200px - 70px);
+  text-align: center;
+  position: relative;
+}
+
+.no-results {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+}
