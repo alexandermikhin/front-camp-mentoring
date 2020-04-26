@@ -1,3 +1,44 @@
+$border-radius: 3px;
+$border: 1px solid;
+
 body {
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.nl-label_required::after {
+    content: ' *';
+    color: red;
+}
+
+.nl-input {
+    padding: 3px;
+    border: $border;
+    border-radius: $border-radius;
+    box-sizing: border-box;
+}
+
+.nl-select {
+    border: $border;
+    border-radius: $border-radius;
+}
+
+.nl-button {
+    border-radius: $border-radius;
+    border: $border;
+    height: 24px;
+    cursor: pointer;
+
+    &[disabled] {
+        cursor: initial;
+    }
+}
+
+.nl-button_large {
+    height: 30px;;
+    font-size: 16px;
+    border-radius: 6px;
 }

@@ -1,5 +1,7 @@
 .nl-news-list-item {
     padding: 6px;
+    margin: 6px 0;
+    border: 1px solid;
 }
 
 .nl-news-list-item__section {
@@ -9,9 +11,8 @@
 
 .nl-news-list-item__image {
     width: 84px;
-    height: 84px;
+    max-height: 84px;
     display: inline-block;
-    border: 1px solid;
 }
 
 .nl-news-list-item-content {
@@ -46,9 +47,5 @@
 
 .nl-news-list-item-operations__button {
     width: 100%;
-    border: 1px solid;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    border-radius: 3px;
     margin-bottom: 6px;
 }

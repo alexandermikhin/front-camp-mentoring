@@ -1,27 +1,27 @@
-<form class="nl-news-edit" (ngSubmit)="onSubmit()">
+<form class="nl-news-edit" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
     <div class="nl-news-edit__section">
         <div class="nl-news-edit__field">
-            <label class="nl-news-edit__label">Heading</label>
+            <label class="nl-news-edit__label nl-label_required">Heading</label>
             <input
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="heading"
-                [(ngModel)]="model.heading"
+                formControlName="heading"
             />
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Short description</label>
             <input
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="shortDescription"
-                [(ngModel)]="model.shortDescription"
+                formControlName="shortDescription"
             />
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Content</label>
             <textarea
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="content"
-                [(ngModel)]="model.content"
+                formControlName="content"
             ></textarea>
         </div>
     </div>
@@ -29,48 +29,89 @@
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Image</label>
             <div class="nl-news-edit__image-source">
-                <input type="radio" name="image" />
+                <input
+                    type="radio"
+                    name="useImageData"
+                    formControlName="useImageData"
+                    [value]="false"
+                />
                 <label>URL</label>
-                <input type="radio" name="image" />
+                <input
+                    type="radio"
+                    name="useImageData"
+                    formControlName="useImageData"
+                    [value]="true"
+                />
                 <label>File</label>
             </div>
-            <input
-                class="nl-news-edit__input"
-                name="image"
-                [(ngModel)]="model.image"
-            />
+            <ng-container *ngIf="!formGroup.get('useImageData').value">
+                <input
+                    class="nl-news-edit__input nl-input"
+                    name="image"
+                    formControlName="imageUrl"
+                />
+                <img
+                    class="nl-news-edit__image-preview"
+                    [src]="formGroup.get('imageUrl').value"
+                />
+            </ng-container>
+            <ng-container *ngIf="formGroup.get('useImageData').value">
+                <input
+                    class="nl-news-edit__input nl-input"
+                    name="file"
+                    type="file"
+                    (change)="onFileChange($event)"
+                />
+                <img
+                    class="nl-news-edit__image-preview"
+                    [src]="formGroup.get('imageData').value"
+                />
+            </ng-container>
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Date</label>
             <input
                 type="datetime"
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 readonly
                 name="date"
-                [ngModel]="model.date | date: 'long'"
+                formControlName="date"
             />
         </div>
         <div class="nl-news-edit__field">
             <label class="nl-news-edit__label">Author</label>
             <input
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="author"
-                [(ngModel)]="model.author"
+                formControlName="author"
             />
         </div>
         <div class="nl-news-edit__field">
-            <label class="nl-news-edit__label">Source URL</label>
+            <label class="nl-news-edit__label nl-label_required">Source URL</label>
             <input
-                class="nl-news-edit__input"
+                class="nl-news-edit__input nl-input"
                 name="sourceUrl"
-                [(ngModel)]="model.sourceUrl"
+                formControlName="sourceUrl"
             />
         </div>
         <div class="nl-news-edit-buttons">
-            <button class="nl-news-edit__button" type="submit">Save</button>
-            <button class="nl-news-edit__button" (click)="cancel()">
+            <button
+                class="nl-news-edit__button nl-button nl-button_large"
+                type="submit"
+                [disabled]="formGroup.invalid"
+            >
+                Save
+            </button>
+            <button
+                class="nl-news-edit__button nl-button nl-button_large"
+                type="button"
+                (click)="cancel()"
+            >
                 Cancel
             </button>
+        </div>
+        <div *ngIf="errorMessage" class="nl-news-edit__error-message">
+            {{ errorMessage }}
         </div>
     </div>
 </form>

@@ -1,28 +1,27 @@
-<div class="nl-news-list">
+<div class="nl-news-list" [hidden]="activeModel">
     <nl-toolbar
         [sources]="sources"
-        [selectedSource]="selectedSource"
+        [selectedSourceId]="selectedSourceId"
         [q]="q"
         [userNewsOnly]="userNewsOnly"
         [canAddNews]="canAddNews"
+        [searchWithin]="searchWithinPhrase"
         (filterApplied)="filterAppliedHandler($event)"
         (addNewsItemClicked)="onAddNews()"
+        (searchWithinApplied)="onSearchWithinApply($event)"
     >
     </nl-toolbar>
     <section class="nl-news-list-items">
-        <div
-            *ngFor="let newsItem of displayedNews"
-            class="nl-news-list-items__item"
-        >
-            <nl-news-list-item
-                [model]="newsItem"
-                (deleteNews)="onDeleteNews($event)"
-                (editNews)="onEditNews($event)"
-            >
-            </nl-news-list-item>
-        </div>
-        <button class="nl-news-list__load-more" (click)="loadMoreClick()">
+        <ng-template #newsItemsHost></ng-template>
+        <button class="nl-news-list__load-more nl-button" (click)="loadMoreClick()">
             Load More
         </button>
     </section>
 </div>
+<nl-news-details
+    *ngIf="activeModel"
+    [model]="activeModel"
+    (edit)="onEditNews($event)"
+    (delete)="onDeleteNews($event)"
+    (back)="onDetailsBack()"
+></nl-news-details>

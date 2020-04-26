@@ -1,5 +1,5 @@
 export interface FilterModel {
     q: string;
-    source: string;
+    sourceId: string;
     userNewsOnly: boolean;
 }

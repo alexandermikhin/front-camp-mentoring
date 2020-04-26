@@ -8,8 +8,10 @@ import { NewsItemModel } from 'src/app/models/news-item.model';
 })
 export class NewsListItemComponent {
     @Input() model: NewsItemModel;
+    @Input() searchWithin: string;
     @Output() editNews = new EventEmitter<string>();
     @Output() deleteNews = new EventEmitter<string>();
+    @Output() expandNews = new EventEmitter<NewsItemModel>();
 
     editNewsClick(id: string) {
         this.editNews.emit(id);
@@ -17,5 +19,14 @@ export class NewsListItemComponent {
 
     deleteNewsClick(id: string) {
         this.deleteNews.emit(id);
+    }
+
+    onExpandClick() {
+        this.expandNews.emit(this.model);
+    }
+
+    onImageError(event: Event) {
+      const target = event.target as HTMLImageElement;
+      target.src = '/assets/no-image.png';
     }
 }

@@ -10,8 +10,15 @@
         <div class="nl-details__section nl-details-content">
             <h2 class="nl-details__news-title">{{ model.heading }}</h2>
             <div class="nl-details__news-text">{{ model.content }}</div>
+            <div *ngIf="!model.isLocalNews">
+                <a [href]="model.sourceUrl" target="_blank">Read from source</a>
+                <button class="nl-button" (click)="onBackClick()">Back to list</button>
+            </div>
+            <div *ngIf="model.isLocalNews">
+                <a routerLink="/">Back</a>
+            </div>
             <div class="nl-details__news-time">
-                {{ model.date.toLocaleString() }}
+                {{ model.date | date: 'medium' }}
             </div>
             <div class="nl-details__news-author">{{ model.author }}</div>
         </div>
@@ -19,9 +26,14 @@
             *ngIf="model.isEditable"
             class="nl-details__section nl-details-operations"
         >
-            <button class="nl-details-operations__button">Edit</button>
             <button
-                class="nl-details-operations__button"
+                class="nl-details-operations__button nl-button"
+                (click)="onEditClick()"
+            >
+                Edit
+            </button>
+            <button
+                class="nl-details-operations__button nl-button"
                 (click)="onDeleteClick()"
             >
                 Delete

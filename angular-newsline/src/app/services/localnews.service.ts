@@ -1,71 +1,69 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NewsItemModel } from '../models/news-item.model';
+import { Observable } from 'rxjs';
+import { LocalNewsModel, LocalNewsRequestModel } from '../models';
+import { UserService } from './user.service';
 
 @Injectable()
 export class LocalNewsService {
-    private items: NewsItemModel[] = [];
-    constructor() {
-        this.generateItems();
+    private readonly API_URL = 'http://localhost:3000';
+
+    constructor(
+        private httpClient: HttpClient,
+        private userServices: UserService
+    ) {}
+
+    getNews(request: LocalNewsRequestModel): Observable<LocalNewsModel[]> {
+        const url = this.getNewsUrl(request);
+
+        return this.httpClient.get<LocalNewsModel[]>(url);
     }
 
-    getNews(
-        q: string,
-        author: string | undefined,
-        page: number,
-        pageSize: number = 5
-    ): NewsItemModel[] {
-        let filteredNews =
-            author !== undefined
-                ? this.items.filter(i => i.author === author)
-                : this.items;
-        filteredNews = filteredNews.filter(
-            i =>
-                i.heading.includes(q) ||
-                i.shortDescription.includes(q) ||
-                i.content.includes(q)
-        );
+    getNewsById(id: string): Observable<LocalNewsModel> {
+        const url = `${this.API_URL}/news/${id}`;
 
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        return filteredNews.slice(startIndex, endIndex);
+        return this.httpClient.get<LocalNewsModel>(url);
     }
 
-    getNewsById(id: string): NewsItemModel {
-        return this.items.find(i => i.id === id);
+    deleteNews(id: string): Observable<any> {
+        const headers = this.getAuthHeaders();
+        return this.httpClient.delete(`${this.API_URL}/news/${id}`, {
+            headers
+        });
     }
 
-    deleteNews(id: string) {
-        this.items = this.items.filter(i => i.id !== id);
+    createNews(item: LocalNewsModel): Observable<any> {
+        return this.httpClient.post(`${this.API_URL}/news`, item);
     }
 
-    editNews(item: NewsItemModel) {
-        if (!item.id) {
-            const itemToModify = { ...item };
-            const latestItem = this.items[this.items.length - 1];
-            const newId = (latestItem && parseInt(latestItem.id, 10) + 1) || 1;
-            itemToModify.id = newId.toString();
-            this.items.push(itemToModify);
-        } else {
-            const index = this.items.findIndex(i => i.id === item.id);
-            if (index !== -1) {
-                this.items[index] = item;
+    editNews(item: LocalNewsModel): Observable<any> {
+        const headers = this.getAuthHeaders();
+
+        return this.httpClient.put(`${this.API_URL}/news/${item.id}`, item, {
+            headers
+        });
+    }
+
+    private getAuthHeaders(): HttpHeaders {
+        return new HttpHeaders({ 'x-auth-token': this.userServices.authToken });
+    }
+
+    private getNewsUrl(queryParams: LocalNewsRequestModel): string {
+        let url = `${this.API_URL}/news`;
+
+        queryParams.pageSize = queryParams.pageSize || 5;
+        const queryList: string[] = [];
+        for (const key in queryParams) {
+            if (queryParams.hasOwnProperty(key) && queryParams[key]) {
+                queryList.push(`${key}=${queryParams[key]}`);
             }
         }
-    }
 
-    private generateItems() {
-        for (let i = 0; i < 10; i++) {
-            this.items.push({
-                id: i.toString(),
-                heading: `Local news ${i} heading`,
-                shortDescription: `Local news ${i} short description`,
-                content: `Local news ${i} content`,
-                date: new Date(),
-                source: i % 2 === 0 ? 'CNN' : 'BBC',
-                image: `/assets/news-logo.png`,
-                author: i % 2 === 0 ? 'admin' : 'user',
-                sourceUrl: 'http://www.google.com'
-            });
+        const query = queryList.join('&');
+        if (query) {
+            url += `?${query}`;
         }
+
+        return url;
     }
 }

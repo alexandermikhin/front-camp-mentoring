@@ -1,14 +1,12 @@
 const express = require("express");
 const path = require("path");
-const mongoose = require("mongoose");
 const NewsService = require("./news.service");
-const NewsDbService = require("./db/news-db.service");
-const UserService = require("./db/user.service");
 const logger = require("./logger");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const config = require("./config");
+const cors = require("cors");
 require("./authentication/passport");
 require("./authentication/passport-jwt");
 require("./authentication/passport-fb");
@@ -22,26 +20,26 @@ passport.deserializeUser(function(user, done) {
 });
 
 const app = express();
-const dataService = new NewsDbService();
+const processArgs = process.argv;
+const useDb = processArgs.includes("use-db");
+const dataService = useDb ? buildNewsDbService() : buildNewsFileService();
+if (useDb) {
+  connectToDb();
+}
 const newsService = new NewsService(dataService);
-const userService = new UserService();
+const userService = useDb ? buildUserDbService() : buildUserFileService();
 const viewsPath = path.resolve(__dirname, "./views");
 
-const url = "mongodb://localhost:27017";
-const dbName = "news";
-mongoose.connect(`${url}/${dbName}`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-});
-
-app.use(
-  session({
-    secret: "session-secret",
-    resave: false,
-    saveUninitialized: true
-  })
-);
+app
+  .use(cors())
+  .use("/images", express.static("images"))
+  .use(
+    session({
+      secret: "session-secret",
+      resave: false,
+      saveUninitialized: true
+    })
+  );
 
 app.set("views", viewsPath);
 app.set("view engine", "pug");
@@ -57,7 +55,7 @@ app.get("/register", (req, res, next) => {
 app.get("/login", (req, res, next) => {
   res.render("login");
 });
-app.use(express.urlencoded());
+app.use(express.json());
 app.post("/login", passport.authenticate("local"), login);
 app.get("/login/facebook", passport.authenticate("facebook"));
 app.get("/login/facebook/callback", passport.authenticate("facebook"), login);
@@ -82,10 +80,10 @@ function commonMiddleware(req, _res, next) {
   next();
 }
 
-async function getNews(_req, res, next) {
+async function getNews(req, res, next) {
   console.log("Request: Get all news.");
   try {
-    const news = await newsService.getAll();
+    const news = await newsService.getAll(req.query);
     res.send(news);
   } catch (e) {
     next(e);
@@ -118,7 +116,7 @@ async function createNewsItem(req, res, next) {
 
   try {
     await newsService.add(newItem);
-    res.status(200).send("News add successful.");
+    res.status(200).send({ message: "News add successful." });
   } catch (err) {
     next(err);
   }
@@ -129,7 +127,7 @@ async function deleteNewsItem(req, res, next) {
   const id = parseInt(req.params.id);
   try {
     await newsService.delete(id);
-    res.status(200).send("News delete successful.");
+    res.status(200).send({ message: "News delete successful." });
   } catch (e) {
     next(e);
   }
@@ -167,9 +165,7 @@ async function login(req, res, _next) {
   console.log("Request: Login");
   const { user } = req;
   const token = generateAuthToken(user);
-  res
-    .header(config.headerKey, token)
-    .render("login", { user: user.login, authorised: true });
+  res.header(config.headerKey, token).send({ user: user.login, token });
 }
 
 async function register(req, res, next) {
@@ -177,19 +173,17 @@ async function register(req, res, next) {
   const body = req.body;
   const user = await userService.get(body.login);
   if (user) {
-    res.render("register", { message: "User already exists." });
+    res.status(400).send("User already exists.");
     return;
   }
   await userService.create(body.login, body.password);
-  res.render("register", {
-    message: "User created. Press Back button to login."
-  });
+  res.status(200).send();
 }
 
-function logout(req, res, next) {
+function logout(req, res, _next) {
   console.log("Request: Logout");
   req.logout();
-  res.redirect("/");
+  res.send();
 }
 
 function errorLogHandler(err, _req, _res, next) {
@@ -209,14 +203,50 @@ function errorHanlder(err, _req, res, _next) {
 function getItemFromBody(body) {
   return {
     id: body.id,
-    date: body.date,
+    heading: body.heading,
+    shortDescription: body.shortDescription,
     content: body.content,
-    title: body.title,
-    author: body.author
+    imageUrl: body.imageUrl,
+    imageData: body.imageData,
+    useImageData: body.useImageData,
+    date: body.date,
+    author: body.author,
+    sourceUrl: body.sourceUrl
   };
 }
 
 function generateAuthToken(user) {
   const token = jwt.sign({ login: user.login }, "authorization-key");
   return token;
+}
+
+function buildNewsDbService() {
+  const NewsDbService = require("./db/news-db.service");
+  return new NewsDbService();
+}
+
+function buildNewsFileService() {
+  const NewsFileService = require("./news-file.service");
+  return new NewsFileService();
+}
+
+function buildUserDbService() {
+  const UserDbService = require("./db/user.service");
+  return new UserDbService();
+}
+
+function buildUserFileService() {
+  const UserFileService = require("./user-file.service");
+  return new UserFileService();
+}
+
+function connectToDb() {
+  const mongoose = require("mongoose");
+  const url = "mongodb://localhost:27017";
+  const dbName = "news";
+  mongoose.connect(`${url}/${dbName}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  });
 }
