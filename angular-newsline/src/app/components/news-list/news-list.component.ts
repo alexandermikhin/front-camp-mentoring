@@ -47,12 +47,12 @@ export class NewsListComponent implements OnInit, OnDestroy {
     sources: SourceModel[];
     selectedSourceId: string;
     canAddNews: boolean;
-    activeModel: NewsItemModel;
+    activeModel: NewsItemModel | undefined;
 
     private readonly initialStartPage = 1;
     private startPage = 1;
     private pageSize = 5;
-    private activeUser: User;
+    private activeUser: User | undefined;
     private subscription = new Subscription();
     private newsApiArticles: NewsApiArticleModel[] = [];
     private localArticles: LocalNewsModel[] = [];
@@ -211,10 +211,11 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
     private renderDisplayedItems() {
         this.newsItemsContainer.clear();
-        const filteredItems = this.searchWithinPipe.transform(
-            this.displayedNews,
-            this.searchWithinPhrase
-        );
+        const filteredItems =
+            this.searchWithinPipe.transform(
+                this.displayedNews,
+                this.searchWithinPhrase
+            ) || [];
 
         for (const item of filteredItems) {
             const componentRef = this.newsItemsContainer.createComponent(

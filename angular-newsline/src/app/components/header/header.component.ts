@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { HeaderService } from 'src/app/services/header.service';
-import { LoginService } from 'src/app/services/login.service';
-import { UserService } from 'src/app/services/user.service';
+import { HeaderService, LoginService, UserService } from 'src/app/services';
 
 @Component({
     selector: 'nl-header',

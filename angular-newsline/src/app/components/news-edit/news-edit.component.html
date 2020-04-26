@@ -44,7 +44,7 @@
                 />
                 <label>File</label>
             </div>
-            <ng-container *ngIf="!formGroup.get('useImageData').value">
+            <ng-container *ngIf="!getControlValue('useImageData')">
                 <input
                     class="nl-news-edit__input nl-input"
                     name="image"
@@ -52,10 +52,10 @@
                 />
                 <img
                     class="nl-news-edit__image-preview"
-                    [src]="formGroup.get('imageUrl').value"
+                    [src]="getControlValue('imageUrl')"
                 />
             </ng-container>
-            <ng-container *ngIf="formGroup.get('useImageData').value">
+            <ng-container *ngIf="getControlValue('useImageData')">
                 <input
                     class="nl-news-edit__input nl-input"
                     name="file"
@@ -64,7 +64,7 @@
                 />
                 <img
                     class="nl-news-edit__image-preview"
-                    [src]="formGroup.get('imageData').value"
+                    [src]="getControlValue('imageData')"
                 />
             </ng-container>
         </div>
@@ -87,7 +87,9 @@
             />
         </div>
         <div class="nl-news-edit__field">
-            <label class="nl-news-edit__label nl-label_required">Source URL</label>
+            <label class="nl-news-edit__label nl-label_required"
+                >Source URL</label
+            >
             <input
                 class="nl-news-edit__input nl-input"
                 name="sourceUrl"

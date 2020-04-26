@@ -14,8 +14,7 @@ export class NewsDetailsContainerComponent implements OnInit, OnDestroy {
     model: NewsItemModel | undefined;
 
     private subscription = new Subscription();
-    private activeUser: User;
-    private newsId: string;
+    private activeUser: User | undefined;
 
     constructor(
         private route: ActivatedRoute,
@@ -28,8 +27,8 @@ export class NewsDetailsContainerComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.subscription.add(
             this.route.paramMap.subscribe(param => {
-                this.newsId = param.get('id');
-                this.updateNewsModel();
+                const sourceUrl = param.get('id');
+                this.updateNewsModel(sourceUrl);
             })
         );
 
@@ -54,9 +53,9 @@ export class NewsDetailsContainerComponent implements OnInit, OnDestroy {
         this.router.navigate(['/edit', id]);
     }
 
-    private updateNewsModel() {
+    private updateNewsModel(sourceUrl: string | null) {
         this.localNewsService
-            .getNews({ sourceUrl: this.newsId })
+            .getNews({ sourceUrl: sourceUrl || undefined })
             .pipe(take(1))
             .subscribe(items => {
                 this.model =
