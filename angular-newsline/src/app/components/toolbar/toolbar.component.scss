@@ -1,0 +1,28 @@
+.nl-toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 12px;
+    border: 1px solid;
+    border-top: none;
+}
+
+.nl-toolbar__select-souce {
+    border-radius: 3px;
+    border: 1px solid;
+    width: 120px;
+}
+
+.nl-toolbar__filter-input {
+    border-radius: 3px;
+    border: 1px solid;
+    margin-right: 6px;
+    padding: 3px;
+}
+
+.nl-toolbar__button {
+    border-radius: 3px;
+    border: 1px solid;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: pointer;
+}

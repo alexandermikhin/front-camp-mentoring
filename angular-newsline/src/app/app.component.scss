@@ -1,0 +1,15 @@
+$footer-height: 48px;
+$border-width: 1px;
+
+.nl-header {
+    border: $border-width solid;
+}
+
+.nl-main {
+    min-height: calc(100vh - 150px - #{$footer-height});
+}
+
+.nl-footer {
+    height: $footer-height;
+    border: $border-width solid;
+}
