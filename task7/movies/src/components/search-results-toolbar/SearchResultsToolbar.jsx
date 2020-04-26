@@ -1,10 +1,23 @@
+// @flow
 import React from "react";
+import { connect } from "react-redux";
+import * as act from "../../redux/actions";
+import { fetchMovies } from "../../redux/fetch-movies";
+import { store } from "../../redux/store";
 import Switcher from "../switcher/Switcher";
 import "./SearchResultsToolbar.css";
 
-export default class SearchResultsToolbar extends React.Component {
-  handleSwitch = value => {
+type Props = {
+  showSwitcher: boolean,
+  message: string,
+  activeSorting: string,
+  onSortChange(phrase: string): void,
+}
+
+class SearchResultsToolbar extends React.Component<Props> {
+  handleSwitch = (value: string) => {
     this.props.onSortChange(value);
+    store.dispatch(fetchMovies({ sortBy: value }));
   };
 
   render() {
@@ -19,8 +32,8 @@ export default class SearchResultsToolbar extends React.Component {
               SORT BY
             </label>
             <Switcher
-              prop1={{ title: "RELEASE DATE", value: "releaseDate" }}
-              prop2={{ title: "RATING", value: "rating" }}
+              prop1={{ title: "RELEASE DATE", value: "release_date" }}
+              prop2={{ title: "RATING", value: "vote_average" }}
               active={this.props.activeSorting}
               onChange={this.handleSwitch}
             />
@@ -30,3 +43,27 @@ export default class SearchResultsToolbar extends React.Component {
     );
   }
 }
+
+function getToolbarMesage(state) {
+  if (state.selectedMovie) {
+    return `Films by ${state.selectedMovie.genres[0]}`;
+  }
+
+  const movieCount = state.foundMovies.length;
+  return movieCount ? `${movieCount} movie${movieCount > 1 ? "s" : ""} found` : "";
+}
+
+const mapStateToProps = state => ({
+  message: getToolbarMesage(state),
+  showSwitcher: !state.selectedMovie,
+  activeSorting: state.sortBy
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSortChange: value => dispatch(act.sortChange(value))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchResultsToolbar);

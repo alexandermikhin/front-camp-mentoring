@@ -6,6 +6,15 @@
     display: inline-block;
     margin: 0 20px;
     vertical-align: top;
+    height: 400px;
+}
+
+.movie-description {
+    width: 75%;
+}
+
+.movie-image__item {
+    height: 100%;
 }
 
 .movie-description__header {
