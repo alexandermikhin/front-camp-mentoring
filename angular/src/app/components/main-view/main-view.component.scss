@@ -1,0 +1,30 @@
+$breaking-width: 480px;
+
+.fcm-navigation {
+  display: inline-block;
+  width: 10%;
+  height: 100%;
+  min-width: 160px;
+  margin-right: 12px;
+  border-right: 3px solid;
+
+  @media (max-width: $breaking-width) and (orientation: portrait) {
+    display: block;
+    width: initial;
+    height: initial;
+    min-width: initial;
+    margin-right: initial;
+    border-right: initial;
+    border-bottom: 3px solid;
+  }
+}
+
+.fcm-content {
+  display: inline-block;
+  vertical-align: top;
+  padding: 6px;
+
+  @media (max-width: $breaking-width) and (orientation: portrait) {
+    display: block;
+  }
+}

@@ -1,0 +1,12 @@
+.fcm-footer {
+  height: 100%;
+  position: relative;
+}
+
+.fcm-footer__message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
