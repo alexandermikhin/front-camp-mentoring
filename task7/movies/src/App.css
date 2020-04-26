@@ -1,0 +1,39 @@
+.header {
+  height: 400px;
+  background-color: #232323;
+  padding-top: 20px;
+}
+
+.header-toolbar {
+  color: #f65261;
+  padding: 15px 50px;
+  font-size: 20px;
+}
+
+.app-title {
+  font-size: 20px;
+  color: #f65261;
+}
+
+.app-search {
+  float: right;
+  cursor: pointer;
+}
+
+.app-title__company {
+  font-weight: bold;
+}
+
+.footer {
+  color: #ffffff;
+  height: 70px;
+  background-color: #555555;
+  position: relative;
+}
+
+.footer .app-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

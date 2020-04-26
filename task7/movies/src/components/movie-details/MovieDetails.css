@@ -1,0 +1,60 @@
+.movie-details {
+    padding: 20px;
+}
+
+.movie-image, .movie-description {
+    display: inline-block;
+    margin: 0 20px;
+    vertical-align: top;
+}
+
+.movie-description__header {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.movie-description .movie-title {
+    display: inline-block;
+    color: #fff;
+    margin: 0 20px 0 0;
+    vertical-align: middle;
+    font-weight: normal;
+}
+
+.movie-description .movie-rating {
+    display: inline-block;
+    color: #fff;
+    margin-top: 0;
+    margin-right: 20px;
+    font-size: 24px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: #a1e66F;
+}
+
+.movie-rating__value {
+    vertical-align: baseline;
+}
+
+.movie-genre {
+    color: #fff;
+}
+
+.movie-data {
+    margin: 10px 0;
+    color: #f65261;
+    font-size: 24px;
+}
+
+.movie-data__duration {
+    margin-left: 50px;
+}
+
+.movie-annotaion {
+    color: #fff;
+}
