@@ -13,7 +13,7 @@ export class EditGuard implements CanActivate {
     ) {}
 
     canActivate(route: ActivatedRouteSnapshot) {
-        const id = route.paramMap.get('id');
+        const id = route.paramMap.get('id') || '';
         return zip(
             this.localNewsService.getNewsById(id),
             this.userService.activeUser

@@ -1,4 +1,4 @@
-<div class="nl-news-list-item">
+<div *ngIf="model" class="nl-news-list-item">
     <div class="nl-news-list-item__section">
         <img
             [src]="model.image"
@@ -21,18 +21,15 @@
             class="nl-news-list-item__news-text"
             [innerHTML]="model.shortDescription | highlight: searchWithin"
         ></div>
-        <ng-container *ngIf="model.isLocalNews">
+        <ng-container *ngIf="model.isLocalNews && model.sourceUrl">
             <a
-                [routerLink]="'/details/' + model.sourceUrl"
+                [routerLink]="'/details/' + (model.sourceUrl || '')"
                 class="nl-news-list-item__more-link"
                 >Read more...</a
             >
         </ng-container>
         <ng-container *ngIf="!model.isLocalNews">
-            <button
-                class="nl-button"
-                (click)="onExpandClick()"
-            >
+            <button class="nl-button nl-button__expand" (click)="onExpandClick()">
                 See details...
             </button>
         </ng-container>

@@ -1,23 +1,33 @@
-import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
+import { AppPage } from './app.po';
 
-describe('workspace-project App', () => {
-  let page: AppPage;
+describe('Newsline', () => {
+    let page: AppPage;
 
-  beforeEach(() => {
-    page = new AppPage();
-  });
+    beforeEach(() => {
+        page = new AppPage();
+    });
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getTitleText()).toEqual('angular-newsline app is running!');
-  });
+    it('should display app title', () => {
+        page.navigateTo();
+        expect(page.getTitleText()).toEqual('NL');
+    });
 
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
-  });
+    it('should display news page', () => {
+        page.navigateTo('local-news-0-heading');
+        expect(page.getNewsHeader()).not.toEqual('All');
+    });
+
+    afterEach(async () => {
+        // Assert that there are no errors emitted from the browser
+        const logs = await browser
+            .manage()
+            .logs()
+            .get(logging.Type.BROWSER);
+        expect(logs).not.toContain(
+            jasmine.objectContaining({
+                level: logging.Level.SEVERE
+            } as logging.Entry)
+        );
+    });
 });

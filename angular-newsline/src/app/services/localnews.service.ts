@@ -10,10 +10,10 @@ export class LocalNewsService {
 
     constructor(
         private httpClient: HttpClient,
-        private userServices: UserService
+        private userService: UserService
     ) {}
 
-    getNews(request: LocalNewsRequestModel): Observable<LocalNewsModel[]> {
+    getNews(request?: LocalNewsRequestModel): Observable<LocalNewsModel[]> {
         const url = this.getNewsUrl(request);
 
         return this.httpClient.get<LocalNewsModel[]>(url);
@@ -45,17 +45,17 @@ export class LocalNewsService {
     }
 
     private getAuthHeaders(): HttpHeaders {
-        return new HttpHeaders({ 'x-auth-token': this.userServices.authToken });
+        return new HttpHeaders({ 'x-auth-token': this.userService.authToken });
     }
 
-    private getNewsUrl(queryParams: LocalNewsRequestModel): string {
+    private getNewsUrl(queryParams: LocalNewsRequestModel | undefined): string {
         let url = `${this.API_URL}/news`;
-
-        queryParams.pageSize = queryParams.pageSize || 5;
+        const params = queryParams || {};
+        params.pageSize = params.pageSize || 5;
         const queryList: string[] = [];
-        for (const key in queryParams) {
-            if (queryParams.hasOwnProperty(key) && queryParams[key]) {
-                queryList.push(`${key}=${queryParams[key]}`);
+        for (const key in params) {
+            if (params.hasOwnProperty(key) && (params as any)[key]) {
+                queryList.push(`${key}=${(params as any)[key]}`);
             }
         }
 

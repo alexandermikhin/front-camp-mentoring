@@ -7,7 +7,7 @@ import { NewsItemModel } from 'src/app/models/news-item.model';
     styleUrls: ['./news-details.component.scss']
 })
 export class NewsDetailsComponent {
-    @Input() model: NewsItemModel | undefined;
+    @Input() model: NewsItemModel;
     @Output() delete = new EventEmitter<string>();
     @Output() edit = new EventEmitter<string>();
     @Output() back = new EventEmitter();
