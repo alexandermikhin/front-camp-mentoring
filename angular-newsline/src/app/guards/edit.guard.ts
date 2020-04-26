@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
+import { zip } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { LocalNewsService } from '../services/localnews.service';
-import { UserService } from '../services/user.service';
+import { LocalNewsService, UserService } from '../services';
 
 @Injectable()
 export class EditGuard implements CanActivate {
@@ -14,9 +14,14 @@ export class EditGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot) {
         const id = route.paramMap.get('id');
-        const newsItem = this.localNewsService.getNewsById(id);
-        return this.userService.activeUser.pipe(
-            map(user => !!(newsItem && user && newsItem.author === user.login)),
+        return zip(
+            this.localNewsService.getNewsById(id),
+            this.userService.activeUser
+        ).pipe(
+            map(
+                ([newsItem, user]) =>
+                    !!(newsItem && user && newsItem.author === user.login)
+            ),
             tap(result => {
                 if (!result) {
                     this.router.navigate(['/']);

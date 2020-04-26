@@ -8,29 +8,15 @@
         <div class="nl-top-bar__login-info">
             <div *ngIf="userName">
                 <span class="nl-top-bar__login">{{ userName }}</span>
-                <button class="nl-top-bar__login-button" (click)="logout()">
+                <button class="nl-top-bar__login-button nl-button" (click)="logout()">
                     Log out
                 </button>
             </div>
-            <form
-                *ngIf="!userName"
-                (ngSubmit)="login(name.value, password.value)"
-            >
-                <label>Login</label>
-                <input #name name="login" />
-                <label>Password</label>
-                <input #password name="password" type="password" />
-                <button class="nl-top-bar__login-button" type="submit">
+            <div *ngIf="!userName">
+                <button class="nl-top-bar__login-button nl-button" (click)="showLoginPopup()">
                     Log in
                 </button>
-                <button
-                    class="nl-top-bar__login-button"
-                    (click)="register(name.value, password.value)"
-                >
-                    Register
-                </button>
-                <div *ngIf="errorMessage">{{ errorMessage }}</div>
-            </form>
+            </div>
         </div>
     </div>
     <h1 class="nl-header__header">{{ header }}</h1>

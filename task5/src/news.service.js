@@ -11,8 +11,8 @@ class NewsService {
     return this._dataService;
   }
 
-  async getAll() {
-    return this._service.getAll();
+  async getAll(query) {
+    return this._service.getAll(query);
   }
 
   async getById(id) {
@@ -66,8 +66,12 @@ class NewsService {
       return [false, "News content is absent or empty."];
     }
 
-    if (!item.title) {
-      return [false, "News title is absent or empty."];
+    if (!item.heading) {
+      return [false, "News heading is absent or empty."];
+    }
+
+    if (!item.sourceUrl) {
+      return [false, "News source URL is absent or empty."];
     }
 
     return [true, ''];

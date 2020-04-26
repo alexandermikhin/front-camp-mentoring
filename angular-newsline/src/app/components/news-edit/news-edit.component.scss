@@ -18,11 +18,12 @@
 
 .nl-news-edit__input {
     display: block;
-    padding: 3px;
-    border: 1px solid;
-    border-radius: 3px;
     width: 90%;
     max-width: 90%;
+}
+
+.nl-news-edit__image-preview {
+    max-width: 40px;
 }
 
 .nl-news-edit__image-source {
@@ -34,11 +35,6 @@
 }
 
 .nl-news-edit__button {
-    font-size: 16px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    border: 1px solid;
-    border-radius: 6px;
     width: 84px;
     margin-right: 12px;
 }
