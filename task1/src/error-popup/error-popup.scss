@@ -1,0 +1,41 @@
+.error-popup-overflow {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1000;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.error-popup {
+  background: white;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  top: 100px;
+  position: fixed;
+  right: 0;
+  left: 0;
+  transition: 1s;
+  z-index: 1001;
+
+  .error-popup__header {
+    height: 32px;
+    padding: 6px;
+    line-height: 32px;
+    font-weight: bold;
+    color: darkred;
+    border-bottom: 1px solid lightgray;
+  }
+
+  .error-popup__text {
+    padding: 24px 6px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.error-popup__buttons {
+    padding: 6px;
+    text-align: center;
+  }
+}
